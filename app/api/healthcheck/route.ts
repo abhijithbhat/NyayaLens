@@ -1,22 +1,47 @@
 import { NextResponse } from 'next/server';
 import { getGeminiClient } from '@/lib/gemini';
 
+const CANDIDATE_MODELS = [
+  process.env.GEMINI_MODEL,
+  'gemini-3.5-flash',
+  'gemini-3.7-flash',
+  'gemini-3.6-flash',
+  'gemini-flash-latest',
+].filter(Boolean) as string[];
+
 export async function GET() {
   try {
     const ai = getGeminiClient();
-    const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    let lastError: Error | null = null;
+    let usedModel = '';
+    let responseText = '';
 
-    const response = await ai.models.generateContent({
-      model,
-      contents: 'Reply with exactly one word: OK',
-    });
+    for (const model of CANDIDATE_MODELS) {
+      try {
+        const response = await ai.models.generateContent({
+          model,
+          contents: 'Reply with exactly one word: OK',
+        });
+        const text = response.text ? response.text.trim() : '';
+        if (text) {
+          responseText = text;
+          usedModel = model;
+          break;
+        }
+      } catch (err: unknown) {
+        lastError = err instanceof Error ? err : new Error(String(err));
+        continue;
+      }
+    }
 
-    const text = response.text ? response.text.trim() : '';
+    if (!responseText) {
+      throw lastError || new Error('Failed to generate response with candidate models');
+    }
 
     return NextResponse.json({
       status: 'ok',
-      text,
-      model,
+      text: responseText,
+      model: usedModel,
     });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
