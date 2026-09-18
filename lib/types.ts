@@ -26,6 +26,44 @@ export interface ParsedDocument {
   clauses: Clause[];
 }
 
+export type RiskSeverity = 'none' | 'low' | 'medium' | 'high';
+export type VerificationStatus = 'verified' | 'needs_review';
+
+export interface ClauseAnalysis {
+  clauseId: string;
+  explanation: string;
+  risk: {
+    severity: RiskSeverity;
+    reason: string;
+  };
+  verification: {
+    status: VerificationStatus;
+    lexicalPassed: boolean;
+    llmJudgePassed: boolean;
+    confidence: number;
+    details?: string;
+  };
+}
+
+export interface AnalyzedClause extends Clause {
+  analysis: ClauseAnalysis;
+}
+
+export interface SimplifyApiResponse {
+  status: 'success' | 'error';
+  data?: {
+    documentId?: string;
+    analyzedClauses: AnalyzedClause[];
+    summary: {
+      totalClauses: number;
+      verifiedCount: number;
+      needsReviewCount: number;
+      highRiskCount: number;
+    };
+  };
+  message?: string;
+}
+
 export interface ParseApiResponse {
   status: 'success' | 'error';
   data?: ParsedDocument;

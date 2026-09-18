@@ -15,9 +15,9 @@ const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
 
 const CANDIDATE_MODELS = [
   process.env.GEMINI_MODEL,
+  'gemini-3.6-flash',
   'gemini-3.5-flash',
   'gemini-3.7-flash',
-  'gemini-3.6-flash',
   'gemini-flash-latest',
 ].filter(Boolean) as string[];
 
@@ -214,6 +214,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
       data: documentRecord,
     });
   } catch (error: unknown) {
+    console.error('Parse API error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown server error';
     return NextResponse.json(
       {
