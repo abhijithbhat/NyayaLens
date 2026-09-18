@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface HealthResponse {
   status: 'ok' | 'error';
@@ -49,7 +50,15 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="pt-2">
+        <div className="pt-2 space-y-3">
+          <Link
+            id="go-to-analyze-link"
+            href="/analyze"
+            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white font-medium shadow-lg shadow-indigo-600/30 transition cursor-pointer"
+          >
+            <span>Go to Document Ingestion &rarr;</span>
+          </Link>
+
           <button
             id="test-gemini-btn"
             onClick={checkHealth}
