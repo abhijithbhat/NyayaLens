@@ -54,16 +54,24 @@ export default function Home() {
           <Link
             id="go-to-analyze-link"
             href="/analyze"
-            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white font-medium shadow-lg shadow-indigo-600/30 transition cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-medium shadow-lg shadow-blue-600/20 transition cursor-pointer text-sm"
           >
-            <span>Go to Document Ingestion &rarr;</span>
+            <span>Single Document Analysis &rarr;</span>
+          </Link>
+
+          <Link
+            id="go-to-compare-link"
+            href="/compare"
+            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white font-medium shadow-lg shadow-indigo-600/30 transition cursor-pointer text-sm"
+          >
+            <span>Compare Documents (Diff Mode) &rarr;</span>
           </Link>
 
           <button
             id="test-gemini-btn"
             onClick={checkHealth}
             disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 disabled:bg-indigo-900/50 disabled:cursor-not-allowed text-white font-medium shadow-lg shadow-indigo-600/30 transition duration-200 ease-in-out cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-medium transition cursor-pointer text-xs"
           >
             {loading ? (
               <>

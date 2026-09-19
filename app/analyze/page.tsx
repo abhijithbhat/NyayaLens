@@ -174,12 +174,20 @@ export default function AnalyzePage() {
               Clause extraction with lexical/numerical grounding (Gate 1) & LLM-Judge verification (Gate 2).
             </p>
           </div>
-          <Link
-            href="/"
-            className="text-xs font-medium text-slate-400 hover:text-white px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition"
-          >
-            &larr; Back to Setup
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/compare"
+              className="text-xs font-medium text-indigo-300 hover:text-white px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 transition"
+            >
+              Compare Mode &rarr;
+            </Link>
+            <Link
+              href="/"
+              className="text-xs font-medium text-slate-400 hover:text-white px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition"
+            >
+              &larr; Home
+            </Link>
+          </div>
         </div>
 
         {/* Upload Form */}

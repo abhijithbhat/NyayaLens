@@ -24,13 +24,15 @@ const STOP_WORDS = new Set([
   'means', 'stipulates', 'states', 'notes', 'specifies', 'requires', 'provides', 'clause'
 ]);
 
-const CANDIDATE_MODELS = [
-  process.env.GEMINI_MODEL,
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-3.7-flash',
-  'gemini-flash-latest',
-].filter(Boolean) as string[];
+const CANDIDATE_MODELS = Array.from(
+  new Set([
+    process.env.GEMINI_MODEL,
+    'gemini-3.1-flash-lite',
+    'gemini-flash-latest',
+    'gemini-3-flash-preview',
+    'gemini-3.6-flash',
+  ])
+).filter(Boolean) as string[];
 
 /**
  * Gate 1: Lexical and numerical overlap check.
@@ -195,4 +197,136 @@ Verification Rules:
   }
 
   throw lastError || new Error('LLM-Judge call failed on all candidate models');
+}
+
+export interface BatchJudgeItem {
+  id: string;
+  claim: string;
+  sourceText: string;
+}
+
+const batchJudgeResponseSchema = {
+  type: Type.ARRAY,
+  description: 'List of judge verdicts for all submitted claims',
+  items: {
+    type: Type.OBJECT,
+    properties: {
+      id: {
+        type: Type.STRING,
+        description: 'Unique claim identifier corresponding to the input item id',
+      },
+      verified: {
+        type: Type.BOOLEAN,
+        description: 'True if and only if the claim is strictly and completely supported by the source clause text',
+      },
+      confidence: {
+        type: Type.NUMBER,
+        description: 'Confidence score between 0.0 and 1.0',
+      },
+      reason: {
+        type: Type.STRING,
+        description: 'Brief one-sentence explanation of why the claim is supported or unsupported',
+      },
+    },
+    required: ['id', 'verified', 'confidence', 'reason'],
+  },
+};
+
+/**
+ * Gate 2 (Batched): LLM-Judge verification check for multiple claims in a single Gemini call.
+ * - Accepts an array of { id, claim, sourceText }.
+ * - Evaluates all claims together and returns a Map of id -> LlmJudgeResult.
+ * - Drastically reduces API calls from O(N) to 1.
+ */
+export async function batchLlmJudgeCheck(items: BatchJudgeItem[]): Promise<Map<string, LlmJudgeResult>> {
+  const results = new Map<string, LlmJudgeResult>();
+  if (!items || items.length === 0) {
+    return results;
+  }
+
+  const itemsFormatted = items
+    .map(
+      (item, idx) => `
+[Item ${idx + 1}]
+ID: ${item.id}
+SOURCE CLAUSE:
+"""
+${item.sourceText}
+"""
+CLAIM TO VERIFY:
+"""
+${item.claim}
+"""
+`
+    )
+    .join('\n----------------------------------------\n');
+
+  const prompt = `
+You are an impartial legal verification judge.
+Your task is to judge whether each of the following CLAIMS is strictly and completely supported by its respective SOURCE CLAUSE text.
+
+ITEMS TO EVALUATE:
+${itemsFormatted}
+
+Verification Rules for each item:
+1. "verified: true" ONLY IF every fact, number, right, obligation, and consequence in the CLAIM is directly grounded in the SOURCE CLAUSE.
+2. "verified: false" IF the CLAIM adds assumptions, invents terms, introduces outside facts, hallucinates penalties or permissions not mentioned in the source, or distorts the legal meaning.
+3. Plain-language simplification and risk contextualization are permitted, but NO ungrounded additions or factual extrapolations are allowed.
+4. "confidence": return a number between 0.0 and 1.0.
+5. "reason": a concise one-sentence justification.
+6. Return an array of verdicts matching each item ID accurately.
+`;
+
+  const ai = getGeminiClient();
+  let lastError: Error | null = null;
+
+  for (const model of CANDIDATE_MODELS) {
+    try {
+      const callPromise = ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: {
+          responseMimeType: 'application/json',
+          responseSchema: batchJudgeResponseSchema,
+        },
+      });
+
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error(`Timeout of 45s exceeded on ${model}`)), 45000)
+      );
+
+      const response = (await Promise.race([callPromise, timeoutPromise])) as any;
+
+      if (response.text) {
+        const parsed = JSON.parse(response.text.trim()) as Array<{
+          id: string;
+          verified: boolean;
+          confidence: number;
+          reason: string;
+        }>;
+
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) {
+            results.set(item.id, {
+              verified: Boolean(item.verified),
+              confidence: typeof item.confidence === 'number' ? item.confidence : 0.5,
+              reason: item.reason || 'Evaluation completed',
+            });
+          }
+          return results;
+        }
+      }
+    } catch (err: unknown) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+      const errStr = String(err);
+      if (errStr.includes('429') || errStr.includes('RESOURCE_EXHAUSTED')) {
+        await new Promise((r) => setTimeout(r, 15000));
+      } else {
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+      continue;
+    }
+  }
+
+  throw lastError || new Error('Batched LLM-Judge call failed on all candidate models');
 }

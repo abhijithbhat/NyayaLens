@@ -13,13 +13,15 @@ const ALLOWED_MIME_TYPES = [
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
 
-const CANDIDATE_MODELS = [
-  process.env.GEMINI_MODEL,
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-3.7-flash',
-  'gemini-flash-latest',
-].filter(Boolean) as string[];
+const CANDIDATE_MODELS = Array.from(
+  new Set([
+    process.env.GEMINI_MODEL,
+    'gemini-3.1-flash-lite',
+    'gemini-flash-latest',
+    'gemini-3-flash-preview',
+    'gemini-3.6-flash',
+  ])
+).filter(Boolean) as string[];
 
 const PARSE_PROMPT = `
 You are an expert legal document parser.

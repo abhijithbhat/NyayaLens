@@ -59,8 +59,64 @@ export interface SimplifyApiResponse {
       verifiedCount: number;
       needsReviewCount: number;
       highRiskCount: number;
+      apiCallsCount?: number;
     };
   };
+  message?: string;
+}
+
+export type DiffParty = 'A' | 'B' | 'neutral';
+
+export interface MatchedClausePair {
+  id: string;
+  clauseA: Clause;
+  clauseB: Clause;
+  difference: string;
+  favors: DiffParty;
+  favorsReason?: string;
+  verification: {
+    status: VerificationStatus;
+    confidence: number;
+    details?: string;
+  };
+}
+
+export interface UnmatchedClause {
+  clause: Clause;
+  onlyIn: 'A' | 'B';
+}
+
+export interface ComparisonSummary {
+  totalClausesA: number;
+  totalClausesB: number;
+  matchedCount: number;
+  unmatchedCountA: number;
+  unmatchedCountB: number;
+  favorsACount: number;
+  favorsBCount: number;
+  neutralCount: number;
+  apiCallsCount?: number;
+}
+
+export interface ComparisonResult {
+  id: string;
+  documentA: {
+    id?: string;
+    filename: string;
+  };
+  documentB: {
+    id?: string;
+    filename: string;
+  };
+  comparedAt: string;
+  summary: ComparisonSummary;
+  matchedPairs: MatchedClausePair[];
+  unmatchedClauses: UnmatchedClause[];
+}
+
+export interface CompareApiResponse {
+  status: 'success' | 'error';
+  data?: ComparisonResult;
   message?: string;
 }
 

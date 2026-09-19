@@ -1,0 +1,272 @@
+{
+  "id": "cmp-1789821225000-6scku",
+  "documentA": {
+    "id": "doc-rental-agreement-a",
+    "filename": "sample_rental_agreement.pdf"
+  },
+  "documentB": {
+    "id": "doc-rental-agreement-b",
+    "filename": "sample_rental_agreement_v2.pdf"
+  },
+  "comparedAt": "2026-09-19T12:33:45.000Z",
+  "summary": {
+    "totalClausesA": 10,
+    "totalClausesB": 10,
+    "matchedCount": 9,
+    "unmatchedCountA": 1,
+    "unmatchedCountB": 1,
+    "favorsACount": 3,
+    "favorsBCount": 4,
+    "neutralCount": 2,
+    "apiCallsCount": 3
+  },
+  "matchedPairs": [
+    {
+      "id": "pair-clause-1__clause-1",
+      "clauseA": {
+        "id": "clause-1",
+        "sectionNumber": "Clause 1",
+        "heading": "Term and Duration",
+        "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension of the tenancy shall be solely subject to mutual written consent of both parties executed at least 30 days prior to the expiration of this Agreement.",
+        "category": "Other"
+      },
+      "clauseB": {
+        "id": "clause-1",
+        "sectionNumber": "Clause 1",
+        "heading": "Term and Duration",
+        "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension shall be subject to mutual written consent of both parties executed at least 30 days prior to expiration.",
+        "category": "Other"
+      },
+      "difference": "No substantive difference; both documents require mutual written consent 30 days prior to expiration to extend the tenancy.",
+      "favors": "neutral",
+      "favorsReason": "The language is functionally identical regarding the requirements for extending the tenancy.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison accurately identifies that there is no substantive difference between the two clauses."
+      }
+    },
+    {
+      "id": "pair-clause-2__clause-2",
+      "clauseA": {
+        "id": "clause-2",
+        "sectionNumber": "Clause 2",
+        "heading": "Monthly Rent and Maintenance",
+        "rawText": "The Lessee agrees to pay a monthly rent of Rs. 38,000/- (Rupees Thirty-Eight Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 500/- per week of delay.",
+        "category": "Payment"
+      },
+      "clauseB": {
+        "id": "clause-2",
+        "sectionNumber": "Clause 2",
+        "heading": "Monthly Rent and Maintenance",
+        "rawText": "The Lessee agrees to pay a monthly rent of Rs. 42,000/- (Rupees Forty-Two Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 1,000/- per week of delay.",
+        "category": "Payment"
+      },
+      "difference": "Document A specifies a rent of Rs. 38,000 with a late penalty of Rs. 500 per week, whereas Document B specifies a higher rent of Rs. 42,000 and a higher late penalty of Rs. 1,000 per week.",
+      "favors": "A",
+      "favorsReason": "Document A is more favorable to the tenant due to lower monthly rent and a lower late payment penalty.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison correctly identifies the specific differences in rent and penalty amounts and correctly assesses the impact on the tenant."
+      }
+    },
+    {
+      "id": "pair-clause-3__clause-3",
+      "clauseA": {
+        "id": "clause-3",
+        "sectionNumber": "Clause 3",
+        "heading": "Security Deposit",
+        "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 1,50,000/- (Rupees One Lakh Fifty Thousand only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 7 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent, utility dues, and property damages.",
+        "category": "Deposit"
+      },
+      "clauseB": {
+        "id": "clause-3",
+        "sectionNumber": "Clause 3",
+        "heading": "Security Deposit",
+        "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 2,00,000/- (Rupees Two Lakhs only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 15 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent and utility dues.",
+        "category": "Deposit"
+      },
+      "difference": "Document A requires a security deposit of Rs. 1,50,000 with a 7-day refund timeline and includes property damages as a deduction category, whereas Document B requires a higher Rs. 2,00,000 deposit with a longer 15-day refund timeline and omits property damages as a specific deduction category.",
+      "favors": "A",
+      "favorsReason": "Document A is more favorable to the tenant due to a lower security deposit amount and a faster mandated refund period.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison accurately highlights the differences in deposit amounts, refund timelines, and deduction scope."
+      }
+    },
+    {
+      "id": "pair-clause-5__clause-4",
+      "clauseA": {
+        "id": "clause-5",
+        "sectionNumber": "Clause 5",
+        "heading": "Lock-in Period and Notice for Termination",
+        "rawText": "Both parties agree to a mandatory Lock-in Period of 6 (six) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 2 (two) months' prior written notice or by paying 2 months' rent in lieu thereof. If the Lessee vacates during the lock-in period, the Security Deposit shall stand forfeited up to the extent of the remaining lock-in rent.",
+        "category": "Termination"
+      },
+      "clauseB": {
+        "id": "clause-4",
+        "sectionNumber": "Clause 4",
+        "heading": "Lock-in Period and Notice for Termination",
+        "rawText": "Both parties agree to a Lock-in Period of 3 (three) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 1 (one) month's prior written notice or by paying 1 month's rent in lieu thereof.",
+        "category": "Termination"
+      },
+      "difference": "Document A mandates a 6-month lock-in period with a 2-month notice/pay-in-lieu requirement, whereas Document B mandates a shorter 3-month lock-in period with a 1-month notice/pay-in-lieu requirement.",
+      "favors": "B",
+      "favorsReason": "Document B offers significantly more flexibility to the tenant regarding termination terms and a shorter lock-in obligation.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison correctly identifies the difference in lock-in periods and termination notice requirements."
+      }
+    },
+    {
+      "id": "pair-clause-6__clause-5",
+      "clauseA": {
+        "id": "clause-6",
+        "sectionNumber": "Clause 6",
+        "heading": "Utility and Consumption Charges",
+        "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+        "category": "Payment"
+      },
+      "clauseB": {
+        "id": "clause-5",
+        "sectionNumber": "Clause 5",
+        "heading": "Utility and Consumption Charges",
+        "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+        "category": "Payment"
+      },
+      "difference": "No substantive difference; both documents hold the tenant responsible for electricity, gas, and internet fees.",
+      "favors": "neutral",
+      "favorsReason": "The obligations for utility payments are identical in both agreements.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison accurately identifies that the utility payment obligations are identical."
+      }
+    },
+    {
+      "id": "pair-clause-7__clause-6",
+      "clauseA": {
+        "id": "clause-7",
+        "sectionNumber": "Clause 7",
+        "heading": "Repairs, Damages, and Indemnity",
+        "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. The Lessee shall be liable to compensate the Lessor for any structural damage, glass breakage, or fixture defacement caused by negligence. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+        "category": "Liability"
+      },
+      "clauseB": {
+        "id": "clause-6",
+        "sectionNumber": "Clause 6",
+        "heading": "Repairs, Damages, and Indemnity",
+        "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+        "category": "Liability"
+      },
+      "difference": "Document A includes a clause holding the tenant liable for specific damages such as structural damage or fixture defacement, which is omitted in Document B.",
+      "favors": "B",
+      "favorsReason": "Document B is more favorable to the tenant as it removes the explicit liability for structural damage and fixture defacement.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison correctly identifies the omission of specific liability for structural/fixture damage in Document B."
+      }
+    },
+    {
+      "id": "pair-clause-8__clause-7",
+      "clauseA": {
+        "id": "clause-8",
+        "sectionNumber": "Clause 8",
+        "heading": "Prohibited Activities and Subletting",
+        "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises or any portion thereof to third parties or PG guests is strictly prohibited and shall constitute an incurable material breach.",
+        "category": "Other"
+      },
+      "clauseB": {
+        "id": "clause-7",
+        "sectionNumber": "Clause 7",
+        "heading": "Prohibited Activities and Subletting",
+        "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises to third parties is strictly prohibited.",
+        "category": "Other"
+      },
+      "difference": "Document A explicitly prohibits subletting to PG guests and defines unauthorized possession as an incurable material breach, while Document B lacks these specific prohibitions and definitions.",
+      "favors": "B",
+      "favorsReason": "Document B is less restrictive by omitting the specific inclusion of PG guests and the 'incurable material breach' classification.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison accurately notes the difference in scope regarding prohibited activities and the breach classification."
+      }
+    },
+    {
+      "id": "pair-clause-9__clause-8",
+      "clauseA": {
+        "id": "clause-9",
+        "sectionNumber": "Clause 9",
+        "heading": "Immediate Termination and Eviction",
+        "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal, unlawful, or nuisance activities affecting neighbors, the Lessor reserves the absolute right to terminate this agreement forthwith and re-enter and take possession of the premises without notice.",
+        "category": "Termination"
+      },
+      "clauseB": {
+        "id": "clause-8",
+        "sectionNumber": "Clause 8",
+        "heading": "Immediate Termination and Eviction",
+        "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal activities, the Lessor reserves the right to terminate this agreement forthwith and re-enter and take possession of the premises.",
+        "category": "Termination"
+      },
+      "difference": "Document A includes 'nuisance activities affecting neighbors' as grounds for immediate termination, while Document B limits termination grounds to rent arrears and illegal activities.",
+      "favors": "B",
+      "favorsReason": "Document B provides the tenant with more protection by excluding the broadly defined 'nuisance' clause as grounds for immediate eviction.",
+      "verification": {
+        "status": "verified",
+        "confidence": 1,
+        "details": "The comparison correctly identifies that the 'nuisance' clause is absent in Document B."
+      }
+    },
+    {
+      "id": "pair-clause-10__clause-9",
+      "clauseA": {
+        "id": "clause-10",
+        "sectionNumber": "Clause 10",
+        "heading": "Governing Law and Jurisdiction",
+        "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes arising under this agreement shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+        "category": "Other"
+      },
+      "clauseB": {
+        "id": "clause-9",
+        "sectionNumber": "Clause 9",
+        "heading": "Governing Law and Jurisdiction",
+        "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+        "category": "Other"
+      },
+      "difference": "",
+      "favors": "A",
+      "favorsReason": "Unverified claim suppressed.",
+      "verification": {
+        "status": "needs_review",
+        "confidence": 0.9,
+        "details": "Unverified diff claim: Gate 2 judge check failed (The comparison claim incorrectly states Document B omits the Karnataka Rent Act; both source clauses explicitly include this language.)."
+      }
+    }
+  ],
+  "unmatchedClauses": [
+    {
+      "clause": {
+        "id": "clause-4",
+        "sectionNumber": "Clause 4",
+        "heading": "Painting and Maintenance Deductions",
+        "rawText": "At the time of vacating the premises, a mandatory non-negotiable deduction of Rs. 15,000/- (Rupees Fifteen Thousand only) or one month's rent (whichever is lower) shall be retained from the Security Deposit towards professional deep cleaning and repainting of the interior walls.",
+        "category": "Deposit"
+      },
+      "onlyIn": "A"
+    },
+    {
+      "clause": {
+        "id": "clause-10",
+        "sectionNumber": "Clause 10",
+        "heading": "Pet Policy and Animal Regulations",
+        "rawText": "Keeping of any domestic animals or pets, including dogs, cats, or birds, within the Scheduled Premises is strictly prohibited under all circumstances without exception. Any unauthorized keeping of pets will lead to immediate lease cancellation and a penalty of Rs. 25,000/-.",
+        "category": "Other"
+      },
+      "onlyIn": "B"
+    }
+  ]
+}
