@@ -109,6 +109,11 @@ export default function AnalyzePage() {
         setError(json.message || `Failed to parse document (HTTP ${res.status}).`);
       } else {
         setDocumentData(json.data);
+        try {
+          sessionStorage.setItem(`nyayalens_doc_${json.data.id}`, JSON.stringify(json.data));
+        } catch {
+          // ignore session storage quota errors
+        }
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Network error occurred during upload.');
@@ -175,6 +180,12 @@ export default function AnalyzePage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              href="/chat/doc-rental-agreement-a"
+              className="text-xs font-medium text-emerald-300 hover:text-white px-3 py-2 rounded-lg bg-emerald-950/40 border border-emerald-500/30 hover:bg-emerald-900/50 transition"
+            >
+              Chat Q&A &rarr;
+            </Link>
             <Link
               href="/compare"
               className="text-xs font-medium text-indigo-300 hover:text-white px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 transition"
@@ -278,8 +289,8 @@ export default function AnalyzePage() {
                   </p>
                 </div>
 
-                {/* Primary Simplification Action */}
-                <div>
+                {/* Primary Actions */}
+                <div className="flex items-center gap-3 flex-wrap">
                   <button
                     id="run-simplify-btn"
                     onClick={handleRunSimplification}
@@ -303,6 +314,17 @@ export default function AnalyzePage() {
                       </>
                     )}
                   </button>
+
+                  <Link
+                    id="open-doc-chat-btn"
+                    href={`/chat/${documentData.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 text-slate-200 hover:text-white font-medium text-sm transition"
+                  >
+                    <svg className="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span>Chat Q&A with Doc &rarr;</span>
+                  </Link>
                 </div>
               </div>
 

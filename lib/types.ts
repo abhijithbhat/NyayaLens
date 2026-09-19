@@ -133,3 +133,46 @@ export interface HealthcheckResponse {
   message?: string;
   model?: string;
 }
+
+export interface ClauseEmbedding {
+  clauseId: string;
+  embedding: number[];
+}
+
+export interface RelevantClauseMatch {
+  clause: Clause;
+  similarity: number;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  createdAt?: string;
+  citedClauseIds?: string[];
+  retrievedClauses?: Clause[];
+  verification?: {
+    status: VerificationStatus;
+    confidence?: number;
+    details?: string;
+    lexicalPassed?: boolean;
+    llmJudgePassed?: boolean;
+  };
+}
+
+export type ChatStreamChunk =
+  | { type: 'retrieval'; retrievedClauses: Clause[]; citedClauseIds?: string[] }
+  | { type: 'token'; content: string }
+  | {
+      type: 'verification';
+      verification: {
+        status: VerificationStatus;
+        confidence: number;
+        details: string;
+        lexicalPassed: boolean;
+        llmJudgePassed: boolean;
+      };
+      citedClauseIds: string[];
+    }
+  | { type: 'error'; message: string };
+

@@ -67,6 +67,14 @@ export default function Home() {
             <span>Compare Documents (Diff Mode) &rarr;</span>
           </Link>
 
+          <Link
+            id="go-to-chat-link"
+            href="/chat/doc-rental-agreement-a"
+            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:from-emerald-700 active:to-teal-700 text-white font-medium shadow-lg shadow-emerald-600/30 transition cursor-pointer text-sm"
+          >
+            <span>Chat Q&A (Grounding & Verification) &rarr;</span>
+          </Link>
+
           <button
             id="test-gemini-btn"
             onClick={checkHealth}
