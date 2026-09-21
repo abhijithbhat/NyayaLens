@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import {
   ParsedDocument,
@@ -34,6 +34,43 @@ export default function ComparePage() {
   const [activeTab, setActiveTab] = useState<'all' | 'diffs' | 'unmatched'>('all');
   const [filterFavors, setFilterFavors] = useState<'ALL' | DiffParty>('ALL');
   const [showRawJson, setShowRawJson] = useState(false);
+
+  // Auto-load docA from query param or active session from /analyze
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const docAId = params.get('docA') || sessionStorage.getItem('nyayalens_active_doc_id');
+    if (docAId) {
+      const cached = sessionStorage.getItem(`nyayalens_doc_${docAId}`);
+      if (cached) {
+        try {
+          const parsed: ParsedDocument = JSON.parse(cached);
+          setDocA(parsed);
+        } catch (e) {
+          console.error('Failed to parse docA from sessionStorage', e);
+        }
+      } else if (docAId === 'doc-rental-agreement-a') {
+        import('@/samples/parsed_docA.json').then((m) => setDocA(m.default as ParsedDocument));
+      } else if (docAId === 'doc-rental-agreement-b' || docAId.includes('v2')) {
+        import('@/samples/parsed_docB.json').then((m) => setDocA(m.default as ParsedDocument));
+      }
+    }
+
+    const docBId = params.get('docB');
+    if (docBId) {
+      const cached = sessionStorage.getItem(`nyayalens_doc_${docBId}`);
+      if (cached) {
+        try {
+          const parsed: ParsedDocument = JSON.parse(cached);
+          setDocB(parsed);
+        } catch (e) {
+          console.error('Failed to parse docB from sessionStorage', e);
+        }
+      } else if (docBId === 'doc-rental-agreement-b' || docBId.includes('v2')) {
+        import('@/samples/parsed_docB.json').then((m) => setDocB(m.default as ParsedDocument));
+      }
+    }
+  }, []);
 
   function handleFileSelect(e: ChangeEvent<HTMLInputElement>, target: 'A' | 'B') {
     setError(null);
@@ -210,11 +247,28 @@ export default function ComparePage() {
                 <h2 className="font-semibold text-slate-200">Document A (Base Version)</h2>
               </div>
               {docA && (
-                <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-                  {docA.clauses.length} Clauses Parsed
+                <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">
+                  {docA.clauses.length} Clauses Ready
                 </span>
               )}
             </div>
+
+            {docA && (
+              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-emerald-500/30 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Document</span>
+                  <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.5 rounded font-mono">
+                    {docA.id}
+                  </span>
+                </div>
+                <p id="doc-a-filename-display" className="text-xs font-mono text-emerald-300 font-semibold truncate">
+                  {docA.filename}
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Imported and ready for comparison against Document B.
+                </p>
+              </div>
+            )}
 
             <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-400">
@@ -581,29 +635,30 @@ export default function ComparePage() {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${favorsColor}`}>
-                              {favorsLabel}
-                            </span>
-
                             {isVerified ? (
-                              <span
-                                title={pair.verification.details}
-                                className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1 font-medium"
-                              >
-                                <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Dual-Gate Verified ({Math.round(pair.verification.confidence * 100)}%)
-                              </span>
+                              <>
+                                <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${favorsColor}`}>
+                                  {favorsLabel}
+                                </span>
+                                <span
+                                  title={pair.verification.details}
+                                  className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1 font-medium"
+                                >
+                                  <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                  Dual-Gate Verified ({Math.round(pair.verification.confidence * 100)}%)
+                                </span>
+                              </>
                             ) : (
                               <span
                                 title={pair.verification.details}
-                                className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 font-medium"
+                                className="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 font-medium"
                               >
-                                <svg className="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
-                                Needs Review
+                                Needs Review &bull; No Comparison Shown
                               </span>
                             )}
                           </div>
@@ -616,19 +671,25 @@ export default function ComparePage() {
                           </span>
 
                           {isVerified && pair.difference ? (
-                            <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                              {pair.difference}
-                            </p>
+                            <>
+                              <p className="text-xs text-slate-200 leading-relaxed font-medium">
+                                {pair.difference}
+                              </p>
+                              {pair.favorsReason && (
+                                <p className="text-[11px] text-slate-400">
+                                  <strong className="text-slate-300">Rationale:</strong> {pair.favorsReason}
+                                </p>
+                              )}
+                            </>
                           ) : (
-                            <p className="text-xs text-amber-300/80 italic">
-                              Diff claim could not be independently verified against both source clauses and was suppressed per strict safety policy.
-                            </p>
-                          )}
-
-                          {pair.favorsReason && (
-                            <p className="text-[11px] text-slate-400">
-                              <strong className="text-slate-300">Rationale:</strong> {pair.favorsReason}
-                            </p>
+                            <div className="rounded-lg bg-amber-950/30 border border-amber-500/20 p-3 space-y-1">
+                              <p className="text-xs text-amber-300 font-medium">
+                                Needs review &bull; No comparison shown
+                              </p>
+                              <p className="text-[11px] text-amber-200/70 leading-relaxed">
+                                {pair.verification.details || 'Diff claim could not be independently verified against both source clauses and was suppressed per strict safety policy.'}
+                              </p>
+                            </div>
                           )}
                         </div>
 

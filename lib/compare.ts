@@ -515,7 +515,9 @@ Verification Rules:
    - All claims made regarding Document A are strictly and completely supported by SOURCE CLAUSE A.
    - All claims made regarding Document B are strictly and completely supported by SOURCE CLAUSE B.
    - The reported differences accurately reflect both source texts without hallucinating amounts, durations, conditions, or terms.
-2. "verified: false" IF the diff claim attributes statements to Document A or B that are not present, misquotes numbers, invents non-existent clauses, or misrepresents the legal differences.
+2. "verified: false" IF:
+   - The diff claim attributes statements or terms to Document A or B that are not present, misquotes numbers, invents non-existent clauses, or misrepresents the legal differences.
+   - The diff claim asserts that a document omits a specific law, act, term, or condition (e.g., claiming Document B omits the Karnataka Rent Act), but that exact term or law IS explicitly present in the source clause of that document.
 3. Return an array of verdicts matching pairId.
 `;
 
@@ -609,7 +611,7 @@ Verification Rules:
       clauseA: item.clauseA,
       clauseB: item.clauseB,
       difference: verifiedDifference,
-      favors: diffData.favors,
+      favors: isVerified ? diffData.favors : 'neutral',
       favorsReason: isVerified ? diffData.favorsReason : 'Unverified claim suppressed.',
       verification: {
         status,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import {
   Clause,
@@ -47,6 +47,23 @@ export default function AnalyzePage() {
     needsReviewCount: number;
     highRiskCount: number;
   } | null>(null);
+
+  // Restore active document if user navigates back to /analyze
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const activeDocId = sessionStorage.getItem('nyayalens_active_doc_id');
+    if (activeDocId) {
+      const cached = sessionStorage.getItem(`nyayalens_doc_${activeDocId}`);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          setDocumentData((prev) => prev || parsed);
+        } catch {
+          // ignore
+        }
+      }
+    }
+  }, []);
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     setError(null);
@@ -111,6 +128,7 @@ export default function AnalyzePage() {
         setDocumentData(json.data);
         try {
           sessionStorage.setItem(`nyayalens_doc_${json.data.id}`, JSON.stringify(json.data));
+          sessionStorage.setItem('nyayalens_active_doc_id', json.data.id);
         } catch {
           // ignore session storage quota errors
         }
@@ -181,13 +199,15 @@ export default function AnalyzePage() {
           </div>
           <div className="flex items-center gap-2">
             <Link
-              href="/chat/doc-rental-agreement-a"
+              id="header-chat-link"
+              href={documentData ? `/chat/${documentData.id}` : '/chat/doc-rental-agreement-a'}
               className="text-xs font-medium text-emerald-300 hover:text-white px-3 py-2 rounded-lg bg-emerald-950/40 border border-emerald-500/30 hover:bg-emerald-900/50 transition"
             >
               Chat Q&A &rarr;
             </Link>
             <Link
-              href="/compare"
+              id="header-compare-link"
+              href={documentData ? `/compare?docA=${documentData.id}` : '/compare'}
               className="text-xs font-medium text-indigo-300 hover:text-white px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 transition"
             >
               Compare Mode &rarr;
@@ -324,6 +344,17 @@ export default function AnalyzePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     <span>Chat Q&A with Doc &rarr;</span>
+                  </Link>
+
+                  <Link
+                    id="open-doc-compare-btn"
+                    href={`/compare?docA=${documentData.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 text-slate-200 hover:text-white font-medium text-sm transition"
+                  >
+                    <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                    <span>Compare with Another Doc &rarr;</span>
                   </Link>
                 </div>
               </div>
