@@ -10,6 +10,8 @@ import {
   ClauseEmbedding,
   VerificationStatus,
 } from '@/lib/types';
+import AppHeader from '@/components/AppHeader';
+import { VerificationBadge } from '@/components/StatusBadges';
 
 const SAMPLE_DOCS: Record<string, { filename: string; jsonPath: string }> = {
   'doc-rental-agreement-a': {
@@ -243,48 +245,8 @@ export default function DocumentChatPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col">
-      {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/70 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
-                NL
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-base text-slate-100">NyayaLens</span>
-                  <span className="text-[11px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">
-                    Chat Q&amp;A
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400">Grounded &amp; Dual-Gate Verified Legal Assistant</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <Link
-              href="/analyze"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Analyze
-            </Link>
-            <Link
-              href="/compare"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Compare
-            </Link>
-            <Link
-              href="/"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Home
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Unified App Header */}
+      <AppHeader activeDocId={document?.id || docId} />
 
       {/* Main Content Area */}
       <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
@@ -407,27 +369,15 @@ export default function DocumentChatPage() {
                       <div className="flex flex-wrap items-center gap-2 pt-0.5 px-1">
                         {/* Verification Status Badge */}
                         {hasVerif && (
-                          isVerified ? (
-                            <span
-                              title={msg.verification?.details}
-                              className="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1 font-medium animate-in fade-in zoom-in-95 duration-200"
-                            >
-                              <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                              </svg>
-                              Dual-Gate Verified ({Math.round((msg.verification?.confidence || 1) * 100)}%)
-                            </span>
-                          ) : (
-                            <span
-                              title={msg.verification?.details}
-                              className="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 font-medium animate-in fade-in zoom-in-95 duration-200"
-                            >
-                              <svg className="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                              </svg>
-                              Needs Review: Ungrounded
-                            </span>
-                          )
+                          <VerificationBadge
+                            status={msg.verification?.status || 'needs_review'}
+                            label={
+                              isVerified
+                                ? `Dual-Gate Verified (${Math.round((msg.verification?.confidence || 1) * 100)}%)`
+                                : 'Needs Review • Unverified'
+                            }
+                            details={msg.verification?.details}
+                          />
                         )}
 
                         {/* Cited Clause Tags */}

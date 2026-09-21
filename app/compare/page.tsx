@@ -10,7 +10,14 @@ import {
   MatchedClausePair,
   UnmatchedClause,
   DiffParty,
+  Language,
+  ChecklistItem,
+  ChecklistApiResponse,
 } from '@/lib/types';
+import AppHeader from '@/components/AppHeader';
+import ChecklistView from '@/components/ChecklistView';
+import LanguageSelector from '@/components/LanguageSelector';
+import { VerificationBadge } from '@/components/StatusBadges';
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.png', '.jpg', '.jpeg', '.webp'];
 const MAX_FILE_SIZE_MB = 10;
@@ -29,6 +36,11 @@ export default function ComparePage() {
   const [comparing, setComparing] = useState(false);
   const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Multilingual & Checklist State
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>('en');
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([]);
+  const [generatingChecklist, setGeneratingChecklist] = useState(false);
 
   // Filters & Tabs
   const [activeTab, setActiveTab] = useState<'all' | 'diffs' | 'unmatched'>('all');
@@ -152,10 +164,52 @@ export default function ComparePage() {
       }
 
       setComparisonResult(json.data);
+      handleGenerateChecklist(json.data, selectedLanguage);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Error executing comparison pipeline.');
     } finally {
       setComparing(false);
+    }
+  }
+
+  async function handleGenerateChecklist(compData?: ComparisonResult, langOverride?: Language) {
+    const comp = compData || comparisonResult;
+    if (!comp) return;
+
+    const lang = langOverride || selectedLanguage;
+    setGeneratingChecklist(true);
+
+    try {
+      const res = await fetch('/api/checklist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comparison: comp,
+          language: lang,
+        }),
+      });
+
+      const json: ChecklistApiResponse = await res.json();
+      if (res.ok && json.status === 'success' && json.data) {
+        setChecklistItems(json.data.items);
+      }
+    } catch (cErr) {
+      console.warn('Compare checklist generation error:', cErr);
+    } finally {
+      setGeneratingChecklist(false);
+    }
+  }
+
+  function handleToggleChecklistItem(itemId: string) {
+    setChecklistItems((prev) =>
+      prev.map((item) => (item.id === itemId ? { ...item, completed: !item.completed } : item))
+    );
+  }
+
+  function handleLanguageChange(newLang: Language) {
+    setSelectedLanguage(newLang);
+    if (comparisonResult) {
+      handleGenerateChecklist(comparisonResult, newLang);
     }
   }
 
@@ -170,41 +224,18 @@ export default function ComparePage() {
   const unmatchedB = (comparisonResult?.unmatchedClauses || []).filter((u) => u.onlyIn === 'B');
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
-      {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
-              NL
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg text-slate-100">NyayaLens</span>
-                <span className="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">
-                  Compare Mode
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">Two-Sided Dual-Gate Verified Contract Diff</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/analyze"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Single Doc Analysis
-            </Link>
-            <Link
-              href="/"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Home
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col">
+      {/* Unified App Header */}
+      <AppHeader
+        activeDocId={docA?.id || docB?.id}
+        extraControls={
+          <LanguageSelector
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            disabled={comparing || generatingChecklist}
+          />
+        }
+      />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Intro */}
@@ -449,6 +480,21 @@ export default function ComparePage() {
               </div>
             </div>
 
+            {/* Pre-Signing Comparison Action Checklist & Advocate Questions */}
+            {(checklistItems.length > 0 || generatingChecklist) && (
+              <div id="compare-checklist-section">
+                <ChecklistView
+                  items={checklistItems}
+                  language={selectedLanguage}
+                  onToggleItem={handleToggleChecklistItem}
+                  isLoading={generatingChecklist}
+                  onRegenerate={() => handleGenerateChecklist()}
+                  title="Comparison Action Checklist & Advocate Inquiries"
+                  subtitle="Critical contract modifications & unilateral clauses needing confirmation or advocate consultation before signing."
+                />
+              </div>
+            )}
+
             {/* Filter and Tab Controls */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
               <div className="flex items-center gap-2">
@@ -640,26 +686,18 @@ export default function ComparePage() {
                                 <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${favorsColor}`}>
                                   {favorsLabel}
                                 </span>
-                                <span
-                                  title={pair.verification.details}
-                                  className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1 font-medium"
-                                >
-                                  <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                  </svg>
-                                  Dual-Gate Verified ({Math.round(pair.verification.confidence * 100)}%)
-                                </span>
+                                <VerificationBadge
+                                  status="verified"
+                                  label={`Dual-Gate Verified (${Math.round(pair.verification.confidence * 100)}%)`}
+                                  details={pair.verification.details}
+                                />
                               </>
                             ) : (
-                              <span
-                                title={pair.verification.details}
-                                className="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 font-medium"
-                              >
-                                <svg className="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                                Needs Review &bull; No Comparison Shown
-                              </span>
+                              <VerificationBadge
+                                status="needs_review"
+                                label="Needs Review • No Comparison Shown"
+                                details={pair.verification.details || 'Ungrounded difference claim suppressed'}
+                              />
                             )}
                           </div>
                         </div>

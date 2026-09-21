@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import AppHeader from '@/components/AppHeader';
 
 interface HealthResponse {
   status: 'ok' | 'error';
@@ -38,49 +39,21 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
-      {/* Top Navigation */}
-      <header className="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25">
-              NL
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-base text-slate-100 tracking-tight">NyayaLens</span>
-                <span className="text-[10px] uppercase tracking-wider bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-semibold">
-                  Dual-Gate Verified
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400">Self-Verifying Legal Co-Pilot for Indian Documents</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <Link
-              id="nav-analyze-link"
-              href="/analyze"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Analyze
-            </Link>
-            <Link
-              id="nav-compare-link"
-              href="/compare"
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-            >
-              Compare
-            </Link>
-            <Link
-              id="nav-chat-link"
-              href="/chat/doc-rental-agreement-a"
-              className="text-xs px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 transition-colors font-medium"
-            >
-              Chat Q&A
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Unified App Header */}
+      <AppHeader
+        extraControls={
+          <button
+            id="healthcheck-toggle-btn"
+            onClick={() => {
+              setShowHealthcheck(!showHealthcheck);
+              if (!result && !loading) checkHealth();
+            }}
+            className="text-xs px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+          >
+            System Status
+          </button>
+        }
+      />
 
       {/* Hero Section */}
       <div className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 space-y-12">

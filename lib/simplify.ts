@@ -1,6 +1,6 @@
 import { getGeminiClient } from '@/lib/gemini';
 import { Type } from '@google/genai';
-import { Clause, AnalyzedClause, RiskSeverity } from '@/lib/types';
+import { Clause, AnalyzedClause, RiskSeverity, Language } from '@/lib/types';
 import { lexicalOverlapCheck, batchLlmJudgeCheck, BatchJudgeItem } from '@/lib/verify';
 
 const CANDIDATE_MODELS = Array.from(
@@ -60,7 +60,8 @@ interface RawAnalysisGeneration {
  * Call 1: Batched generation of explanations and risk assessments for all clauses in 1 Gemini call.
  */
 async function generateBatchedClauseAnalysis(
-  clauses: Clause[]
+  clauses: Clause[],
+  language: Language = 'en'
 ): Promise<{ generations: Map<string, RawAnalysisGeneration>; apiCalls: number }> {
   const generations = new Map<string, RawAnalysisGeneration>();
   if (!clauses || clauses.length === 0) {
@@ -83,6 +84,21 @@ ${c.rawText}
     )
     .join('\n----------------------------------------\n');
 
+  let languageInstruction = '';
+  if (language === 'hi') {
+    languageInstruction = `
+LANGUAGE INSTRUCTION:
+- Write the "explanation" and risk "reason" strictly in clear, fluent HINDI (हिंदी - Devanagari script).
+- Keep exact numbers, currency figures (e.g. ₹38,000 or ₹15,000), percentages, and dates verbatim.
+- Do NOT translate clauseId or severity values.`;
+  } else if (language === 'kn') {
+    languageInstruction = `
+LANGUAGE INSTRUCTION:
+- Write the "explanation" and risk "reason" strictly in clear, fluent KANNADA (ಕನ್ನಡ script).
+- Keep exact numbers, currency figures (e.g. ₹38,000 or ₹15,000), percentages, and dates verbatim.
+- Do NOT translate clauseId or severity values.`;
+  }
+
   const prompt = `
 You are an expert AI legal co-pilot helping an ordinary Indian citizen understand a legal agreement.
 Analyze the following legal clauses.
@@ -100,8 +116,9 @@ Instructions:
      * "medium": mandatory non-negotiable deductions, lock-in commitments, restricted activities.
      * "low": standard payment schedules, routine utility bills, standard notice requirements.
      * "none": standard recitals, standard jurisdiction clauses.
-   - "reason": A single crisp sentence explaining why this level was assigned. Ground this strictly in the clause terms.
-3. Return a JSON array containing an object for every input clause matching its "clauseId".
+   - "reason": A single crisp sentence explaining why this level was assigned. Ground this strictly in the concrete obligations, liabilities, or forfeiture terms specified in the clause text without adding ungrounded outside claims.
+3. ${languageInstruction}
+4. Return a JSON array containing an object for every input clause matching its "clauseId".
 `;
 
   const ai = getGeminiClient();
@@ -157,14 +174,15 @@ Instructions:
  * Independently checks both explanation and risk.reason through Gate 1 and Gate 2.
  */
 export async function simplifyClausesBatched(
-  clauses: Clause[]
+  clauses: Clause[],
+  language: Language = 'en'
 ): Promise<{ analyzedClauses: AnalyzedClause[]; apiCallsCount: number }> {
   if (clauses.length === 0) {
     return { analyzedClauses: [], apiCallsCount: 0 };
   }
 
   // 1. Call 1: Batched generation for all clauses (1 Gemini call)
-  const { generations, apiCalls: genCalls } = await generateBatchedClauseAnalysis(clauses);
+  const { generations, apiCalls: genCalls } = await generateBatchedClauseAnalysis(clauses, language);
   let totalApiCalls = genCalls;
 
   // 2. Gate 1: Local Lexical & Numerical overlap check on BOTH explanation and risk.reason

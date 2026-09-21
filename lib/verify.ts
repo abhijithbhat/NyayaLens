@@ -71,7 +71,15 @@ export function lexicalOverlapCheck(claim: string, sourceText: string): boolean 
     }
   }
 
-  // 2. Substantive term overlap
+  // 2. Indic script check: If claim contains Hindi (Devanagari \u0900-\u097F) or Kannada (\u0C80-\u0CFF)
+  // characters, numerical integrity has already passed above. Bypass Latin token overlap check so Gate 2
+  // (the multilingual LLM judge) can evaluate factual fidelity.
+  const isIndicScript = /[\u0900-\u097F\u0C80-\u0CFF]/.test(normalizedClaim);
+  if (isIndicScript) {
+    return true;
+  }
+
+  // 3. Substantive term overlap
   // Extract alphanumeric tokens
   const claimTokens = normalizedClaim
     .replace(/[^\w\s]/g, ' ')
@@ -270,11 +278,13 @@ ${itemsFormatted}
 
 Verification Rules for each item:
 1. "verified: true" ONLY IF every fact, number, right, obligation, and consequence in the CLAIM is directly grounded in the SOURCE CLAUSE.
-2. "verified: false" IF the CLAIM adds assumptions, invents terms, introduces outside facts, hallucinates penalties or permissions not mentioned in the source, or distorts the legal meaning.
-3. Plain-language simplification and risk contextualization are permitted, but NO ungrounded additions or factual extrapolations are allowed.
-4. "confidence": return a number between 0.0 and 1.0.
-5. "reason": a concise one-sentence justification.
-6. Return an array of verdicts matching each item ID accurately.
+2. "verified: false" IF the CLAIM adds ungrounded assumptions, invents outside terms, hallucinates numbers, penalties or permissions not mentioned in the source, or distorts the legal meaning.
+3. For risk assessments (items ending in #risk): The claim explains why a risk severity was assigned based on the clause terms. Mark "verified: true" as long as the contractual obligations, liabilities, timeframes, numbers, and rights cited in the reason are accurate to the source clause. Explaining the consequence of those terms (e.g., noting that forfeiture of deposit or mandatory cleaning deduction causes financial deduction) is valid risk analysis and should be verified as long as the contractual terms themselves are factually accurate.
+4. If the CLAIM is in Hindi or Kannada, verify that it accurately and faithfully conveys the legal meaning and terms of the English SOURCE CLAUSE without distortions or outside assertions.
+5. Plain-language simplification and risk contextualization are permitted, but NO ungrounded additions or factual extrapolations are allowed.
+6. "confidence": return a number between 0.0 and 1.0.
+7. "reason": a concise one-sentence justification.
+8. Return an array of verdicts matching each item ID accurately.
 `;
 
   const ai = getGeminiClient();

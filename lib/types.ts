@@ -66,6 +66,34 @@ export interface SimplifyApiResponse {
 }
 
 export type DiffParty = 'A' | 'B' | 'neutral';
+export type Language = 'en' | 'hi' | 'kn';
+
+export interface ChecklistItem {
+  id: string;
+  clauseId: string;
+  clauseHeading?: string;
+  sourceType: 'analysis' | 'comparison';
+  severity: RiskSeverity;
+  verificationStatus: VerificationStatus;
+  checklistAction: string;
+  lawyerQuestion?: string;
+  completed?: boolean;
+}
+
+export interface ChecklistApiResponse {
+  status: 'success' | 'error';
+  data?: {
+    items: ChecklistItem[];
+    language: Language;
+    generatedAt: string;
+    itemCount: number;
+    totalItems?: number;
+    highRiskCount?: number;
+    needsReviewCount?: number;
+    apiCallsCount?: number;
+  };
+  message?: string;
+}
 
 export interface MatchedClausePair {
   id: string;
@@ -175,4 +203,6 @@ export type ChatStreamChunk =
       citedClauseIds: string[];
     }
   | { type: 'error'; message: string };
+
+
 

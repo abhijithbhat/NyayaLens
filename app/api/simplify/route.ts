@@ -36,8 +36,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<SimplifyA
       );
     }
 
+    const language = body.language === 'hi' ? 'hi' : body.language === 'kn' ? 'kn' : 'en';
+
     // Run the batched 2-call pipeline
-    const { analyzedClauses, apiCallsCount } = await simplifyClausesBatched(clauses);
+    const { analyzedClauses, apiCallsCount } = await simplifyClausesBatched(clauses, language);
 
     const verifiedCount = analyzedClauses.filter((c) => c.analysis.verification.status === 'verified').length;
     const needsReviewCount = analyzedClauses.filter((c) => c.analysis.verification.status === 'needs_review').length;

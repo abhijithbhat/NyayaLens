@@ -9,7 +9,14 @@ import {
   AnalyzedClause,
   SimplifyApiResponse,
   RiskSeverity,
+  Language,
+  ChecklistItem,
+  ChecklistApiResponse,
 } from '@/lib/types';
+import AppHeader from '@/components/AppHeader';
+import ChecklistView from '@/components/ChecklistView';
+import LanguageSelector from '@/components/LanguageSelector';
+import { VerificationBadge, RiskBadge } from '@/components/StatusBadges';
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.png', '.jpg', '.jpeg', '.webp'];
 const MAX_FILE_SIZE_MB = 10;
@@ -37,6 +44,11 @@ export default function AnalyzePage() {
   const [error, setError] = useState<string | null>(null);
   const [documentData, setDocumentData] = useState<ParsedDocument | null>(null);
   const [showRawJson, setShowRawJson] = useState(false);
+
+  // Multilingual & Checklist State
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>('en');
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([]);
+  const [generatingChecklist, setGeneratingChecklist] = useState(false);
 
   // Phase 3 State
   const [simplifying, setSimplifying] = useState(false);
@@ -140,9 +152,10 @@ export default function AnalyzePage() {
     }
   }
 
-  async function handleRunSimplification() {
+  async function handleRunSimplification(overrideLang?: Language) {
     if (!documentData) return;
 
+    const lang: Language = typeof overrideLang === 'string' ? overrideLang : selectedLanguage;
     setSimplifying(true);
     setError(null);
 
@@ -150,7 +163,7 @@ export default function AnalyzePage() {
       const res = await fetch('/api/simplify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ document: documentData }),
+        body: JSON.stringify({ document: documentData, language: lang }),
       });
 
       const json: SimplifyApiResponse = await res.json();
@@ -160,11 +173,57 @@ export default function AnalyzePage() {
       } else {
         setAnalyzedClauses(json.data.analyzedClauses);
         setSummaryMetrics(json.data.summary);
+        // Automatically generate pre-signing checklist with the verified analysis
+        handleGenerateChecklist(json.data.analyzedClauses, lang);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Network error occurred during simplification.');
     } finally {
       setSimplifying(false);
+    }
+  }
+
+  async function handleGenerateChecklist(clausesToUse?: AnalyzedClause[], langOverride?: Language) {
+    const clauses = clausesToUse || analyzedClauses;
+    if (!clauses || clauses.length === 0) return;
+
+    const lang: Language = typeof langOverride === 'string' ? langOverride : selectedLanguage;
+    setGeneratingChecklist(true);
+
+    try {
+      const res = await fetch('/api/checklist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          document: {
+            ...documentData,
+            clauses,
+          },
+          language: lang,
+        }),
+      });
+
+      const json: ChecklistApiResponse = await res.json();
+      if (res.ok && json.status === 'success' && json.data) {
+        setChecklistItems(json.data.items);
+      }
+    } catch (cErr) {
+      console.warn('Checklist generation error:', cErr);
+    } finally {
+      setGeneratingChecklist(false);
+    }
+  }
+
+  function handleToggleChecklistItem(itemId: string) {
+    setChecklistItems((prev) =>
+      prev.map((item) => (item.id === itemId ? { ...item, completed: !item.completed } : item))
+    );
+  }
+
+  function handleLanguageChange(newLang: Language) {
+    setSelectedLanguage(newLang);
+    if (analyzedClauses && analyzedClauses.length > 0) {
+      handleRunSimplification(newLang);
     }
   }
 
@@ -179,47 +238,36 @@ export default function AnalyzePage() {
   const displayedClauses: (Clause | AnalyzedClause)[] = analyzedClauses || documentData?.clauses || [];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 p-6 md:p-12 selection:bg-indigo-500 selection:text-white">
-      <div className="max-w-4xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-5">
-          <div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+      {/* Unified App Header */}
+      <AppHeader
+        activeDocId={documentData?.id}
+        extraControls={
+          <LanguageSelector
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            disabled={simplifying || generatingChecklist}
+          />
+        }
+      />
+
+      <main className="flex-1 p-6 md:p-12">
+        <div className="max-w-4xl mx-auto space-y-8">
+          {/* Subheader Title */}
+          <div className="border-b border-slate-800 pb-5">
             <div className="flex items-center gap-2">
               <span className="text-xs uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                Phase 3 Verification
+                Phase 6 Analysis &amp; Checklist
               </span>
               <span className="text-xs text-slate-500">Dual-Gate Verified Legal Co-Pilot</span>
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-white mt-1">
-              Document Ingestion & Verification
+              Document Ingestion, Dual-Gate Verification &amp; Checklist
             </h1>
             <p className="text-sm text-slate-400 mt-1">
-              Clause extraction with lexical/numerical grounding (Gate 1) & LLM-Judge verification (Gate 2).
+              Extract clauses with lexical grounding (Gate 1), LLM-Judge verification (Gate 2), multilingual explanations &amp; advocate questions.
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Link
-              id="header-chat-link"
-              href={documentData ? `/chat/${documentData.id}` : '/chat/doc-rental-agreement-a'}
-              className="text-xs font-medium text-emerald-300 hover:text-white px-3 py-2 rounded-lg bg-emerald-950/40 border border-emerald-500/30 hover:bg-emerald-900/50 transition"
-            >
-              Chat Q&A &rarr;
-            </Link>
-            <Link
-              id="header-compare-link"
-              href={documentData ? `/compare?docA=${documentData.id}` : '/compare'}
-              className="text-xs font-medium text-indigo-300 hover:text-white px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 transition"
-            >
-              Compare Mode &rarr;
-            </Link>
-            <Link
-              href="/"
-              className="text-xs font-medium text-slate-400 hover:text-white px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition"
-            >
-              &larr; Home
-            </Link>
-          </div>
-        </div>
 
         {/* Upload Form */}
         <form
@@ -313,7 +361,7 @@ export default function AnalyzePage() {
                 <div className="flex items-center gap-3 flex-wrap">
                   <button
                     id="run-simplify-btn"
-                    onClick={handleRunSimplification}
+                    onClick={() => handleRunSimplification()}
                     disabled={simplifying}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:bg-emerald-950 disabled:text-slate-500 text-white font-medium text-sm shadow-lg shadow-emerald-600/20 transition cursor-pointer"
                   >
@@ -410,10 +458,25 @@ export default function AnalyzePage() {
               </div>
             )}
 
+            {/* Pre-Signing Checklist & Advocate Questions */}
+            {(checklistItems.length > 0 || generatingChecklist) && (
+              <div id="analyze-checklist-section">
+                <ChecklistView
+                  items={checklistItems}
+                  language={selectedLanguage}
+                  onToggleItem={handleToggleChecklistItem}
+                  isLoading={generatingChecklist}
+                  onRegenerate={() => handleGenerateChecklist()}
+                  title="Document Pre-Signing Action Checklist"
+                  subtitle="Ground-verified next steps & advocate consultation inquiries for medium/high risk or unverified terms."
+                />
+              </div>
+            )}
+
             {/* Clauses List */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-white">Clause Analysis & Verification</h2>
+                <h2 className="text-lg font-semibold text-white">Clause Analysis &amp; Verification</h2>
                 <span className="text-xs text-slate-400">Every claim is grounded and dual-gate verified</span>
               </div>
 
@@ -422,7 +485,6 @@ export default function AnalyzePage() {
                   const hasAnalysis = 'analysis' in clauseItem && clauseItem.analysis !== undefined;
                   const analysis = hasAnalysis ? (clauseItem as AnalyzedClause).analysis : null;
                   const isVerified = analysis?.verification.status === 'verified';
-                  const needsReview = analysis?.verification.status === 'needs_review';
 
                   return (
                     <div
@@ -444,38 +506,18 @@ export default function AnalyzePage() {
                           {/* Dual-Gate Status Badge */}
                           {hasAnalysis && (
                             <>
-                              {isVerified && (
-                                <span
-                                  className="verification-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 border border-emerald-500/40 text-emerald-300"
-                                  title={`Gate 1: Passed | Gate 2: Passed (${Math.round((analysis?.verification.confidence || 0) * 100)}% confidence)`}
-                                >
-                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                                  </svg>
-                                  <span>✓ Verified ({Math.round((analysis?.verification.confidence || 0) * 100)}%)</span>
-                                </span>
-                              )}
-
-                              {needsReview && (
-                                <span
-                                  className="verification-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 border border-amber-500/40 text-amber-300"
-                                  title={analysis?.verification.details || 'Ungrounded claim: flagged for manual review'}
-                                >
-                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                  </svg>
-                                  <span>⚠ Needs Review</span>
-                                </span>
-                              )}
+                              <VerificationBadge
+                                status={analysis?.verification.status || 'needs_review'}
+                                label={
+                                  isVerified
+                                    ? `Dual-Gate Verified (${Math.round((analysis?.verification.confidence || 0) * 100)}%)`
+                                    : 'Needs Review • Unverified'
+                                }
+                                details={analysis?.verification.details}
+                              />
 
                               {/* Risk Severity Badge */}
-                              <span
-                                className={`text-xs font-medium px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${
-                                  RISK_COLORS[analysis?.risk.severity || 'low']
-                                }`}
-                              >
-                                {analysis?.risk.severity} Risk
-                              </span>
+                              <RiskBadge severity={analysis?.risk.severity || 'low'} />
                             </>
                           )}
 
@@ -542,5 +584,6 @@ export default function AnalyzePage() {
         )}
       </div>
     </main>
+  </div>
   );
 }
