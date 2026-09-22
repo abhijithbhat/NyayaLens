@@ -1,26 +1,44 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-base: #14100D;
+  --bg-surface: #211A15;
+  --bg-surface-raised: #2C231C;
+  --accent-primary: #FC6C26;
+  --accent-bright: #FF8A4C;
+  --accent-warm: #FFF4D6;
+  --text-primary: #FBF3E7;
+  --text-muted: #A89A8C;
+
+  /* Risk severity colors */
+  --risk-high: #F43F5E;
+  --risk-medium: #EAB308;
+  --risk-low: #38BDF8;
+  --risk-none: #94A3B8;
+  --risk-unknown: #A89A8C;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-surface-raised: var(--bg-surface-raised);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-warm: var(--accent-warm);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+

@@ -38,7 +38,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+    <main className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col selection:bg-[var(--accent-primary)] selection:text-white">
       {/* Unified App Header */}
       <AppHeader
         extraControls={
@@ -48,7 +48,7 @@ export default function Home() {
               setShowHealthcheck(!showHealthcheck);
               if (!result && !loading) checkHealth();
             }}
-            className="text-xs px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+            className="text-xs px-2.5 py-1.5 rounded-lg border border-[var(--bg-surface-raised)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-raised)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
           >
             System Status
           </button>
@@ -56,141 +56,213 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <div className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 space-y-12">
+      <div className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 space-y-12">
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)] text-xs font-semibold tracking-wide">
             <span>🛡️ Never Trust an Unverified AI Legal Claim</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] font-display leading-[1.15]">
             Self-Verifying AI Legal Co-Pilot for Indian Contracts
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed max-w-2xl mx-auto">
             NyayaLens ingests everyday rental agreements, employment offers, and service contracts.
             Every generated simplification, risk flag, comparison diff, and Q&A answer is verified against
             the document’s source text before you see it. If a claim cannot be verified, NyayaLens abstains.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
-            <span className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5 text-[11px] text-[var(--text-muted)]">
+            <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent-bright)] shadow-[0_0_6px_var(--accent-bright)]"></span>
               Gate 1: Lexical &amp; Numerical Overlap
             </span>
-            <span className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+            <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] shadow-[0_0_6px_var(--accent-primary)]"></span>
               Gate 2: Impartial LLM-Judge
             </span>
-            <span className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+            <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#EAB308]"></span>
               Strict Abstention on Low Confidence
             </span>
           </div>
         </div>
 
-        {/* The Three Modes: Primary Cards */}
+        {/* The Three Modes: Distinctly Styled Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          {/* Mode 1: Single Document Analysis */}
-          <div className="rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-blue-500/40 p-6 flex flex-col justify-between space-y-5 transition-all group shadow-xl hover:shadow-blue-900/10">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+          {/* Card 1: Single Document Analysis (Featured Flagship Card) */}
+          <div className="relative rounded-2xl bg-[var(--bg-surface)] border-2 border-[var(--accent-primary)]/40 hover:border-[var(--accent-primary)] p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl hover:shadow-[var(--accent-primary)]/10">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-[var(--accent-primary)]/15 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)] flex items-center justify-center shadow-inner">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--accent-primary)]/15 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)]">
+                  Primary Flow
+                </span>
               </div>
-              <h2 className="text-lg font-bold text-slate-100 group-hover:text-blue-300 transition-colors">
-                1. Single Document Analysis
-              </h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Clause-by-clause plain-language simplification, risk severity classification, and numerical grounding with exact source citations.
-              </p>
+
+              <div>
+                <h2 className="text-xl font-bold text-[var(--text-primary)] font-display group-hover:text-[var(--accent-bright)] transition-colors">
+                  Single Document Analysis
+                </h2>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mt-2">
+                  Clause-by-clause plain-language simplification, risk severity detection, and pre-signing checklists with advocate consultation questions.
+                </p>
+              </div>
+
+              {/* Feature Highlights */}
+              <div className="pt-1 space-y-1.5 text-[11px] text-[var(--text-muted)]">
+                <div className="flex items-center gap-2">
+                  <span className="text-[var(--accent-bright)] font-bold">✓</span>
+                  <span>Verbatim source clause extraction</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[var(--accent-bright)] font-bold">✓</span>
+                  <span>Trilingual (English, Hindi, Kannada)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[var(--accent-bright)] font-bold">✓</span>
+                  <span>Mutual suppression on ungrounded claims</span>
+                </div>
+              </div>
             </div>
 
             <Link
               id="go-to-analyze-link"
               href="/analyze"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-medium text-xs shadow-lg shadow-blue-600/20 transition cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 text-white font-semibold text-xs shadow-lg shadow-[var(--accent-primary)]/25 transition cursor-pointer"
             >
               <span>Analyze Document &rarr;</span>
             </Link>
           </div>
 
-          {/* Mode 2: Compare Contracts */}
-          <div className="rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-indigo-500/40 p-6 flex flex-col justify-between space-y-5 transition-all group shadow-xl hover:shadow-indigo-900/10">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                </svg>
+          {/* Card 2: Contract Comparison (Side-by-Side Diff Motif) */}
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] hover:border-sky-500/40 p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center shadow-inner">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300">
+                  Version Diff
+                </span>
               </div>
-              <h2 className="text-lg font-bold text-slate-100 group-hover:text-indigo-300 transition-colors">
-                2. Contract Comparison (Diff)
-              </h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Structured clause alignment across two contract versions, showing which side each substantive change favors, plus unique and omitted clauses.
-              </p>
+
+              <div>
+                <h2 className="text-xl font-bold text-[var(--text-primary)] font-display group-hover:text-sky-300 transition-colors">
+                  Contract Version Comparison
+                </h2>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mt-2">
+                  Structured clause alignment between Base and Renewal drafts. Identifies which party each substantive difference favors.
+                </p>
+              </div>
+
+              {/* Feature Highlights */}
+              <div className="pt-1 space-y-1.5 text-[11px] text-[var(--text-muted)]">
+                <div className="flex items-center gap-2">
+                  <span className="text-sky-400 font-bold">↔</span>
+                  <span>Two-sided diff verification</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sky-400 font-bold">⚖</span>
+                  <span>Favors Party A / Party B / Neutral</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sky-400 font-bold">🔍</span>
+                  <span>Unmatched &amp; omitted clause audit</span>
+                </div>
+              </div>
             </div>
 
             <Link
               id="go-to-compare-link"
               href="/compare"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium text-xs shadow-lg shadow-indigo-600/20 transition cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-sky-500/20 text-[var(--text-primary)] hover:text-white border border-[var(--bg-surface-raised)] hover:border-sky-500/40 font-medium text-xs transition cursor-pointer"
             >
               <span>Compare Contracts &rarr;</span>
             </Link>
           </div>
 
-          {/* Mode 3: Grounded Chat Q&A */}
-          <div className="rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-emerald-500/40 p-6 flex flex-col justify-between space-y-5 transition-all group shadow-xl hover:shadow-emerald-900/10">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+          {/* Card 3: Grounded Chat Q&A (Conversational Preview Motif) */}
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] hover:border-[#EAB308]/40 p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-[#EAB308]/10 border border-[#EAB308]/25 text-[#FDE047] flex items-center justify-center shadow-inner">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#EAB308]/10 border border-[#EAB308]/30 text-[#FDE047]">
+                  Interactive Co-Pilot
+                </span>
               </div>
-              <h2 className="text-lg font-bold text-slate-100 group-hover:text-emerald-300 transition-colors">
-                3. Grounded Chat Q&amp;A
-              </h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Interactive question-answering with semantic clause retrieval, live streaming tokens, and post-stream dual-gate verification.
-              </p>
+
+              <div>
+                <h2 className="text-xl font-bold text-[var(--text-primary)] font-display group-hover:text-[#FDE047] transition-colors">
+                  Grounded Contract Q&amp;A
+                </h2>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mt-2">
+                  Interrogate any contract clause directly. Semantically retrieves relevant provisions, streams plain-English answers, and verifies every claim.
+                </p>
+              </div>
+
+              {/* Feature Highlights */}
+              <div className="pt-1 space-y-1.5 text-[11px] text-[var(--text-muted)]">
+                <div className="flex items-center gap-2">
+                  <span className="text-[#FDE047] font-bold">💬</span>
+                  <span>Top-5 semantic clause retrieval</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#FDE047] font-bold">⚡</span>
+                  <span>Streaming token generation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#FDE047] font-bold">📌</span>
+                  <span>Exact clause citation &amp; evidence drawer</span>
+                </div>
+              </div>
             </div>
 
             <Link
               id="go-to-chat-link"
-              href="/chat/doc-rental-agreement-a"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium text-xs shadow-lg shadow-emerald-600/20 transition cursor-pointer"
+              href="/analyze"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[#EAB308]/20 text-[var(--text-primary)] hover:text-white border border-[var(--bg-surface-raised)] hover:border-[#EAB308]/40 font-medium text-xs transition cursor-pointer"
             >
-              <span>Start Contract Q&A &rarr;</span>
+              <span>Upload to Start Q&A &rarr;</span>
             </Link>
           </div>
         </div>
 
         {/* Informational Disclaimer Banner */}
-        <div className="rounded-xl bg-slate-900/50 border border-slate-800/80 p-4 text-center space-y-1">
-          <p className="text-xs text-slate-400">
-            <strong className="text-slate-300">Disclaimer:</strong> NyayaLens provides educational and informational assistance for understanding everyday legal documents. It does not provide formal legal advice. For contentious disputes or major obligations, always consult a licensed advocate.
+        <div className="rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] p-4 text-center space-y-1">
+          <p className="text-xs text-[var(--text-muted)]">
+            <strong className="text-[var(--text-primary)]">Disclaimer:</strong> NyayaLens provides educational and informational assistance for understanding everyday legal documents. It does not provide formal legal advice. For contentious disputes or major obligations, always consult a licensed advocate.
           </p>
         </div>
 
         {/* Unobtrusive Connectivity & Debug Drawer */}
-        <div className="pt-6 border-t border-slate-800/60 flex flex-col items-center">
+        <div className="pt-6 border-t border-[var(--bg-surface-raised)] flex flex-col items-center">
           <button
             type="button"
             onClick={() => setShowHealthcheck(!showHealthcheck)}
-            className="text-[11px] text-slate-400 hover:text-slate-300 flex items-center gap-1.5 transition"
+            className="text-[11px] text-[var(--text-muted)] hover:text-[var(--text-primary)] flex items-center gap-1.5 transition cursor-pointer"
           >
             <span>{showHealthcheck ? '▲ Hide System Diagnostics' : '▼ Developer Diagnostics & API Healthcheck'}</span>
           </button>
 
           {showHealthcheck && (
-            <div className="w-full max-w-md mt-4 p-5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3 animate-in fade-in zoom-in-95 duration-200 text-center">
-              <div className="text-xs text-slate-400">Gemini Connectivity Verification</div>
+            <div className="w-full max-w-md mt-4 p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] space-y-3 animate-in fade-in zoom-in-95 duration-200 text-center shadow-xl">
+              <div className="text-xs text-[var(--text-muted)] font-medium">Gemini Connectivity Verification</div>
               <button
                 id="test-gemini-btn"
                 onClick={checkHealth}
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-[var(--bg-surface-raised)] bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] text-[var(--text-primary)] text-xs font-medium transition cursor-pointer"
               >
                 {loading ? 'Calling Gemini...' : 'Run Connectivity Check'}
               </button>
@@ -198,13 +270,13 @@ export default function Home() {
               {result && (
                 <div
                   id="healthcheck-result"
-                  className="rounded-lg bg-emerald-950/40 border border-emerald-500/30 p-3 text-left space-y-1"
+                  className="rounded-lg bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 p-3 text-left space-y-1"
                 >
-                  <div className="flex items-center justify-between text-[11px] text-emerald-400 font-semibold uppercase">
+                  <div className="flex items-center justify-between text-[11px] text-[var(--accent-bright)] font-semibold uppercase">
                     <span>Status: Verified</span>
-                    {result.model && <span className="opacity-70">{result.model}</span>}
+                    {result.model && <span className="opacity-80">{result.model}</span>}
                   </div>
-                  <div className="text-sm font-mono font-bold text-emerald-300">
+                  <div className="text-sm font-mono font-bold text-[var(--text-primary)]">
                     {result.text}
                   </div>
                 </div>
@@ -213,7 +285,7 @@ export default function Home() {
               {error && (
                 <div
                   id="healthcheck-error"
-                  className="rounded-lg bg-rose-950/40 border border-rose-500/30 p-3 text-left space-y-1 text-xs text-rose-300"
+                  className="rounded-lg bg-rose-950/30 border border-rose-500/30 p-3 text-left space-y-1 text-xs text-rose-300"
                 >
                   <div className="font-semibold text-rose-400">Error:</div>
                   <div className="font-mono">{error}</div>

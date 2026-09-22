@@ -23,19 +23,20 @@ const MAX_FILE_SIZE_MB = 10;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Payment: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-  Termination: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
-  Liability: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-  Deposit: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  Notice: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-  Other: 'bg-slate-500/10 text-slate-400 border-slate-500/30',
+  Payment: 'bg-[var(--accent-primary)]/10 text-[var(--accent-bright)] border-[var(--accent-primary)]/30',
+  Termination: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+  Liability: 'bg-[#EAB308]/15 text-[#FDE047] border-[#EAB308]/30',
+  Deposit: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  Notice: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
+  Other: 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] border-[var(--text-muted)]/30',
 };
 
 const RISK_COLORS: Record<RiskSeverity, string> = {
-  high: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
-  medium: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
-  low: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-  none: 'bg-slate-500/20 text-slate-300 border-slate-500/40',
+  high: 'bg-rose-500/15 text-rose-300 border-rose-500/40',
+  medium: 'bg-[#EAB308]/15 text-[#FDE047] border-[#EAB308]/40',
+  low: 'bg-sky-500/15 text-sky-300 border-sky-500/40',
+  none: 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] border-[var(--text-muted)]/30',
+  unknown: 'border-dashed border-[var(--text-muted)]/60 bg-[var(--bg-surface-raised)]/60 text-[var(--text-muted)]',
 };
 
 export default function AnalyzePage() {
@@ -238,7 +239,7 @@ export default function AnalyzePage() {
   const displayedClauses: (Clause | AnalyzedClause)[] = analyzedClauses || documentData?.clauses || [];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col selection:bg-[var(--accent-primary)] selection:text-white">
       {/* Unified App Header */}
       <AppHeader
         activeDocId={documentData?.id}
@@ -254,17 +255,17 @@ export default function AnalyzePage() {
       <main className="flex-1 p-6 md:p-12">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Subheader Title */}
-          <div className="border-b border-slate-800 pb-5">
+          <div className="border-b border-[var(--bg-surface-raised)] pb-5">
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                Phase 6 Analysis &amp; Checklist
+              <span className="text-xs uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)]">
+                Dual-Gate Analysis
               </span>
-              <span className="text-xs text-slate-500">Dual-Gate Verified Legal Co-Pilot</span>
+              <span className="text-xs text-[var(--text-muted)]">Verified Legal Co-Pilot</span>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-white mt-1">
+            <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display mt-1">
               Document Ingestion, Dual-Gate Verification &amp; Checklist
             </h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-[var(--text-muted)] mt-1">
               Extract clauses with lexical grounding (Gate 1), LLM-Judge verification (Gate 2), multilingual explanations &amp; advocate questions.
             </p>
           </div>
@@ -272,12 +273,12 @@ export default function AnalyzePage() {
         {/* Upload Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-6 space-y-5 shadow-xl"
+          className="bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl p-6 space-y-5 shadow-xl"
         >
           <div>
             <label
               htmlFor="document-file-input"
-              className="block text-sm font-medium text-slate-300 mb-2"
+              className="block text-sm font-medium text-[var(--text-primary)] mb-2"
             >
               Select Legal Document (PDF, PNG, JPG, WebP &bull; Max 10MB)
             </label>
@@ -287,11 +288,11 @@ export default function AnalyzePage() {
               accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/*"
               onChange={handleFileChange}
               disabled={loading || simplifying}
-              className="w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer bg-slate-950/60 rounded-xl border border-slate-800 p-2 cursor-pointer focus:outline-none focus:border-indigo-500"
+              className="w-full text-sm text-[var(--text-muted)] file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[var(--accent-primary)] file:text-white hover:file:bg-[var(--accent-bright)] file:cursor-pointer bg-[var(--bg-base)]/60 rounded-xl border border-[var(--bg-surface-raised)] p-2 cursor-pointer focus:outline-none focus:border-[var(--accent-primary)]"
             />
             {file && (
-              <p className="text-xs text-slate-400 mt-2">
-                Selected: <span className="font-mono text-slate-200">{file.name}</span> (
+              <p className="text-xs text-[var(--text-muted)] mt-2">
+                Selected: <span className="font-mono text-[var(--text-primary)]">{file.name}</span> (
                 {(file.size / 1024).toFixed(1)} KB)
               </p>
             )}
@@ -302,7 +303,7 @@ export default function AnalyzePage() {
               id="parse-submit-btn"
               type="submit"
               disabled={!file || loading || simplifying}
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 disabled:bg-indigo-900/40 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium shadow-md shadow-indigo-600/20 transition cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium shadow-md shadow-[var(--accent-primary)]/20 transition cursor-pointer"
             >
               {loading ? (
                 <>
@@ -317,7 +318,7 @@ export default function AnalyzePage() {
               )}
             </button>
             {loading && (
-              <span className="text-xs text-slate-400 animate-pulse">
+              <span className="text-xs text-[var(--text-muted)] animate-pulse">
                 Gemini parsing document structure into clauses...
               </span>
             )}
@@ -344,15 +345,15 @@ export default function AnalyzePage() {
         {documentData && (
           <div id="parsed-results-container" className="space-y-6 animate-in fade-in">
             {/* Top Toolbar / Simplification Trigger */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+            <div className="bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl p-6 space-y-4 shadow-xl">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <span className="text-xs text-slate-400">Active Document</span>
-                  <p className="font-mono text-base text-white font-semibold">{documentData.filename}</p>
+                  <span className="text-xs text-[var(--text-muted)]">Active Document</span>
+                  <p className="font-mono text-base text-[var(--text-primary)] font-semibold">{documentData.filename}</p>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-400">Extracted Clauses</span>
-                  <p id="clause-count-display" className="text-2xl font-bold text-indigo-400">
+                  <span className="text-xs text-[var(--text-muted)]">Extracted Clauses</span>
+                  <p id="clause-count-display" className="text-2xl font-bold text-[var(--accent-bright)]">
                     {documentData.clauses.length}
                   </p>
                 </div>
@@ -363,7 +364,7 @@ export default function AnalyzePage() {
                     id="run-simplify-btn"
                     onClick={() => handleRunSimplification()}
                     disabled={simplifying}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:bg-emerald-950 disabled:text-slate-500 text-white font-medium text-sm shadow-lg shadow-emerald-600/20 transition cursor-pointer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 text-white font-medium text-sm shadow-lg shadow-[var(--accent-primary)]/20 transition cursor-pointer"
                   >
                     {simplifying ? (
                       <>
@@ -386,9 +387,9 @@ export default function AnalyzePage() {
                   <Link
                     id="open-doc-chat-btn"
                     href={`/chat/${documentData.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 text-slate-200 hover:text-white font-medium text-sm transition"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] font-medium text-sm transition"
                   >
-                    <svg className="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-[var(--accent-bright)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     <span>Chat Q&A with Doc &rarr;</span>
@@ -397,9 +398,9 @@ export default function AnalyzePage() {
                   <Link
                     id="open-doc-compare-btn"
                     href={`/compare?docA=${documentData.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 text-slate-200 hover:text-white font-medium text-sm transition"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] font-medium text-sm transition"
                   >
-                    <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
                     <span>Compare with Another Doc &rarr;</span>
@@ -409,13 +410,13 @@ export default function AnalyzePage() {
 
               {/* Summary Metrics when Verification has run */}
               {summaryMetrics && (
-                <div id="verification-summary-banner" className="pt-4 border-t border-slate-800 flex flex-wrap items-center gap-3">
-                  <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Dual-Gate Results:</span>
-                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                <div id="verification-summary-banner" className="pt-4 border-t border-[var(--bg-surface-raised)] flex flex-wrap items-center gap-3">
+                  <span className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold">Dual-Gate Results:</span>
+                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[var(--accent-primary)]/15 text-[var(--accent-bright)] border border-[var(--accent-primary)]/40">
                     ✓ {summaryMetrics.verifiedCount} Verified
                   </span>
                   {summaryMetrics.needsReviewCount > 0 && (
-                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#EAB308]/15 text-[#FDE047] border border-[#EAB308]/40">
                       ⚠ {summaryMetrics.needsReviewCount} Needs Review (Abstained)
                     </span>
                   )}
@@ -442,7 +443,7 @@ export default function AnalyzePage() {
                 <button
                   type="button"
                   onClick={() => setShowRawJson(!showRawJson)}
-                  className="text-xs px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 cursor-pointer"
+                  className="text-xs px-3 py-1 rounded-lg bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--bg-surface-raised)] cursor-pointer"
                 >
                   {showRawJson ? 'Hide Raw JSON' : 'View Raw JSON'}
                 </button>
@@ -451,7 +452,7 @@ export default function AnalyzePage() {
 
             {/* Raw JSON viewer */}
             {showRawJson && (
-              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 overflow-x-auto text-xs font-mono text-slate-300 max-h-96">
+              <div className="bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] rounded-xl p-4 overflow-x-auto text-xs font-mono text-[var(--text-muted)] max-h-96">
                 <pre id="raw-json-output">
                   {JSON.stringify(analyzedClauses || documentData.clauses, null, 2)}
                 </pre>
@@ -476,8 +477,8 @@ export default function AnalyzePage() {
             {/* Clauses List */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-white">Clause Analysis &amp; Verification</h2>
-                <span className="text-xs text-slate-400">Every claim is grounded and dual-gate verified</span>
+                <h2 className="text-lg font-bold text-[var(--text-primary)] font-display">Clause Analysis &amp; Verification</h2>
+                <span className="text-xs text-[var(--text-muted)]">Every claim is grounded and dual-gate verified</span>
               </div>
 
               <div className="space-y-4" id="clauses-list">
@@ -489,17 +490,17 @@ export default function AnalyzePage() {
                   return (
                     <div
                       key={clauseItem.id || idx}
-                      className="clause-card bg-slate-900/70 border border-slate-800/80 rounded-2xl p-6 space-y-4 hover:border-slate-700 transition shadow-sm"
+                      className="clause-card bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl p-6 space-y-4 hover:border-[var(--accent-primary)]/40 transition shadow-sm"
                     >
                       {/* Top Badges */}
                       <div className="flex items-center justify-between gap-3 flex-wrap">
                         <div className="flex items-center gap-2">
                           {clauseItem.sectionNumber && (
-                            <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-slate-800 text-slate-300">
+                            <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-[var(--bg-surface-raised)] text-[var(--text-muted)]">
                               {clauseItem.sectionNumber}
                             </span>
                           )}
-                          <h3 className="font-semibold text-white text-base">{clauseItem.heading}</h3>
+                          <h3 className="font-bold text-[var(--text-primary)] font-display text-base">{clauseItem.heading}</h3>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -536,26 +537,26 @@ export default function AnalyzePage() {
                       {hasAnalysis && (
                         <>
                           {isVerified ? (
-                            <div className="explanation-container bg-indigo-950/25 border border-indigo-500/30 rounded-xl p-4 space-y-2.5">
-                              <div className="flex items-center gap-2 text-xs font-semibold text-indigo-300 uppercase tracking-wide">
+                            <div className="explanation-container bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/25 rounded-xl p-4 space-y-2.5">
+                              <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-bright)] uppercase tracking-wide">
                                 <span>💡 Plain-Language Meaning</span>
                               </div>
-                              <p className="clause-explanation text-sm text-slate-200 leading-relaxed font-normal">
+                              <p className="clause-explanation text-sm text-[var(--text-primary)] leading-relaxed font-normal">
                                 {analysis?.explanation}
                               </p>
                               {analysis?.risk.reason && (
-                                <div className="text-xs text-slate-400 pt-2 border-t border-indigo-500/20 flex items-start gap-1.5">
-                                  <span className="font-semibold text-indigo-300 whitespace-nowrap">Risk Context:</span>
+                                <div className="text-xs text-[var(--text-muted)] pt-2 border-t border-[var(--accent-primary)]/20 flex items-start gap-1.5">
+                                  <span className="font-semibold text-[var(--accent-bright)] whitespace-nowrap">Risk Context:</span>
                                   <span>{analysis?.risk.reason}</span>
                                 </div>
                               )}
                             </div>
                           ) : (
-                            <div className="abstention-container bg-amber-950/30 border border-amber-500/40 rounded-xl p-4 space-y-2">
-                              <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-wide">
+                            <div className="abstention-container bg-[#EAB308]/10 border border-[#EAB308]/30 rounded-xl p-4 space-y-2">
+                              <div className="flex items-center gap-2 text-xs font-semibold text-[#FDE047] uppercase tracking-wide">
                                 <span>⚠ Abstention Notice: Manual Reading Required</span>
                               </div>
-                              <p className="clause-abstention text-xs font-mono text-amber-200/90 leading-relaxed">
+                              <p className="clause-abstention text-xs font-mono text-[#FEF08A] leading-relaxed">
                                 {analysis?.verification.details ||
                                   'In accordance with NyayaLens zero-hallucination policy, automated claims were not verified against the source text. Please refer exclusively to the verbatim legal text below.'}
                               </p>
@@ -566,11 +567,11 @@ export default function AnalyzePage() {
 
                       {/* Source Clause Verbatim Box */}
                       <div className="space-y-1.5">
-                        <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                        <span className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                           Source Clause (Verbatim)
                         </span>
-                        <div className="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800/60">
-                          <p className="text-xs font-mono text-slate-300 leading-relaxed whitespace-pre-wrap">
+                        <div className="bg-[var(--bg-base)]/80 rounded-xl p-3.5 border border-[var(--bg-surface-raised)]">
+                          <p className="text-xs font-mono text-[var(--text-muted)] leading-relaxed whitespace-pre-wrap">
                             {clauseItem.rawText}
                           </p>
                         </div>

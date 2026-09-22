@@ -40,18 +40,18 @@ export default function ChecklistView({
   const langLabels = {
     en: {
       badge: 'Action Checklist',
-      lawyerSectionTitle: 'Questions for Your Legal Advocate',
-      lawyerSectionSub: 'Sharper statutory questions drafted for high-severity liabilities or unverified clauses.',
+      lawyerSectionTitle: 'Questions to Raise with Your Legal Advocate',
+      lawyerSectionSub: 'Starting points to explore with an advocate — statutory references are discussion topics to verify in context, not settled legal advice.',
       emptyTitle: 'No High or Medium Risk Items Found',
       emptySub: 'All analyzed terms appear standard, or all items have passed verification with low risk.',
-      copyLawyer: 'Copy Lawyer Questions',
+      copyLawyer: 'Copy Advocate Questions',
       copyAll: 'Copy Entire Checklist',
       copied: 'Copied!',
     },
     hi: {
       badge: 'कार्य सूची (चेकलिस्ट)',
-      lawyerSectionTitle: 'अपने कानूनी सलाहकार (वकील) से पूछने योग्य प्रश्न',
-      lawyerSectionSub: 'उच्च जोखिम और असत्यापित शर्तों के लिए विशेष कानूनी प्रश्न।',
+      lawyerSectionTitle: 'अपने कानूनी सलाहकार (वकील) से चर्चा के बिंदु',
+      lawyerSectionSub: 'वकील से परामर्श के लिए शुरुआती बिंदु — कानूनी धाराओं को परामर्श विषय के रूप में उठाएं, न कि अंतिम निष्कर्ष के रूप में।',
       emptyTitle: 'कोई उच्च या मध्यम जोखिम वाले खंड नहीं मिले',
       emptySub: 'सभी विश्लेषित शर्तें सामान्य पाई गई हैं।',
       copyLawyer: 'वकील के प्रश्न कॉपी करें',
@@ -60,8 +60,8 @@ export default function ChecklistView({
     },
     kn: {
       badge: 'ಕ್ರಿಯಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ',
-      lawyerSectionTitle: 'ನಿಮ್ಮ ವಕೀಲರನ್ನು ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು',
-      lawyerSectionSub: 'ಹೆಚ್ಚಿನ ಅಪಾಯ ಮತ್ತು ಪರಿಶೀಲನೆಗೆ ಒಳಪಡದ ಷರತ್ತುಗಳಿಗಾಗಿ ಸೂಕ್ತ ಕಾನೂನು ಪ್ರಶ್ನೆಗಳು.',
+      lawyerSectionTitle: 'ನಿಮ್ಮ ವಕೀಲರೊಂದಿಗೆ ಚರ್ಚಿಸಬೇಕಾದ ಆರಂಭಿಕ ಅಂಶಗಳು',
+      lawyerSectionSub: 'ವಕೀಲರೊಂದಿಗೆ ಸಮಾಲೋಚನೆಗೆ ಆರಂಭಿಕ ಮಾರ್ಗದರ್ಶಿ — ಶಾಸನಬದ್ಧ ಪ್ರಶ್ನೆಗಳನ್ನು ಚರ್ಚೆಯ ವಿಷಯವಾಗಿ ಪರಿಗಣಿಸಿ.',
       emptyTitle: 'ಯಾವುದೇ ಹೆಚ್ಚಿನ ಅಥವಾ ಮಧ್ಯಮ ಅಪಾಯದ ಷರತ್ತುಗಳು ಕಂಡುಬಂದಿಲ್ಲ',
       emptySub: 'ಎಲ್ಲಾ ನಿಯಮಗಳು ಸಾಮಾನ್ಯ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿ ಕಂಡುಬಂದಿವೆ.',
       copyLawyer: 'ವಕೀಲರ ಪ್ರಶ್ನೆಗಳನ್ನು ನಕಲಿಸಿ',
@@ -80,7 +80,7 @@ export default function ChecklistView({
     const text = lawyerItems
       .map(
         (item, idx) =>
-          `${idx + 1}. [${item.clauseHeading || 'Clause'}] (Risk: ${item.severity.toUpperCase()})\nQuestion: ${item.lawyerQuestion}`
+          `${idx + 1}. [${item.clauseHeading || 'Clause'}] (Risk: ${item.severity.toUpperCase()})\nQuestion for Advocate: ${item.lawyerQuestion}`
       )
       .join('\n\n');
     copyToClipboard(text, 'lawyer');
@@ -91,7 +91,7 @@ export default function ChecklistView({
       .map((item, idx) => {
         let block = `${idx + 1}. [${item.clauseHeading || 'Clause'}] [${item.completed ? 'COMPLETED' : 'PENDING'}]\nAction: ${item.checklistAction}`;
         if (item.lawyerQuestion) {
-          block += `\nLawyer Question: ${item.lawyerQuestion}`;
+          block += `\nAdvocate Question: ${item.lawyerQuestion}`;
         }
         return block;
       })
@@ -100,33 +100,33 @@ export default function ChecklistView({
   }
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+    <div className="bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl p-6 shadow-xl space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--bg-surface-raised)] pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
+            <span className="text-xs uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)]">
               {langLabels.badge}
             </span>
-            <span className="text-xs text-slate-500 font-mono">
+            <span className="text-xs text-[var(--text-muted)] font-mono">
               {items.length} {items.length === 1 ? 'Action Item' : 'Action Items'}
             </span>
           </div>
-          <h2 className="text-xl font-bold text-white mt-1.5">{title}</h2>
-          <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mt-1.5 font-display">{title}</h2>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">{subtitle}</p>
         </div>
 
         {/* Progress & Actions */}
         <div className="flex flex-wrap items-center gap-2">
           {totalCount > 0 && (
-            <div className="flex items-center gap-2 bg-slate-950/60 border border-slate-800 px-3 py-1.5 rounded-xl">
-              <div className="w-16 bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div className="flex items-center gap-2 bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] px-3 py-1.5 rounded-xl">
+              <div className="w-16 bg-[var(--bg-surface-raised)] h-2 rounded-full overflow-hidden">
                 <div
-                  className="bg-emerald-500 h-full transition-all duration-300"
+                  className="bg-[var(--accent-bright)] h-full transition-all duration-300"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
-              <span className="text-xs font-mono font-medium text-slate-300">
+              <span className="text-xs font-mono font-medium text-[var(--text-primary)]">
                 {completedCount}/{totalCount} ({progressPct}%)
               </span>
             </div>
@@ -136,7 +136,7 @@ export default function ChecklistView({
             <button
               onClick={onRegenerate}
               disabled={isLoading}
-              className="text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors disabled:opacity-50"
+              className="text-xs font-medium px-3 py-1.5 rounded-lg border border-[var(--bg-surface-raised)] bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-surface)] text-[var(--text-primary)] transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isLoading ? 'Regenerating...' : 'Regenerate'}
             </button>
@@ -145,7 +145,7 @@ export default function ChecklistView({
           {totalCount > 0 && (
             <button
               onClick={handleCopyAllChecklist}
-              className="text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+              className="text-xs font-medium px-3 py-1.5 rounded-lg border border-[var(--bg-surface-raised)] bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-surface)] text-[var(--text-primary)] transition-colors cursor-pointer"
             >
               {copiedSection === 'all' ? langLabels.copied : langLabels.copyAll}
             </button>
@@ -155,12 +155,12 @@ export default function ChecklistView({
 
       {/* Filter Tabs if items exist */}
       {totalCount > 0 && (
-        <div className="flex items-center justify-between gap-3 text-xs border-b border-slate-800/60 pb-3">
-          <div className="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-lg border border-slate-800">
+        <div className="flex items-center justify-between gap-3 text-xs border-b border-[var(--bg-surface-raised)] pb-3">
+          <div className="flex items-center gap-1.5 bg-[var(--bg-base)] p-1 rounded-lg border border-[var(--bg-surface-raised)]">
             <button
               onClick={() => setFilter('all')}
               className={`px-3 py-1 rounded-md font-medium transition-colors ${
-                filter === 'all' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                filter === 'all' ? 'bg-[var(--accent-primary)] text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               All ({totalCount})
@@ -168,7 +168,7 @@ export default function ChecklistView({
             <button
               onClick={() => setFilter('pending')}
               className={`px-3 py-1 rounded-md font-medium transition-colors ${
-                filter === 'pending' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                filter === 'pending' ? 'bg-[var(--accent-primary)] text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               Pending ({totalCount - completedCount})
@@ -176,7 +176,7 @@ export default function ChecklistView({
             <button
               onClick={() => setFilter('completed')}
               className={`px-3 py-1 rounded-md font-medium transition-colors ${
-                filter === 'completed' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                filter === 'completed' ? 'bg-[var(--accent-bright)] text-black font-semibold shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               Completed ({completedCount})
@@ -188,20 +188,20 @@ export default function ChecklistView({
       {/* Loading state */}
       {isLoading && (
         <div className="py-12 flex flex-col items-center justify-center text-center space-y-3">
-          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-sm text-slate-300 font-medium">Generating checklist &amp; lawyer questions...</p>
-          <p className="text-xs text-slate-500">Synthesizing verified terms and drafting legal questions</p>
+          <div className="w-8 h-8 border-2 border-[var(--accent-primary)] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-sm text-[var(--text-primary)] font-medium">Generating checklist &amp; advocate questions...</p>
+          <p className="text-xs text-[var(--text-muted)]">Synthesizing verified terms and drafting advocate inquiries</p>
         </div>
       )}
 
       {/* Empty State */}
       {!isLoading && items.length === 0 && (
-        <div className="py-10 px-6 rounded-xl bg-slate-950/40 border border-slate-800/80 text-center space-y-2">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-bold text-lg">
+        <div className="py-10 px-6 rounded-xl bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-center space-y-2">
+          <div className="w-10 h-10 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-bright)] mx-auto flex items-center justify-center font-bold text-lg">
             ✓
           </div>
-          <h3 className="text-sm font-semibold text-slate-200">{langLabels.emptyTitle}</h3>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">{langLabels.emptySub}</p>
+          <h3 className="text-sm font-semibold text-[var(--text-primary)]">{langLabels.emptyTitle}</h3>
+          <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">{langLabels.emptySub}</p>
         </div>
       )}
 
@@ -211,18 +211,22 @@ export default function ChecklistView({
           {displayedItems.map((item) => {
             const isHigh = item.severity === 'high';
             const isReview = item.verificationStatus === 'needs_review';
+            const hasStatuteRef = Boolean(
+              item.lawyerQuestion &&
+              /(?:section\s+\d+|act\b|statute|code|rera|transfer of property|contract act)/i.test(item.lawyerQuestion)
+            );
 
             return (
               <div
                 key={item.id}
                 className={`p-4 rounded-xl border transition-all ${
                   item.completed
-                    ? 'bg-slate-950/30 border-slate-800/50 opacity-60'
+                    ? 'bg-[var(--bg-base)]/40 border-[var(--bg-surface-raised)]/50 opacity-60'
                     : isHigh
                     ? 'bg-rose-950/10 border-rose-500/30 hover:border-rose-500/50'
                     : isReview
-                    ? 'bg-amber-950/10 border-amber-500/30 hover:border-amber-500/50'
-                    : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                    ? 'bg-[#EAB308]/5 border-[#EAB308]/30 hover:border-[#EAB308]/50'
+                    : 'bg-[var(--bg-base)]/70 border-[var(--bg-surface-raised)] hover:border-[var(--text-muted)]/40'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
@@ -230,10 +234,10 @@ export default function ChecklistView({
                   <button
                     type="button"
                     onClick={() => onToggleItem && onToggleItem(item.id)}
-                    className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center border transition-all ${
+                    className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center border transition-all cursor-pointer ${
                       item.completed
-                        ? 'bg-emerald-500 border-emerald-400 text-white'
-                        : 'border-slate-600 bg-slate-900 hover:border-indigo-400'
+                        ? 'bg-[var(--accent-bright)] border-[var(--accent-bright)] text-black font-bold'
+                        : 'border-[var(--text-muted)]/50 bg-[var(--bg-surface)] hover:border-[var(--accent-primary)]'
                     }`}
                     aria-label={`Mark ${item.clauseHeading} completed`}
                   >
@@ -246,35 +250,41 @@ export default function ChecklistView({
                       <div className="flex items-center gap-2">
                         <span
                           className={`text-sm font-semibold ${
-                            item.completed ? 'line-through text-slate-400' : 'text-slate-100'
+                            item.completed ? 'line-through text-[var(--text-muted)]' : 'text-[var(--text-primary)]'
                           }`}
                         >
                           {item.clauseHeading || 'Clause'}
                         </span>
-                        <span className="text-[10px] font-mono text-slate-500">ID: {item.clauseId}</span>
+                        <span className="text-[10px] font-mono text-[var(--text-muted)]">ID: {item.clauseId}</span>
                       </div>
 
                       <div className="flex items-center gap-1.5">
                         {/* Severity Badge */}
-                        <span
-                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
-                            item.severity === 'high'
-                              ? 'bg-rose-500/10 text-rose-300 border-rose-500/30'
-                              : item.severity === 'medium'
-                              ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                              : 'bg-blue-500/10 text-blue-300 border-blue-500/30'
-                          }`}
-                        >
-                          {item.severity.toUpperCase()} RISK
-                        </span>
+                        {item.severity === 'unknown' ? (
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded border border-dashed border-[var(--text-muted)]/60 bg-[var(--bg-surface-raised)] text-[var(--text-muted)]">
+                            UNCONFIRMED RISK
+                          </span>
+                        ) : (
+                          <span
+                            className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+                              item.severity === 'high'
+                                ? 'bg-rose-500/15 text-rose-300 border-rose-500/40'
+                                : item.severity === 'medium'
+                                ? 'bg-[#EAB308]/15 text-[#FDE047] border-[#EAB308]/40'
+                                : 'bg-sky-500/15 text-sky-300 border-sky-500/40'
+                            }`}
+                          >
+                            {item.severity.toUpperCase()} RISK
+                          </span>
+                        )}
 
                         {/* Verification Badge */}
                         {item.verificationStatus === 'verified' ? (
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-bright)] border border-[var(--accent-primary)]/30">
                             Dual-Gate Verified
                           </span>
                         ) : (
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#EAB308]/10 text-[#FDE047] border border-[#EAB308]/30">
                             Needs Review
                           </span>
                         )}
@@ -284,22 +294,29 @@ export default function ChecklistView({
                     {/* Pre-signing Action */}
                     <p
                       className={`text-sm leading-relaxed ${
-                        item.completed ? 'line-through text-slate-400' : 'text-slate-200'
+                        item.completed ? 'line-through text-[var(--text-muted)]' : 'text-[var(--text-primary)]'
                       }`}
                     >
-                      <strong className="text-indigo-300 font-medium">Action: </strong>
+                      <strong className="text-[var(--accent-warm)] font-semibold">Action: </strong>
                       {item.checklistAction}
                     </p>
 
                     {/* Lawyer Question Callout for High Severity or Needs Review */}
                     {item.lawyerQuestion && item.lawyerQuestion.trim().length > 0 && (
-                      <div className="mt-2.5 p-3 rounded-lg bg-amber-500/5 border border-amber-500/25 flex items-start gap-2.5 text-xs text-amber-200">
+                      <div className="mt-2.5 p-3 rounded-lg bg-[#EAB308]/5 border border-[#EAB308]/25 flex items-start gap-2.5 text-xs text-[#FDE047]">
                         <span className="text-base select-none">⚖️</span>
-                        <div className="space-y-0.5">
-                          <span className="font-semibold text-amber-300 uppercase tracking-wider text-[10px]">
-                            Question for Your Lawyer:
-                          </span>
-                          <p className="text-slate-300 italic leading-relaxed">
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="font-semibold text-[#EAB308] uppercase tracking-wider text-[10px]">
+                              Starting Point to Raise with Your Advocate:
+                            </span>
+                            {hasStatuteRef && (
+                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EAB308]/20 text-[#FDE047] border border-[#EAB308]/40 font-medium">
+                                Statutory discussion topic • Verify with advocate
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[var(--text-primary)] italic leading-relaxed">
                             &ldquo;{item.lawyerQuestion}&rdquo;
                           </p>
                         </div>
@@ -315,18 +332,18 @@ export default function ChecklistView({
 
       {/* Dedicated Lawyer Inquiries Digest Section */}
       {!isLoading && lawyerItems.length > 0 && (
-        <div className="mt-8 pt-6 border-t border-slate-800 space-y-4">
+        <div className="mt-8 pt-6 border-t border-[var(--bg-surface-raised)] space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-base select-none">⚖️</span>
-                <h3 className="text-base font-bold text-amber-300">{langLabels.lawyerSectionTitle}</h3>
+                <h3 className="text-base font-bold text-[#FDE047] font-display">{langLabels.lawyerSectionTitle}</h3>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">{langLabels.lawyerSectionSub}</p>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">{langLabels.lawyerSectionSub}</p>
             </div>
             <button
               onClick={handleCopyLawyerQuestions}
-              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 transition-colors self-start sm:self-auto"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-[#EAB308]/40 bg-[#EAB308]/10 hover:bg-[#EAB308]/20 text-[#FDE047] transition-colors self-start sm:self-auto cursor-pointer"
             >
               {copiedSection === 'lawyer' ? langLabels.copied : langLabels.copyLawyer}
             </button>
@@ -336,21 +353,21 @@ export default function ChecklistView({
             {lawyerItems.map((item, idx) => (
               <div
                 key={`lawyer-summary-${item.id}`}
-                className="p-3.5 rounded-xl bg-slate-950/70 border border-amber-500/20 space-y-1.5 text-xs"
+                className="p-3.5 rounded-xl bg-[var(--bg-base)] border border-[#EAB308]/25 space-y-1.5 text-xs"
               >
                 <div className="flex items-center justify-between text-[11px]">
-                  <span className="font-semibold text-slate-200">
+                  <span className="font-semibold text-[var(--text-primary)]">
                     #{idx + 1}. {item.clauseHeading || 'Clause'}
                   </span>
                   <span
                     className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                      item.severity === 'high' ? 'text-rose-400' : 'text-amber-400'
+                      item.severity === 'high' ? 'text-rose-400' : 'text-[#FDE047]'
                     }`}
                   >
                     {item.severity.toUpperCase()}
                   </span>
                 </div>
-                <p className="text-amber-100/90 italic leading-relaxed">
+                <p className="text-[var(--text-primary)]/90 italic leading-relaxed">
                   &ldquo;{item.lawyerQuestion}&rdquo;
                 </p>
               </div>

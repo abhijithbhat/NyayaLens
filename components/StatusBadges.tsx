@@ -13,29 +13,45 @@ export function VerificationBadge({
   return (
     <span
       title={details}
-      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide border ${
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide border transition-all ${
         isVerified
-          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-          : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+          ? 'bg-[var(--accent-primary)]/10 text-[var(--accent-bright)] border-[var(--accent-primary)]/40 shadow-sm'
+          : 'bg-[#EAB308]/10 text-[#FDE047] border-[#EAB308]/40'
       }`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${isVerified ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+      <span
+        className={`w-1.5 h-1.5 rounded-full ${
+          isVerified ? 'bg-[var(--accent-bright)] shadow-[0_0_6px_var(--accent-bright)]' : 'bg-[#EAB308]'
+        }`}
+      />
       {label || (isVerified ? 'Dual-Gate Verified' : 'Needs Review • Unverified')}
     </span>
   );
 }
 
 export function RiskBadge({ severity }: { severity: RiskSeverity }) {
-  const styles: Record<RiskSeverity, string> = {
-    high: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
-    medium: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
-    low: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-    none: 'bg-slate-500/20 text-slate-300 border-slate-500/40',
+  if (severity === 'unknown') {
+    return (
+      <span
+        title="Risk severity could not be verified against the source clause text."
+        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-medium border border-dashed border-[var(--text-muted)]/60 bg-[var(--bg-surface-raised)]/60 text-[var(--text-muted)] shadow-inner"
+      >
+        <span className="text-[11px] opacity-75">?</span>
+        <span>Severity Not Confirmed</span>
+      </span>
+    );
+  }
+
+  const styles: Record<Exclude<RiskSeverity, 'unknown'>, string> = {
+    high: 'bg-rose-500/15 text-rose-300 border-rose-500/40',
+    medium: 'bg-[#EAB308]/15 text-[#FDE047] border-[#EAB308]/40', // Clear gold, distinct from burnt-orange
+    low: 'bg-sky-500/15 text-sky-300 border-sky-500/40',         // Cool blue for contrast against warm palette
+    none: 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] border-[var(--text-muted)]/30',
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border ${
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border shadow-sm ${
         styles[severity] || styles.none
       }`}
     >

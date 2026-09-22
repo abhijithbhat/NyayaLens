@@ -251,7 +251,7 @@ export async function simplifyClausesBatched(
         analysis: {
           clauseId: clause.id,
           explanation: '',
-          risk: { severity: 'medium', reason: 'Processing failure' },
+          risk: { severity: 'unknown', reason: 'Processing failure' },
           verification: {
             status: 'needs_review',
             lexicalPassed: false,
@@ -326,7 +326,7 @@ export async function simplifyClausesBatched(
           clauseId: clause.id,
           explanation: '', // Strictly wiped out
           risk: {
-            severity: draft.risk.severity || 'medium',
+            severity: 'unknown',
             reason: 'Unverified claim: explanation or risk assessment could not be strictly grounded in the clause text. Manual reading required.',
           },
           verification: {

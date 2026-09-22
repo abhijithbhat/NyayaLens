@@ -26,7 +26,7 @@ export interface ParsedDocument {
   clauses: Clause[];
 }
 
-export type RiskSeverity = 'none' | 'low' | 'medium' | 'high';
+export type RiskSeverity = 'none' | 'low' | 'medium' | 'high' | 'unknown';
 export type VerificationStatus = 'verified' | 'needs_review';
 
 export interface ClauseAnalysis {

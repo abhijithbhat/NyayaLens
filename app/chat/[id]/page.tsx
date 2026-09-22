@@ -244,23 +244,23 @@ export default function DocumentChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col selection:bg-[var(--accent-primary)] selection:text-white">
       {/* Unified App Header */}
       <AppHeader activeDocId={document?.id || docId} />
 
       {/* Main Content Area */}
       <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
         {/* Left 8 Cols: Chat Feed & Input */}
-        <div className="lg:col-span-8 flex flex-col h-[calc(100vh-130px)] bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="lg:col-span-8 flex flex-col h-[calc(100vh-130px)] bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl overflow-hidden shadow-2xl">
           {/* Active Document Sub-Header */}
-          <div className="px-5 py-3 border-b border-slate-800/80 bg-slate-900/90 flex items-center justify-between">
+          <div className="px-5 py-3 border-b border-[var(--bg-surface-raised)] bg-[var(--bg-surface)] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span id="chat-header-title" className="text-xs font-semibold text-slate-200 truncate max-w-xs sm:max-w-md">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent-bright)] shadow-[0_0_6px_var(--accent-bright)]"></span>
+              <span id="chat-header-title" className="text-xs font-semibold text-[var(--text-primary)] font-display truncate max-w-xs sm:max-w-md">
                 {document?.filename || 'Loading Document...'}
               </span>
               {document && (
-                <span className="text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">
+                <span className="text-[11px] bg-[var(--bg-surface-raised)] text-[var(--text-muted)] px-2 py-0.5 rounded border border-[var(--bg-surface-raised)]">
                   {document.clauses.length} Clauses Ingested
                 </span>
               )}
@@ -272,8 +272,8 @@ export default function DocumentChatPage() {
                 href="/chat/doc-rental-agreement-a"
                 className={`px-2 py-1 rounded text-[11px] transition ${
                   docId === 'doc-rental-agreement-a'
-                    ? 'bg-indigo-600 text-white font-medium'
-                    : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[var(--accent-primary)] text-white font-medium'
+                    : 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 Agreement v1
@@ -282,8 +282,8 @@ export default function DocumentChatPage() {
                 href="/chat/doc-rental-agreement-b"
                 className={`px-2 py-1 rounded text-[11px] transition ${
                   docId === 'doc-rental-agreement-b'
-                    ? 'bg-indigo-600 text-white font-medium'
-                    : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[var(--accent-primary)] text-white font-medium'
+                    : 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 Agreement v2
@@ -295,7 +295,7 @@ export default function DocumentChatPage() {
           <div id="chat-messages-container" className="flex-1 overflow-y-auto p-5 space-y-5">
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-6">
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <div className="w-14 h-14 rounded-2xl bg-[var(--accent-primary)]/15 border border-[var(--accent-primary)]/30 flex items-center justify-center text-[var(--accent-bright)] shadow-inner">
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -306,10 +306,10 @@ export default function DocumentChatPage() {
                   </svg>
                 </div>
                 <div className="max-w-md space-y-2">
-                  <h3 className="font-semibold text-base text-slate-200">
+                  <h3 className="font-semibold text-base text-[var(--text-primary)] font-display">
                     Ask Questions Grounded in Your Agreement
                   </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                     NyayaLens retrieves the exact relevant clauses, streams an accurate plain-English answer,
                     and independently verifies every figure and statement before confirming it.
                   </p>
@@ -317,7 +317,7 @@ export default function DocumentChatPage() {
 
                 {/* Starter Prompt Chips */}
                 <div className="w-full max-w-lg space-y-2 text-left">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wider block">
                     Suggested Questions:
                   </span>
                   <div className="grid grid-cols-1 gap-2">
@@ -326,10 +326,10 @@ export default function DocumentChatPage() {
                         key={idx}
                         type="button"
                         onClick={() => handleSendMessage(prompt)}
-                        className="text-left p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 hover:border-indigo-500/40 text-xs text-slate-300 hover:text-white transition flex items-center justify-between group"
+                        className="text-left p-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] hover:border-[var(--accent-primary)]/40 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition flex items-center justify-between group cursor-pointer"
                       >
                         <span className="truncate pr-2">{prompt}</span>
-                        <span className="text-indigo-400 opacity-0 group-hover:opacity-100 transition">
+                        <span className="text-[var(--accent-bright)] opacity-0 group-hover:opacity-100 transition">
                           &rarr;
                         </span>
                       </button>
@@ -352,15 +352,15 @@ export default function DocumentChatPage() {
                     <div
                       className={`max-w-[88%] sm:max-w-[80%] rounded-2xl px-4 py-3 text-xs leading-relaxed shadow-lg ${
                         isUser
-                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none'
-                          : 'bg-slate-950/80 border border-slate-800 text-slate-200 rounded-bl-none'
+                          ? 'bg-[var(--accent-primary)] text-white rounded-br-none shadow-md'
+                          : 'bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] rounded-bl-none'
                       }`}
                     >
                       <div className="whitespace-pre-wrap">{msg.content}</div>
 
                       {/* Blinking cursor during live streaming */}
                       {!isUser && isStreaming && msg === messages[messages.length - 1] && (
-                        <span className="inline-block w-1.5 h-3.5 bg-indigo-400 ml-1 animate-pulse align-middle" />
+                        <span className="inline-block w-1.5 h-3.5 bg-[var(--accent-bright)] ml-1 animate-pulse align-middle" />
                       )}
                     </div>
 
@@ -383,7 +383,7 @@ export default function DocumentChatPage() {
                         {/* Cited Clause Tags */}
                         {msg.citedClauseIds && msg.citedClauseIds.length > 0 && (
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px] text-slate-500">Cited:</span>
+                            <span className="text-[10px] text-[var(--text-muted)]">Cited:</span>
                             {msg.citedClauseIds.map((cid) => {
                               const found = document?.clauses.find((c) => c.id === cid);
                               return (
@@ -391,7 +391,7 @@ export default function DocumentChatPage() {
                                   key={cid}
                                   type="button"
                                   onClick={() => found && setActiveCitedClause(found)}
-                                  className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-mono transition"
+                                  className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--bg-surface-raised)] font-mono transition cursor-pointer"
                                 >
                                   {found?.sectionNumber || cid}
                                 </button>
@@ -411,7 +411,7 @@ export default function DocumentChatPage() {
           {/* Chat Input Bar */}
           <form
             onSubmit={handleFormSubmit}
-            className="p-3 border-t border-slate-800 bg-slate-900/90 flex items-center gap-2"
+            className="p-3 border-t border-[var(--bg-surface-raised)] bg-[var(--bg-surface)] flex items-center gap-2"
           >
             <input
               type="text"
@@ -420,13 +420,13 @@ export default function DocumentChatPage() {
               onChange={(e) => setInputQuery(e.target.value)}
               placeholder="Ask a question about this contract (e.g. rent, deposit, termination)..."
               disabled={isStreaming || loadingDoc}
-              className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+              className="flex-1 bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] transition"
             />
             <button
               type="submit"
               id="chat-submit-btn"
               disabled={!inputQuery.trim() || isStreaming || loadingDoc}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-medium shadow-md shadow-indigo-500/20 transition flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-medium shadow-md shadow-[var(--accent-primary)]/20 transition flex items-center gap-1.5 cursor-pointer"
             >
               {isStreaming ? (
                 <>
@@ -444,43 +444,43 @@ export default function DocumentChatPage() {
         </div>
 
         {/* Right 4 Cols: Retrieved Source Clauses & Citation Inspector */}
-        <div className="lg:col-span-4 flex flex-col h-[calc(100vh-130px)] bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="px-4 py-3 border-b border-slate-800/80 bg-slate-900/90 flex items-center justify-between">
-            <h3 className="font-semibold text-xs text-slate-200 flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="lg:col-span-4 flex flex-col h-[calc(100vh-130px)] bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl overflow-hidden shadow-2xl">
+          <div className="px-4 py-3 border-b border-[var(--bg-surface-raised)] bg-[var(--bg-surface)] flex items-center justify-between">
+            <h3 className="font-semibold text-xs text-[var(--text-primary)] font-display flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5 text-[var(--accent-bright)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               <span>Retrieved Evidence</span>
             </h3>
-            <span className="text-[10px] text-slate-500">Semantic Top-5</span>
+            <span className="text-[10px] text-[var(--text-muted)]">Semantic Top-5</span>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {/* Modal/Detail for clicked active cited clause */}
             {activeCitedClause && (
-              <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/40 space-y-1.5 animate-in fade-in duration-150">
+              <div className="p-3 rounded-xl bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 space-y-1.5 animate-in fade-in duration-150">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-indigo-300">
+                  <span className="text-[11px] font-bold text-[var(--accent-bright)]">
                     Inspecting: {activeCitedClause.sectionNumber || activeCitedClause.heading}
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveCitedClause(null)}
-                    className="text-xs text-indigo-400 hover:text-white"
+                    className="text-xs text-[var(--accent-bright)] hover:text-white cursor-pointer"
                   >
                     ×
                   </button>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-mono whitespace-pre-wrap bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+                <p className="text-xs text-[var(--text-primary)] leading-relaxed font-mono whitespace-pre-wrap bg-[var(--bg-base)] p-2.5 rounded-lg border border-[var(--bg-surface-raised)]">
                   {activeCitedClause.rawText}
                 </p>
               </div>
             )}
 
             {selectedRetrievedClauses.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-500 text-xs space-y-2">
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-[var(--text-muted)] text-xs space-y-2">
                 <p>No query submitted yet.</p>
-                <p className="text-[11px] text-slate-600">
+                <p className="text-[11px] text-[var(--text-muted)]/75">
                   When you ask a question, the top 5 relevant clauses matching your question's embedding will appear here.
                 </p>
               </div>
@@ -488,24 +488,24 @@ export default function DocumentChatPage() {
               selectedRetrievedClauses.map((clause, idx) => (
                 <div
                   key={clause.id}
-                  className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 hover:border-slate-700 space-y-1.5 transition"
+                  className="p-3 rounded-xl bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] hover:border-[var(--accent-primary)]/40 space-y-1.5 transition"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-300 truncate max-w-[180px]">
+                    <span className="text-xs font-semibold text-[var(--text-primary)] truncate max-w-[180px]">
                       {clause.sectionNumber ? `${clause.sectionNumber} - ` : ''}
                       {clause.heading}
                     </span>
-                    <span className="text-[10px] bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-1.5 py-0.5 rounded">
+                    <span className="text-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-bright)] border border-[var(--accent-primary)]/25 px-1.5 py-0.5 rounded">
                       Rank #{idx + 1}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-400 line-clamp-3 leading-relaxed">
+                  <p className="text-[11px] text-[var(--text-muted)] line-clamp-3 leading-relaxed">
                     {clause.rawText}
                   </p>
                   <button
                     type="button"
                     onClick={() => setActiveCitedClause(clause)}
-                    className="text-[10px] text-indigo-400 hover:text-indigo-300 underline font-medium"
+                    className="text-[10px] text-[var(--accent-bright)] hover:underline font-medium cursor-pointer"
                   >
                     View Full Clause &rarr;
                   </button>

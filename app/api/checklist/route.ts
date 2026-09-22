@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getGeminiClient } from '@/lib/gemini';
 import { Type } from '@google/genai';
+import { lexicalOverlapCheck } from '@/lib/verify';
 import {
   ParsedDocument,
   ComparisonResult,
@@ -188,8 +189,10 @@ Instructions:
 1. For every candidate item:
    - "checklistAction": One plain, highly concrete checklist action or confirmation to request before signing (e.g., "Obtain written receipt for deposit", "Confirm whether 10% rent escalation takes effect in Month 11 or Month 12", "Request addition of a mutual 30-day notice clause").
    - "lawyerQuestion":
-     * For "high" severity OR "needs_review" status: Formulate ONE sharp, specific question phrased as something to bring to an actual advocate/lawyer (e.g., "Does this unilateral forfeiture clause violate Section 74 of the Indian Contract Act?").
-     * For "medium" severity: Provide a lawyer question only if there is genuine ambiguity, otherwise return an empty string "".
+     * For "high" severity OR "needs_review" status: Formulate ONE sharp, exploratory legal question framed explicitly as a starting point to raise with a licensed advocate (e.g., "Ask your advocate whether this unilateral forfeiture clause violates Section 74 of the Indian Contract Act or local tenancy protections.", "Ask your advocate whether the mandatory deduction for repainting can be contested if the premises are returned in good condition.").
+     * If referencing a specific statute, act, or section, frame it strictly as an exploratory inquiry for an advocate to verify in context, NEVER as a settled legal conclusion or definite verdict.
+     * All numbers, amounts (₹), timeframes, and contractual obligations in the question must be grounded strictly in the provided clause text. Do NOT hallucinate outside figures or unstated terms.
+     * For "medium" severity: Provide an exploratory lawyer question only if there is genuine ambiguity or exposure, otherwise return an empty string "".
 2. Do NOT hallucinate facts or outside terms. Base all advice strictly on the provided findings and source context.
 3. ${languageInstructions}
 4. Return a JSON array matching the exact "id" of each candidate item.
@@ -247,11 +250,29 @@ Instructions:
 
       const fallbackLawyer = isHighOrReview
         ? language === 'hi'
-          ? `वकील से पूछें: क्या यह खंड लागू करने योग्य है या एकतरफा बाध्यता है?`
+          ? `वकील से पूछें: क्या खंड "${c.clauseHeading}" में दी गई शर्तें लागू करने योग्य हैं या एकतरफा बाध्यता बनाती हैं?`
           : language === 'kn'
-          ? `ವಕೀಲರನ್ನು ಕೇಳಿ: ಈ ಷರತ್ತು ಕಾನೂನುಬದ್ಧವಾಗಿ ಜಾರಿಗೊಳಿಸಬಹುದೇ?`
-          : `Consult lawyer: Does this clause expose the signer to unilateral liability or statutory non-compliance?`
+          ? `ವಕೀಲರನ್ನು ಕೇಳಿ: "${c.clauseHeading}" ಷರತ್ತುಗಳು ಕಾನೂನುಬದ್ಧವಾಗಿ ಜಾರಿಗೊಳಿಸಬಹುದೇ ಅಥವಾ ಏಕಪಕ್ಷೀಯ ಹೊಣೆಗಾರಿಕೆಯನ್ನು ಉಂಟುಮಾಡುತ್ತವೆಯೇ?`
+          : `Ask your advocate: Does the obligation in "${c.clauseHeading}" create an unreasonable or one-sided liability under applicable law?`
         : undefined;
+
+      // Lightweight verification pass on generated lawyerQuestion:
+      // Verify numerical and key substantive terms against the clause source context
+      let finalLawyerQuestion: string | undefined = undefined;
+      if (gen?.lawyerQuestion?.trim()) {
+        const candidateQuestion = gen.lawyerQuestion.trim();
+        const passedGrounding = lexicalOverlapCheck(candidateQuestion, c.contextText);
+        if (passedGrounding) {
+          finalLawyerQuestion = candidateQuestion;
+        } else {
+          console.warn(
+            `[checklist verification] Lawyer question for ${c.id} failed lexical grounding check. Using safe fallback.`
+          );
+          finalLawyerQuestion = fallbackLawyer;
+        }
+      } else if (isHighOrReview) {
+        finalLawyerQuestion = fallbackLawyer;
+      }
 
       return {
         id: c.id,
@@ -261,7 +282,7 @@ Instructions:
         severity: c.severity,
         verificationStatus: c.verificationStatus,
         checklistAction: gen?.checklistAction || fallbackAction,
-        lawyerQuestion: gen?.lawyerQuestion?.trim() ? gen.lawyerQuestion : fallbackLawyer,
+        lawyerQuestion: finalLawyerQuestion,
         completed: false,
       };
     });

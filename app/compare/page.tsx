@@ -224,7 +224,7 @@ export default function ComparePage() {
   const unmatchedB = (comparisonResult?.unmatchedClauses || []).filter((u) => u.onlyIn === 'B');
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col selection:bg-[var(--accent-primary)] selection:text-white">
       {/* Unified App Header */}
       <AppHeader
         activeDocId={docA?.id || docB?.id}
@@ -240,13 +240,13 @@ export default function ComparePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Intro */}
         <section className="space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display">
             Contract Version Comparison & Side-by-Side Diff
           </h1>
-          <p className="text-slate-400 text-sm max-w-3xl leading-relaxed">
+          <p className="text-[var(--text-muted)] text-sm max-w-3xl leading-relaxed">
             Upload two contracts (e.g. Original vs Renewal, Landlord draft vs Tenant markup).
             NyayaLens automatically aligns clauses, identifies which party is favored, and independently verifies every diff claim
-            against <strong className="text-slate-200">both source documents</strong> before display.
+            against <strong className="text-[var(--text-primary)]">both source documents</strong> before display.
           </p>
         </section>
 
@@ -269,40 +269,40 @@ export default function ComparePage() {
         {/* Dual Upload Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Document A Box */}
-          <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-xl space-y-4">
+          <div className="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] shadow-xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xs font-bold">
+                <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center text-xs font-bold">
                   A
                 </span>
-                <h2 className="font-semibold text-slate-200">Document A (Base Version)</h2>
+                <h2 className="font-semibold text-[var(--text-primary)] font-display">Document A (Base Version)</h2>
               </div>
               {docA && (
-                <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">
+                <span className="text-xs bg-[var(--accent-primary)]/15 text-[var(--accent-bright)] border border-[var(--accent-primary)]/30 px-2 py-0.5 rounded-full font-medium">
                   {docA.clauses.length} Clauses Ready
                 </span>
               )}
             </div>
 
             {docA && (
-              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-emerald-500/30 space-y-1">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-base)]/80 border border-[var(--accent-primary)]/30 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Document</span>
-                  <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.5 rounded font-mono">
+                  <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-semibold">Active Document</span>
+                  <span className="text-[10px] text-[var(--accent-bright)] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 px-1.5 py-0.5 rounded font-mono">
                     {docA.id}
                   </span>
                 </div>
-                <p id="doc-a-filename-display" className="text-xs font-mono text-emerald-300 font-semibold truncate">
+                <p id="doc-a-filename-display" className="text-xs font-mono text-[var(--accent-bright)] font-semibold truncate">
                   {docA.filename}
                 </p>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-[var(--text-muted)]">
                   Imported and ready for comparison against Document B.
                 </p>
               </div>
             )}
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-slate-400">
+              <label className="block text-xs font-medium text-[var(--text-muted)]">
                 Select PDF or Document Image
               </label>
               <input
@@ -310,11 +310,11 @@ export default function ComparePage() {
                 id="doc-a-file-input"
                 accept=".pdf,.png,.jpg,.jpeg,.webp"
                 onChange={(e) => handleFileSelect(e, 'A')}
-                className="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700 cursor-pointer border border-slate-700/60 rounded-xl bg-slate-950/50 p-1"
+                className="block w-full text-xs text-[var(--text-muted)] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[var(--accent-primary)] file:text-white hover:file:bg-[var(--accent-bright)] cursor-pointer border border-[var(--bg-surface-raised)] rounded-xl bg-[var(--bg-base)]/60 p-1"
               />
               {fileA && (
-                <p className="text-xs text-slate-400">
-                  Selected: <span className="text-slate-200 font-medium">{fileA.name}</span> (
+                <p className="text-xs text-[var(--text-muted)]">
+                  Selected: <span className="text-[var(--text-primary)] font-medium">{fileA.name}</span> (
                   {(fileA.size / 1024).toFixed(1)} KB)
                 </p>
               )}
@@ -325,7 +325,7 @@ export default function ComparePage() {
               id="parse-doc-a-btn"
               onClick={() => handleParseDoc('A')}
               disabled={!fileA || parsingA || Boolean(docA)}
-              className="w-full py-2 px-4 rounded-xl text-xs font-medium bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white transition-all shadow-md shadow-blue-500/10 flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-medium bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--text-primary)] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {parsingA ? (
                 <>
@@ -344,23 +344,23 @@ export default function ComparePage() {
           </div>
 
           {/* Document B Box */}
-          <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-xl space-y-4">
+          <div className="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] shadow-xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/30 flex items-center justify-center text-xs font-bold">
+                <span className="w-6 h-6 rounded-full bg-[#EAB308]/20 text-[#FDE047] border border-[#EAB308]/30 flex items-center justify-center text-xs font-bold">
                   B
                 </span>
-                <h2 className="font-semibold text-slate-200">Document B (Modified / Renewal Version)</h2>
+                <h2 className="font-semibold text-[var(--text-primary)] font-display">Document B (Modified / Renewal Version)</h2>
               </div>
               {docB && (
-                <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                <span className="text-xs bg-[var(--accent-primary)]/15 text-[var(--accent-bright)] border border-[var(--accent-primary)]/30 px-2 py-0.5 rounded-full">
                   {docB.clauses.length} Clauses Parsed
                 </span>
               )}
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-slate-400">
+              <label className="block text-xs font-medium text-[var(--text-muted)]">
                 Select PDF or Document Image
               </label>
               <input
@@ -368,11 +368,11 @@ export default function ComparePage() {
                 id="doc-b-file-input"
                 accept=".pdf,.png,.jpg,.jpeg,.webp"
                 onChange={(e) => handleFileSelect(e, 'B')}
-                className="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700 cursor-pointer border border-slate-700/60 rounded-xl bg-slate-950/50 p-1"
+                className="block w-full text-xs text-[var(--text-muted)] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[var(--accent-primary)] file:text-white hover:file:bg-[var(--accent-bright)] cursor-pointer border border-[var(--bg-surface-raised)] rounded-xl bg-[var(--bg-base)]/60 p-1"
               />
               {fileB && (
-                <p className="text-xs text-slate-400">
-                  Selected: <span className="text-slate-200 font-medium">{fileB.name}</span> (
+                <p className="text-xs text-[var(--text-muted)]">
+                  Selected: <span className="text-[var(--text-primary)] font-medium">{fileB.name}</span> (
                   {(fileB.size / 1024).toFixed(1)} KB)
                 </p>
               )}
@@ -383,7 +383,7 @@ export default function ComparePage() {
               id="parse-doc-b-btn"
               onClick={() => handleParseDoc('B')}
               disabled={!fileB || parsingB || Boolean(docB)}
-              className="w-full py-2 px-4 rounded-xl text-xs font-medium bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white transition-all shadow-md shadow-violet-500/10 flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-medium bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--text-primary)] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {parsingB ? (
                 <>
@@ -403,10 +403,10 @@ export default function ComparePage() {
         </section>
 
         {/* Compare Action Button */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] shadow-xl">
           <div className="space-y-1">
-            <h3 className="font-semibold text-slate-200 text-sm">Execute Batched Comparison Pipeline</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="font-semibold text-[var(--text-primary)] font-display text-sm">Execute Batched Comparison Pipeline</h3>
+            <p className="text-xs text-[var(--text-muted)]">
               Aligns clauses &bull; Generates difference claims &bull; Two-sided verification against both source clauses in 3 batched calls
             </p>
           </div>
@@ -416,7 +416,7 @@ export default function ComparePage() {
             id="compare-action-btn"
             onClick={handleRunComparison}
             disabled={!docA || !docB || comparing}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-sm bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 disabled:opacity-40 disabled:cursor-not-allowed text-white shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-xs bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white shadow-lg shadow-[var(--accent-primary)]/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             {comparing ? (
               <>
@@ -437,44 +437,44 @@ export default function ComparePage() {
           <section id="comparison-results-container" className="space-y-6">
             {/* KPI Summary Header */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">Matched Pairs</span>
-                <p className="text-xl font-bold text-white mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">Matched Pairs</span>
+                <p className="text-xl font-bold text-[var(--text-primary)] mt-1 font-display">
                   {comparisonResult.summary.matchedCount}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">Favors Doc A</span>
-                <p className="text-xl font-bold text-blue-400 mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">Favors Doc A</span>
+                <p className="text-xl font-bold text-sky-400 mt-1 font-display">
                   {comparisonResult.summary.favorsACount}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">Favors Doc B</span>
-                <p className="text-xl font-bold text-violet-400 mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">Favors Doc B</span>
+                <p className="text-xl font-bold text-[#FDE047] mt-1 font-display">
                   {comparisonResult.summary.favorsBCount}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">Only in Doc A</span>
-                <p className="text-xl font-bold text-amber-400 mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">Only in Doc A</span>
+                <p className="text-xl font-bold text-amber-400 mt-1 font-display">
                   {comparisonResult.summary.unmatchedCountA}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">Only in Doc B</span>
-                <p className="text-xl font-bold text-purple-400 mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">Only in Doc B</span>
+                <p className="text-xl font-bold text-[var(--accent-bright)] mt-1 font-display">
                   {comparisonResult.summary.unmatchedCountB}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                <span className="text-xs text-slate-400">API Calls</span>
-                <p className="text-xl font-bold text-emerald-400 mt-1">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)]">
+                <span className="text-xs text-[var(--text-muted)]">API Calls</span>
+                <p className="text-xl font-bold text-[var(--accent-bright)] mt-1 font-display">
                   {comparisonResult.summary.apiCallsCount ?? 3}
                 </p>
               </div>
@@ -496,15 +496,15 @@ export default function ComparePage() {
             )}
 
             {/* Filter and Tab Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--bg-surface-raised)] pb-4">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setActiveTab('all')}
-                  className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors cursor-pointer ${
                     activeTab === 'all'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                      ? 'bg-[var(--accent-primary)] text-white shadow-sm'
+                      : 'bg-[var(--bg-surface)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   All Matched ({comparisonResult.matchedPairs.length})
@@ -513,10 +513,10 @@ export default function ComparePage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('unmatched')}
-                  className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors cursor-pointer ${
                     activeTab === 'unmatched'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                      ? 'bg-[var(--accent-primary)] text-white shadow-sm'
+                      : 'bg-[var(--bg-surface)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Unmatched Clauses ({comparisonResult.unmatchedClauses.length})
@@ -525,11 +525,11 @@ export default function ComparePage() {
 
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1 text-xs">
-                  <span className="text-slate-400">Filter Favors:</span>
+                  <span className="text-[var(--text-muted)]">Filter Favors:</span>
                   <select
                     value={filterFavors}
                     onChange={(e) => setFilterFavors(e.target.value as any)}
-                    className="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200"
+                    className="bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-lg px-2 py-1 text-xs text-[var(--text-primary)]"
                   >
                     <option value="ALL">All Outcomes</option>
                     <option value="A">Favors Document A</option>
@@ -541,7 +541,7 @@ export default function ComparePage() {
                 <button
                   type="button"
                   onClick={() => setShowRawJson(!showRawJson)}
-                  className="text-xs text-slate-400 hover:text-slate-200 underline"
+                  className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] underline cursor-pointer"
                 >
                   {showRawJson ? 'Hide Raw JSON' : 'View Raw JSON'}
                 </button>
@@ -550,7 +550,7 @@ export default function ComparePage() {
 
             {/* Raw JSON Debug Box */}
             {showRawJson && (
-              <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 font-mono text-xs overflow-x-auto max-h-96">
+              <div className="p-4 rounded-xl bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] font-mono text-xs overflow-x-auto max-h-96 text-[var(--text-muted)]">
                 <pre>{JSON.stringify(comparisonResult, null, 2)}</pre>
               </div>
             )}
@@ -560,26 +560,26 @@ export default function ComparePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Only in Doc A */}
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                    <h3 className="font-semibold text-amber-400 text-sm flex items-center gap-2">
+                  <div className="flex items-center justify-between pb-2 border-b border-[var(--bg-surface-raised)]">
+                    <h3 className="font-semibold text-amber-400 font-display text-sm flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
                       Only in Document A ({unmatchedA.length})
                     </h3>
-                    <span className="text-xs text-slate-400">Omitted in Document B</span>
+                    <span className="text-xs text-[var(--text-muted)]">Omitted in Document B</span>
                   </div>
 
                   {unmatchedA.length === 0 ? (
-                    <p className="text-xs text-slate-500 italic p-4 bg-slate-900/40 rounded-xl">
+                    <p className="text-xs text-[var(--text-muted)] italic p-4 bg-[var(--bg-surface)] rounded-xl border border-[var(--bg-surface-raised)]">
                       No unique clauses exclusively in Document A.
                     </p>
                   ) : (
                     unmatchedA.map((item, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-xl bg-slate-900/60 border border-amber-500/20 space-y-2"
+                        className="p-4 rounded-xl bg-[var(--bg-surface)] border border-amber-500/25 space-y-2"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-slate-200">
+                          <span className="text-xs font-semibold text-[var(--text-primary)]">
                             {item.clause.sectionNumber ? `${item.clause.sectionNumber} - ` : ''}
                             {item.clause.heading}
                           </span>
@@ -587,7 +587,7 @@ export default function ComparePage() {
                             {item.clause.category}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-300 bg-slate-950/60 p-3 rounded-lg leading-relaxed">
+                        <p className="text-xs text-[var(--text-muted)] bg-[var(--bg-base)]/80 p-3 rounded-lg leading-relaxed font-mono">
                           {item.clause.rawText}
                         </p>
                         <p className="text-[11px] text-amber-300/80">
@@ -600,37 +600,37 @@ export default function ComparePage() {
 
                 {/* Only in Doc B */}
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                    <h3 className="font-semibold text-purple-400 text-sm flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                  <div className="flex items-center justify-between pb-2 border-b border-[var(--bg-surface-raised)]">
+                    <h3 className="font-semibold text-[var(--accent-bright)] font-display text-sm flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-bright)]"></span>
                       Only in Document B ({unmatchedB.length})
                     </h3>
-                    <span className="text-xs text-slate-400">New Addition in Document B</span>
+                    <span className="text-xs text-[var(--text-muted)]">New Addition in Document B</span>
                   </div>
 
                   {unmatchedB.length === 0 ? (
-                    <p className="text-xs text-slate-500 italic p-4 bg-slate-900/40 rounded-xl">
+                    <p className="text-xs text-[var(--text-muted)] italic p-4 bg-[var(--bg-surface)] rounded-xl border border-[var(--bg-surface-raised)]">
                       No unique clauses exclusively in Document B.
                     </p>
                   ) : (
                     unmatchedB.map((item, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-xl bg-slate-900/60 border border-purple-500/20 space-y-2"
+                        className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--accent-primary)]/25 space-y-2"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-slate-200">
+                          <span className="text-xs font-semibold text-[var(--text-primary)]">
                             {item.clause.sectionNumber ? `${item.clause.sectionNumber} - ` : ''}
                             {item.clause.heading}
                           </span>
-                          <span className="text-xs bg-purple-500/10 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded">
+                          <span className="text-xs bg-[var(--accent-primary)]/10 text-[var(--accent-bright)] border border-[var(--accent-primary)]/30 px-2 py-0.5 rounded">
                             {item.clause.category}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-300 bg-slate-950/60 p-3 rounded-lg leading-relaxed">
+                        <p className="text-xs text-[var(--text-muted)] bg-[var(--bg-base)]/80 p-3 rounded-lg leading-relaxed font-mono">
                           {item.clause.rawText}
                         </p>
-                        <p className="text-[11px] text-purple-300/80">
+                        <p className="text-[11px] text-[var(--accent-bright)]/80">
                           ℹ️ This provision is newly introduced in Document B and has no precedent in Document A.
                         </p>
                       </div>
@@ -644,7 +644,7 @@ export default function ComparePage() {
             {activeTab !== 'unmatched' && (
               <div className="space-y-6">
                 {filteredPairs.length === 0 ? (
-                  <div className="p-8 text-center text-slate-500 text-sm bg-slate-900/40 rounded-2xl border border-slate-800">
+                  <div className="p-8 text-center text-[var(--text-muted)] text-sm bg-[var(--bg-surface)] rounded-2xl border border-[var(--bg-surface-raised)]">
                     No matched clauses match the current filters.
                   </div>
                 ) : (
@@ -652,10 +652,10 @@ export default function ComparePage() {
                     const isVerified = pair.verification.status === 'verified';
                     const favorsColor =
                       pair.favors === 'A'
-                        ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                        ? 'bg-sky-500/15 text-sky-300 border-sky-500/30'
                         : pair.favors === 'B'
-                        ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
-                        : 'bg-slate-700/30 text-slate-300 border-slate-600/40';
+                        ? 'bg-[#EAB308]/15 text-[#FDE047] border-[#EAB308]/30'
+                        : 'bg-[var(--bg-surface-raised)] text-[var(--text-muted)] border-[var(--text-muted)]/30';
 
                     const favorsLabel =
                       pair.favors === 'A'
@@ -667,15 +667,15 @@ export default function ComparePage() {
                     return (
                       <div
                         key={pair.id}
-                        className="rounded-2xl bg-slate-900/80 border border-slate-800 overflow-hidden shadow-lg space-y-4 p-5"
+                        className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] overflow-hidden shadow-lg space-y-4 p-5"
                       >
                         {/* Pair Header */}
-                        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+                        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--bg-surface-raised)]">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-slate-300">
+                            <span className="text-xs font-bold text-[var(--text-primary)] font-display">
                               {pair.clauseA.heading || 'Clause'} &harr; {pair.clauseB.heading || 'Clause'}
                             </span>
-                            <span className="text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">
+                            <span className="text-[11px] bg-[var(--bg-surface-raised)] text-[var(--text-muted)] px-2 py-0.5 rounded border border-[var(--bg-surface-raised)]">
                               {pair.clauseA.category}
                             </span>
                           </div>
@@ -703,28 +703,28 @@ export default function ComparePage() {
                         </div>
 
                         {/* Verified Diff Summary Box */}
-                        <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
-                          <span className="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">
+                        <div className="p-4 rounded-xl bg-[var(--bg-base)]/80 border border-[var(--bg-surface-raised)] space-y-2">
+                          <span className="text-[11px] font-semibold tracking-wider text-[var(--text-muted)] uppercase">
                             Difference Analysis
                           </span>
 
                           {isVerified && pair.difference ? (
                             <>
-                              <p className="text-xs text-slate-200 leading-relaxed font-medium">
+                              <p className="text-xs text-[var(--text-primary)] leading-relaxed font-medium">
                                 {pair.difference}
                               </p>
                               {pair.favorsReason && (
-                                <p className="text-[11px] text-slate-400">
-                                  <strong className="text-slate-300">Rationale:</strong> {pair.favorsReason}
+                                <p className="text-[11px] text-[var(--text-muted)]">
+                                  <strong className="text-[var(--text-primary)]">Rationale:</strong> {pair.favorsReason}
                                 </p>
                               )}
                             </>
                           ) : (
-                            <div className="rounded-lg bg-amber-950/30 border border-amber-500/20 p-3 space-y-1">
-                              <p className="text-xs text-amber-300 font-medium">
+                            <div className="rounded-lg bg-[#EAB308]/10 border border-[#EAB308]/25 p-3 space-y-1">
+                              <p className="text-xs text-[#FDE047] font-medium">
                                 Needs review &bull; No comparison shown
                               </p>
-                              <p className="text-[11px] text-amber-200/70 leading-relaxed">
+                              <p className="text-[11px] text-[#FEF08A]/75 leading-relaxed">
                                 {pair.verification.details || 'Diff claim could not be independently verified against both source clauses and was suppressed per strict safety policy.'}
                               </p>
                             </div>
@@ -734,23 +734,23 @@ export default function ComparePage() {
                         {/* Side-by-Side Clause Texts */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
                           {/* Clause A */}
-                          <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-900/30 space-y-2">
-                            <div className="flex items-center justify-between text-xs text-blue-400 font-semibold">
+                          <div className="p-4 rounded-xl bg-sky-950/20 border border-sky-900/30 space-y-2">
+                            <div className="flex items-center justify-between text-xs text-sky-400 font-semibold">
                               <span>Document A: {pair.clauseA.sectionNumber || 'Clause'}</span>
-                              <span className="text-[10px] text-slate-400">{pair.clauseA.id}</span>
+                              <span className="text-[10px] text-[var(--text-muted)]">{pair.clauseA.id}</span>
                             </div>
-                            <p className="text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+                            <p className="text-xs text-[var(--text-muted)] leading-relaxed font-mono whitespace-pre-wrap">
                               {pair.clauseA.rawText}
                             </p>
                           </div>
 
                           {/* Clause B */}
-                          <div className="p-4 rounded-xl bg-violet-950/20 border border-violet-900/30 space-y-2">
-                            <div className="flex items-center justify-between text-xs text-violet-400 font-semibold">
+                          <div className="p-4 rounded-xl bg-[#EAB308]/10 border border-[#EAB308]/25 space-y-2">
+                            <div className="flex items-center justify-between text-xs text-[#FDE047] font-semibold">
                               <span>Document B: {pair.clauseB.sectionNumber || 'Clause'}</span>
-                              <span className="text-[10px] text-slate-400">{pair.clauseB.id}</span>
+                              <span className="text-[10px] text-[var(--text-muted)]">{pair.clauseB.id}</span>
                             </div>
-                            <p className="text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+                            <p className="text-xs text-[var(--text-muted)] leading-relaxed font-mono whitespace-pre-wrap">
                               {pair.clauseB.rawText}
                             </p>
                           </div>
