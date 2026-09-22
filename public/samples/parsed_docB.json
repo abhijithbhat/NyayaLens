@@ -1,0 +1,77 @@
+{
+  "id": "doc-rental-agreement-b",
+  "filename": "sample_rental_agreement_v2.pdf",
+  "uploadedAt": "2026-08-01T10:05:00.000Z",
+  "clauses": [
+    {
+      "id": "clause-1",
+      "sectionNumber": "Clause 1",
+      "heading": "Term and Duration",
+      "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension shall be subject to mutual written consent of both parties executed at least 30 days prior to expiration.",
+      "category": "Other"
+    },
+    {
+      "id": "clause-2",
+      "sectionNumber": "Clause 2",
+      "heading": "Monthly Rent and Maintenance",
+      "rawText": "The Lessee agrees to pay a monthly rent of Rs. 42,000/- (Rupees Forty-Two Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 1,000/- per week of delay.",
+      "category": "Payment"
+    },
+    {
+      "id": "clause-3",
+      "sectionNumber": "Clause 3",
+      "heading": "Security Deposit",
+      "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 2,00,000/- (Rupees Two Lakhs only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 15 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent and utility dues.",
+      "category": "Deposit"
+    },
+    {
+      "id": "clause-4",
+      "sectionNumber": "Clause 4",
+      "heading": "Lock-in Period and Notice for Termination",
+      "rawText": "Both parties agree to a Lock-in Period of 3 (three) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 1 (one) month's prior written notice or by paying 1 month's rent in lieu thereof.",
+      "category": "Termination"
+    },
+    {
+      "id": "clause-5",
+      "sectionNumber": "Clause 5",
+      "heading": "Utility and Consumption Charges",
+      "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+      "category": "Payment"
+    },
+    {
+      "id": "clause-6",
+      "sectionNumber": "Clause 6",
+      "heading": "Repairs, Damages, and Indemnity",
+      "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+      "category": "Liability"
+    },
+    {
+      "id": "clause-7",
+      "sectionNumber": "Clause 7",
+      "heading": "Prohibited Activities and Subletting",
+      "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises to third parties is strictly prohibited.",
+      "category": "Other"
+    },
+    {
+      "id": "clause-8",
+      "sectionNumber": "Clause 8",
+      "heading": "Immediate Termination and Eviction",
+      "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal activities, the Lessor reserves the right to terminate this agreement forthwith and re-enter and take possession of the premises.",
+      "category": "Termination"
+    },
+    {
+      "id": "clause-9",
+      "sectionNumber": "Clause 9",
+      "heading": "Governing Law and Jurisdiction",
+      "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+      "category": "Other"
+    },
+    {
+      "id": "clause-10",
+      "sectionNumber": "Clause 10",
+      "heading": "Pet Policy and Animal Regulations",
+      "rawText": "Keeping of any domestic animals or pets, including dogs, cats, or birds, within the Scheduled Premises is strictly prohibited under all circumstances without exception. Any unauthorized keeping of pets will lead to immediate lease cancellation and a penalty of Rs. 25,000/-.",
+      "category": "Other"
+    }
+  ]
+}

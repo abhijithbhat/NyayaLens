@@ -153,6 +153,28 @@ export default function AnalyzePage() {
     }
   }
 
+  async function handleLoadSample() {
+    setLoading(true);
+    setError(null);
+    setAnalyzedClauses(null);
+    setSummaryMetrics(null);
+    try {
+      const sample = await import('@/samples/parsed_docA.json');
+      const doc = sample.default as ParsedDocument;
+      setDocumentData(doc);
+      try {
+        sessionStorage.setItem(`nyayalens_doc_${doc.id}`, JSON.stringify(doc));
+        sessionStorage.setItem('nyayalens_active_doc_id', doc.id);
+      } catch {
+        // ignore quota errors
+      }
+    } catch {
+      setError('Could not load sample rental agreement.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleRunSimplification(overrideLang?: Language) {
     if (!documentData) return;
 
@@ -322,6 +344,28 @@ export default function AnalyzePage() {
                 Gemini parsing document structure into clauses...
               </span>
             )}
+          </div>
+
+          {/* Sample contract helper */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[var(--bg-surface-raised)] text-xs text-[var(--text-muted)]">
+            <span>
+              Don&apos;t have a file ready?{' '}
+              <a
+                href="/samples/sample_rental_agreement.pdf"
+                download="sample_rental_agreement.pdf"
+                className="text-[var(--accent-bright)] underline hover:text-white font-medium"
+              >
+                Download Sample Rental Agreement (PDF)
+              </a>
+            </span>
+            <button
+              type="button"
+              onClick={handleLoadSample}
+              disabled={loading || simplifying}
+              className="px-3 py-1.5 rounded-lg bg-[var(--bg-surface-raised)] hover:bg-[var(--accent-primary)]/20 text-[var(--text-primary)] hover:text-[var(--accent-bright)] border border-[var(--bg-surface-raised)] font-medium transition cursor-pointer"
+            >
+              ⚡ Load Sample Agreement
+            </button>
           </div>
         </form>
 
