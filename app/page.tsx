@@ -140,7 +140,7 @@ export default function Home() {
           </div>
 
           {/* Card 2: Contract Comparison (Side-by-Side Diff Motif) */}
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] hover:border-sky-500/40 p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl">
+          <div className="relative rounded-2xl bg-[var(--bg-surface)] border-2 border-sky-500/40 hover:border-sky-400 p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl hover:shadow-sky-500/10">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center shadow-inner">
@@ -182,14 +182,14 @@ export default function Home() {
             <Link
               id="go-to-compare-link"
               href="/compare"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-sky-500/20 text-[var(--text-primary)] hover:text-white border border-[var(--bg-surface-raised)] hover:border-sky-500/40 font-medium text-xs transition cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-sky-500/15 hover:bg-sky-500 text-sky-200 hover:text-white border border-sky-500/40 font-semibold text-xs shadow-lg shadow-sky-500/10 transition cursor-pointer"
             >
               <span>Compare Contracts &rarr;</span>
             </Link>
           </div>
 
           {/* Card 3: Grounded Chat Q&A (Conversational Preview Motif) */}
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] hover:border-[#EAB308]/40 p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl">
+          <div className="relative rounded-2xl bg-[var(--bg-surface)] border-2 border-[#EAB308]/40 hover:border-[#EAB308] p-6 flex flex-col justify-between space-y-6 transition-all group shadow-xl hover:shadow-[#EAB308]/10">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="w-12 h-12 rounded-xl bg-[#EAB308]/10 border border-[#EAB308]/25 text-[#FDE047] flex items-center justify-center shadow-inner">
@@ -230,10 +230,10 @@ export default function Home() {
 
             <Link
               id="go-to-chat-link"
-              href="/analyze"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[#EAB308]/20 text-[var(--text-primary)] hover:text-white border border-[var(--bg-surface-raised)] hover:border-[#EAB308]/40 font-medium text-xs transition cursor-pointer"
+              href="/chat"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#EAB308]/15 hover:bg-[#EAB308] text-[#FDE047] hover:text-[#14100D] border border-[#EAB308]/40 font-semibold text-xs shadow-lg shadow-[#EAB308]/10 transition cursor-pointer"
             >
-              <span>Upload to Start Q&A &rarr;</span>
+              <span>Start Contract Q&A &rarr;</span>
             </Link>
           </div>
         </div>

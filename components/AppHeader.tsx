@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -10,14 +11,25 @@ interface AppHeaderProps {
 
 export default function AppHeader({ activeDocId, extraControls }: AppHeaderProps) {
   const pathname = usePathname();
+  const [docId, setDocId] = useState<string | undefined>(activeDocId);
+
+  useEffect(() => {
+    if (activeDocId) {
+      setDocId(activeDocId);
+    } else if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('nyayalens_active_doc_id');
+      if (stored) setDocId(stored);
+    }
+  }, [activeDocId]);
 
   const isHome = pathname === '/';
   const isAnalyze = pathname?.startsWith('/analyze');
   const isCompare = pathname?.startsWith('/compare');
   const isChat = pathname?.startsWith('/chat');
 
-  const chatHref = activeDocId ? `/chat/${activeDocId}` : '/analyze';
-  const compareHref = activeDocId ? `/compare?docA=${activeDocId}` : '/compare';
+  // If a document is active in session, chat with it; otherwise open sample contract Q&A
+  const chatHref = docId ? `/chat/${docId}` : '/chat/doc-rental-agreement-a';
+  const compareHref = docId ? `/compare?docA=${docId}` : '/compare';
 
   return (
     <header className="border-b border-[var(--bg-surface-raised)] bg-[var(--bg-surface)]/80 backdrop-blur-md sticky top-0 z-40">
