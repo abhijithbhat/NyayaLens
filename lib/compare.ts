@@ -11,15 +11,7 @@ import {
 } from '@/lib/types';
 import { LlmJudgeResult } from '@/lib/verify';
 
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 
 const STOP_WORDS = new Set([
   'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'aren\'t', 'as', 'at',
@@ -263,7 +255,7 @@ Matching Guidelines:
     unmatchedB: string[];
   } = { matchedPairs: [], unmatchedA: [], unmatchedB: [] };
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       console.log(`[compare] Call 1 (Alignment) attempting with model: ${model}...`);
       apiCallsCount++;
@@ -397,7 +389,7 @@ Instructions for each pair:
     favorsReason: string;
   }> = [];
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       console.log(`[compare] Call 2 (Diff Generation) attempting with model: ${model} on ${validMatchedPairs.length} pairs...`);
       apiCallsCount++;
@@ -523,7 +515,7 @@ Verification Rules:
 
   const judgeVerdicts = new Map<string, LlmJudgeResult>();
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       console.log(`[compare] Call 3 (Verification Judge) attempting with model: ${model} on ${judgeInputItems.length} diff claims...`);
       apiCallsCount++;

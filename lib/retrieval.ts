@@ -1,11 +1,6 @@
 import { getGeminiClient } from '@/lib/gemini';
 import { Clause, ClauseEmbedding, RelevantClauseMatch } from '@/lib/types';
-
-const EMBEDDING_MODELS = [
-  'gemini-embedding-001',
-  'gemini-embedding-2',
-  'gemini-embedding-2-preview',
-];
+import { EMBEDDING_MODELS } from '@/lib/models';
 
 /**
  * Calculates cosine similarity between two numerical vectors.

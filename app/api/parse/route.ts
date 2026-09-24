@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getGeminiClient } from '@/lib/gemini';
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 import { Type } from '@google/genai';
 import { Clause, ParsedDocument, ParseApiResponse } from '@/lib/types';
 import crypto from 'crypto';
@@ -12,16 +13,6 @@ const ALLOWED_MIME_TYPES = [
 ];
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
-
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
 
 const PARSE_PROMPT = `
 You are an expert legal document parser.
@@ -118,13 +109,29 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
     }
 
     const bytes = await file.arrayBuffer();
+
+    // Validate PDF magic bytes if PDF is claimed
+    if (mimeType === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+      const header = Buffer.from(bytes.slice(0, 5)).toString('utf-8');
+      if (!header.startsWith('%PDF-')) {
+        return NextResponse.json(
+          {
+            status: 'error',
+            code: 'CORRUPTED_FILE',
+            message: 'The uploaded file is corrupted or not a valid PDF document (missing PDF header).',
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const base64Data = Buffer.from(bytes).toString('base64');
 
     const ai = getGeminiClient();
     let rawOutput = '';
     let lastError: Error | null = null;
 
-    for (const model of CANDIDATE_MODELS) {
+    for (const model of DEFAULT_MODEL_CASCADE) {
       try {
         const response = await ai.models.generateContent({
           model,
@@ -177,8 +184,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
       return NextResponse.json(
         {
           status: 'error',
-          code: 'EMPTY_DOCUMENT',
-          message: 'The document could not be parsed into recognizable legal clauses or is empty.',
+          code: 'INSUFFICIENT_CONTENT',
+          message: 'Not enough legal content to analyze. The document contains no recognizable contractual terms or clauses.',
         },
         { status: 422 }
       );
@@ -197,8 +204,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
       return NextResponse.json(
         {
           status: 'error',
-          code: 'EMPTY_DOCUMENT',
-          message: 'No readable text clauses could be extracted from the document.',
+          code: 'INSUFFICIENT_CONTENT',
+          message: 'Not enough legal content to analyze. No readable text clauses could be extracted from the document.',
         },
         { status: 422 }
       );
@@ -217,14 +224,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
     });
   } catch (error: unknown) {
     console.error('Parse API error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown server error';
+    const rawMsg = error instanceof Error ? error.message : 'Unknown server error';
+    const isServiceDown =
+      rawMsg.includes('503') ||
+      rawMsg.includes('UNAVAILABLE') ||
+      rawMsg.includes('high demand') ||
+      rawMsg.includes('Failed to generate') ||
+      rawMsg.includes('temporarily');
+
+    const userMessage = isServiceDown
+      ? 'AI services are temporarily unavailable. Please try again in a few moments.'
+      : `Ingestion failed: ${rawMsg}`;
+
     return NextResponse.json(
       {
         status: 'error',
-        code: 'API_ERROR',
-        message: `Ingestion failed: ${errorMessage}`,
+        code: isServiceDown ? 'SERVICE_UNAVAILABLE' : 'API_ERROR',
+        message: userMessage,
       },
-      { status: 500 }
+      { status: isServiceDown ? 503 : 500 }
     );
   }
 }

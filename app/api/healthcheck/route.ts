@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getGeminiClient } from '@/lib/gemini';
-
-const CANDIDATE_MODELS = [
-  process.env.GEMINI_MODEL,
-  'gemini-3.5-flash',
-  'gemini-3.7-flash',
-  'gemini-3.6-flash',
-  'gemini-flash-latest',
-].filter(Boolean) as string[];
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 
 export async function GET() {
   try {
@@ -16,7 +9,7 @@ export async function GET() {
     let usedModel = '';
     let responseText = '';
 
-    for (const model of CANDIDATE_MODELS) {
+    for (const model of DEFAULT_MODEL_CASCADE) {
       try {
         const response = await ai.models.generateContent({
           model,

@@ -24,15 +24,7 @@ const STOP_WORDS = new Set([
   'means', 'stipulates', 'states', 'notes', 'specifies', 'requires', 'provides', 'clause'
 ]);
 
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 
 /**
  * Gate 1: Lexical and numerical overlap check.
@@ -167,7 +159,7 @@ Verification Rules:
   const ai = getGeminiClient();
   let lastError: Error | null = null;
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       const callPromise = ai.models.generateContent({
         model,
@@ -290,7 +282,7 @@ Verification Rules for each item:
   const ai = getGeminiClient();
   let lastError: Error | null = null;
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       const callPromise = ai.models.generateContent({
         model,

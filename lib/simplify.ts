@@ -3,15 +3,7 @@ import { Type } from '@google/genai';
 import { Clause, AnalyzedClause, RiskSeverity, Language } from '@/lib/types';
 import { lexicalOverlapCheck, batchLlmJudgeCheck, BatchJudgeItem } from '@/lib/verify';
 
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 
 const batchedAnalysisResponseSchema = {
   type: Type.ARRAY,
@@ -125,7 +117,7 @@ Instructions:
   let lastError: Error | null = null;
   let apiCalls = 0;
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of DEFAULT_MODEL_CASCADE) {
     try {
       apiCalls++;
       const response = await ai.models.generateContent({

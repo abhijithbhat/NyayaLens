@@ -13,15 +13,7 @@ import {
   VerificationStatus,
 } from '@/lib/types';
 
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
+import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 
 const checklistResponseSchema = {
   type: Type.ARRAY,
@@ -202,7 +194,7 @@ Instructions:
     let generatedItems: { id: string; checklistAction: string; lawyerQuestion?: string }[] = [];
     let lastError: Error | null = null;
 
-    for (const model of CANDIDATE_MODELS) {
+    for (const model of DEFAULT_MODEL_CASCADE) {
       try {
         const response = await ai.models.generateContent({
           model,

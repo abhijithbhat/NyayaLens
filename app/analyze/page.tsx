@@ -78,6 +78,17 @@ export default function AnalyzePage() {
     }
   }, []);
 
+  const [chatNotice, setChatNotice] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('notice') === 'chat_requires_document') {
+        setChatNotice(true);
+      }
+    }
+  }, []);
+
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     setError(null);
     setDocumentData(null);
@@ -291,6 +302,24 @@ export default function AnalyzePage() {
               Extract clauses with lexical grounding (Gate 1), LLM-Judge verification (Gate 2), multilingual explanations &amp; advocate questions.
             </p>
           </div>
+
+          {/* Invitation banner for visitors redirected from bare /chat */}
+          {chatNotice && !documentData && (
+            <div
+              id="chat-redirect-notice"
+              className="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-4 text-amber-200 flex items-start gap-3 shadow-lg animate-in fade-in"
+            >
+              <span className="text-xl">💬</span>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-[var(--accent-warm)]">
+                  Welcome to Grounded Contract Q&amp;A
+                </p>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                  NyayaLens verifies every answer against exact contract clauses. Please upload your agreement below, or click <strong className="text-amber-300">⚡ Load Sample Agreement</strong> to start asking questions immediately!
+                </p>
+              </div>
+            </div>
+          )}
 
         {/* Upload Form */}
         <form

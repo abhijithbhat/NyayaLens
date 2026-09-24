@@ -152,7 +152,15 @@ export interface ParseApiResponse {
   status: 'success' | 'error';
   data?: ParsedDocument;
   message?: string;
-  code?: 'INVALID_FILE_TYPE' | 'FILE_TOO_LARGE' | 'SCHEMA_MISMATCH' | 'EMPTY_DOCUMENT' | 'API_ERROR';
+  code?:
+    | 'INVALID_FILE_TYPE'
+    | 'FILE_TOO_LARGE'
+    | 'SCHEMA_MISMATCH'
+    | 'EMPTY_DOCUMENT'
+    | 'API_ERROR'
+    | 'CORRUPTED_FILE'
+    | 'INSUFFICIENT_CONTENT'
+    | 'SERVICE_UNAVAILABLE';
 }
 
 export interface HealthcheckResponse {

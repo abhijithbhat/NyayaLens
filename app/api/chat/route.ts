@@ -4,15 +4,7 @@ import { ParsedDocument, ClauseEmbedding, VerificationStatus, Clause } from '@/l
 import { findRelevantClauses, embedAllClauses } from '@/lib/retrieval';
 import { lexicalOverlapCheck, llmJudgeCheck } from '@/lib/verify';
 
-const CANDIDATE_MODELS = Array.from(
-  new Set([
-    process.env.GEMINI_MODEL,
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3-flash-preview',
-    'gemini-3.6-flash',
-  ])
-).filter(Boolean) as string[];
+import { CHAT_STREAMING_MODELS } from '@/lib/models';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
@@ -97,9 +89,9 @@ STRICT INSTRUCTIONS:
 
           const ai = getGeminiClient();
           let streamResponse: any = null;
-          let activeModel = CANDIDATE_MODELS[0];
+          let activeModel = CHAT_STREAMING_MODELS[0];
 
-          for (const model of CANDIDATE_MODELS) {
+          for (const model of CHAT_STREAMING_MODELS) {
             try {
               streamResponse = await ai.models.generateContentStream({
                 model,
