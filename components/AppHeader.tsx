@@ -27,9 +27,9 @@ export default function AppHeader({ activeDocId, extraControls }: AppHeaderProps
   const isCompare = pathname?.startsWith('/compare');
   const isChat = pathname?.startsWith('/chat');
 
-  // If a document is active in session, chat with it; otherwise open sample contract Q&A
-  const chatHref = docId ? `/chat/${docId}` : '/chat/doc-rental-agreement-a';
-  const compareHref = docId ? `/compare?docA=${docId}` : '/compare';
+  // If a document is active, route to its chat; otherwise invite user to /analyze to upload
+  const chatHref = activeDocId ? `/chat/${activeDocId}` : '/analyze';
+  const compareHref = activeDocId ? `/compare?docA=${activeDocId}` : '/compare';
 
   return (
     <header className="border-b border-[var(--bg-surface-raised)] bg-[var(--bg-surface)]/80 backdrop-blur-md sticky top-0 z-40">

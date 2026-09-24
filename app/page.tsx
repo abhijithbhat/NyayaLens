@@ -230,10 +230,10 @@ export default function Home() {
 
             <Link
               id="go-to-chat-link"
-              href="/chat"
+              href="/analyze"
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#EAB308]/15 hover:bg-[#EAB308] text-[#FDE047] hover:text-[#14100D] border border-[#EAB308]/40 font-semibold text-xs shadow-lg shadow-[#EAB308]/10 transition cursor-pointer"
             >
-              <span>Start Contract Q&A &rarr;</span>
+              <span>Upload to Start Q&A &rarr;</span>
             </Link>
           </div>
         </div>
