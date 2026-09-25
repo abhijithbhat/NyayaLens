@@ -336,6 +336,7 @@ export default function AnalyzePage() {
             <input
               id="document-file-input"
               type="file"
+              aria-label="Upload legal document file"
               accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/*"
               onChange={handleFileChange}
               disabled={loading || simplifying}
@@ -354,11 +355,12 @@ export default function AnalyzePage() {
               id="parse-submit-btn"
               type="submit"
               disabled={!file || loading || simplifying}
+              aria-label={loading ? "Segmenting clauses..." : "Upload and ingest document"}
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium shadow-md shadow-[var(--accent-primary)]/20 transition cursor-pointer"
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                  <svg className="animate-spin h-4 w-4 text-white" aria-hidden="true" viewBox="0 0 24 24" fill="none">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
@@ -391,6 +393,7 @@ export default function AnalyzePage() {
               type="button"
               onClick={handleLoadSample}
               disabled={loading || simplifying}
+              aria-label="Load pre-parsed sample rental agreement"
               className="px-3 py-1.5 rounded-lg bg-[var(--bg-surface-raised)] hover:bg-[var(--accent-primary)]/20 text-[var(--text-primary)] hover:text-[var(--accent-bright)] border border-[var(--bg-surface-raised)] font-medium transition cursor-pointer"
             >
               ⚡ Load Sample Agreement
@@ -405,7 +408,7 @@ export default function AnalyzePage() {
             className="rounded-xl bg-rose-950/40 border border-rose-500/40 p-4 text-rose-300 space-y-1 animate-in fade-in"
           >
             <div className="flex items-center gap-2 font-semibold text-sm text-rose-400">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>Error</span>
@@ -437,11 +440,12 @@ export default function AnalyzePage() {
                     id="run-simplify-btn"
                     onClick={() => handleRunSimplification()}
                     disabled={simplifying}
+                    aria-label="Run AI Simplification & Dual-Gate Verification"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 text-white font-medium text-sm shadow-lg shadow-[var(--accent-primary)]/20 transition cursor-pointer"
                   >
                     {simplifying ? (
                       <>
-                        <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                        <svg className="animate-spin h-4 w-4 text-white" aria-hidden="true" viewBox="0 0 24 24" fill="none">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
@@ -449,7 +453,7 @@ export default function AnalyzePage() {
                       </>
                     ) : (
                       <>
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span>Run AI Simplification & Dual-Gate Verification</span>
@@ -460,9 +464,10 @@ export default function AnalyzePage() {
                   <Link
                     id="open-doc-chat-btn"
                     href={`/chat/${documentData.id}`}
+                    aria-label="Open Chat Q&A with Document"
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] font-medium text-sm transition"
                   >
-                    <svg className="w-4 h-4 text-[var(--accent-bright)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-[var(--accent-bright)]" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     <span>Chat Q&A with Doc &rarr;</span>
@@ -471,13 +476,15 @@ export default function AnalyzePage() {
                   <Link
                     id="open-doc-compare-btn"
                     href={`/compare?docA=${documentData.id}`}
+                    aria-label="Compare Document with Another Document"
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] font-medium text-sm transition"
                   >
-                    <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-sky-400" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
                     <span>Compare with Another Doc &rarr;</span>
                   </Link>
+
                 </div>
               </div>
 

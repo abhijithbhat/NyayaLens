@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getGeminiClient } from '@/lib/gemini';
 import { Type } from '@google/genai';
 import { lexicalOverlapCheck } from '@/lib/verify';
+import { errorResponse } from '@/lib/apiError';
 import {
   ParsedDocument,
   ComparisonResult,
@@ -298,12 +299,10 @@ Instructions:
     });
   } catch (error: unknown) {
     console.error('Checklist generation route error:', error);
-    return NextResponse.json(
-      {
-        status: 'error',
-        message: error instanceof Error ? error.message : 'Internal error during checklist generation',
-      },
-      { status: 500 }
+    return errorResponse(
+      'CHECKLIST_FAILED',
+      error instanceof Error ? error.message : 'Internal error during checklist generation',
+      500
     );
   }
 }

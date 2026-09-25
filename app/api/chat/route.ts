@@ -3,10 +3,16 @@ import { getGeminiClient } from '@/lib/gemini';
 import { ParsedDocument, ClauseEmbedding, VerificationStatus, Clause } from '@/lib/types';
 import { findRelevantClauses, embedAllClauses } from '@/lib/retrieval';
 import { lexicalOverlapCheck, llmJudgeCheck } from '@/lib/verify';
-
 import { CHAT_STREAMING_MODELS } from '@/lib/models';
+import { checkRateLimit, rateLimitResponse } from '@/lib/rateLimit';
+import { errorResponse } from '@/lib/apiError';
 
 export async function POST(req: NextRequest): Promise<Response> {
+  const rateLimit = checkRateLimit(req);
+  if (!rateLimit.allowed) {
+    return rateLimitResponse(rateLimit);
+  }
+
   try {
     const body = await req.json();
     const { document, question, clauseEmbeddings } = body as {
@@ -16,17 +22,11 @@ export async function POST(req: NextRequest): Promise<Response> {
     };
 
     if (!document || !Array.isArray(document.clauses) || document.clauses.length === 0) {
-      return new Response(JSON.stringify({ error: 'Valid document with clauses is required.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return errorResponse('INVALID_DOCUMENT', 'Valid document with clauses is required.', 400);
     }
 
     if (!question || !question.trim()) {
-      return new Response(JSON.stringify({ error: 'Question cannot be empty.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return errorResponse('EMPTY_QUESTION', 'Question cannot be empty.', 400);
     }
 
     // 1. Semantic Retrieval: Retrieve top 5 most relevant clauses
@@ -215,9 +215,10 @@ STRICT INSTRUCTIONS:
     });
   } catch (err: unknown) {
     console.error('Chat API error:', err);
-    return new Response(
-      JSON.stringify({ error: err instanceof Error ? err.message : 'Unknown chat error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return errorResponse(
+      'CHAT_ERROR',
+      err instanceof Error ? err.message : 'Unknown chat error',
+      500
     );
   }
 }

@@ -296,7 +296,7 @@ export default function DocumentChatPage() {
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-6">
                 <div className="w-14 h-14 rounded-2xl bg-[var(--accent-primary)]/15 border border-[var(--accent-primary)]/30 flex items-center justify-center text-[var(--accent-bright)] shadow-inner">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -355,14 +355,17 @@ export default function DocumentChatPage() {
                           ? 'bg-[var(--accent-primary)] text-white rounded-br-none shadow-md'
                           : 'bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] text-[var(--text-primary)] rounded-bl-none'
                       }`}
+                      aria-live={!isUser ? 'polite' : undefined}
+                      aria-atomic={false}
                     >
                       <div className="whitespace-pre-wrap">{msg.content}</div>
 
                       {/* Blinking cursor during live streaming */}
                       {!isUser && isStreaming && msg === messages[messages.length - 1] && (
-                        <span className="inline-block w-1.5 h-3.5 bg-[var(--accent-bright)] ml-1 animate-pulse align-middle" />
+                        <span className="inline-block w-1.5 h-3.5 bg-[var(--accent-bright)] ml-1 animate-pulse align-middle" aria-hidden="true" />
                       )}
                     </div>
+
 
                     {/* Assistant Metadata & Verification Badges */}
                     {!isUser && (
@@ -416,6 +419,7 @@ export default function DocumentChatPage() {
             <input
               type="text"
               id="chat-query-input"
+              aria-label="Ask a question about this contract"
               value={inputQuery}
               onChange={(e) => setInputQuery(e.target.value)}
               placeholder="Ask a question about this contract (e.g. rent, deposit, termination)..."
@@ -426,11 +430,12 @@ export default function DocumentChatPage() {
               type="submit"
               id="chat-submit-btn"
               disabled={!inputQuery.trim() || isStreaming || loadingDoc}
+              aria-label={isStreaming ? "Generating answer..." : "Submit question"}
               className="px-4 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-medium shadow-md shadow-[var(--accent-primary)]/20 transition flex items-center gap-1.5 cursor-pointer"
             >
               {isStreaming ? (
                 <>
-                  <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-3.5 w-3.5 text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
@@ -447,7 +452,7 @@ export default function DocumentChatPage() {
         <div className="lg:col-span-4 flex flex-col h-[calc(100vh-130px)] bg-[var(--bg-surface)] border border-[var(--bg-surface-raised)] rounded-2xl overflow-hidden shadow-2xl">
           <div className="px-4 py-3 border-b border-[var(--bg-surface-raised)] bg-[var(--bg-surface)] flex items-center justify-between">
             <h3 className="font-semibold text-xs text-[var(--text-primary)] font-display flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-[var(--accent-bright)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-[var(--accent-bright)]" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               <span>Retrieved Evidence</span>
@@ -466,11 +471,13 @@ export default function DocumentChatPage() {
                   <button
                     type="button"
                     onClick={() => setActiveCitedClause(null)}
+                    aria-label="Close clause detail"
                     className="text-xs text-[var(--accent-bright)] hover:text-white cursor-pointer"
                   >
                     ×
                   </button>
                 </div>
+
                 <p className="text-xs text-[var(--text-primary)] leading-relaxed font-mono whitespace-pre-wrap bg-[var(--bg-base)] p-2.5 rounded-lg border border-[var(--bg-surface-raised)]">
                   {activeCitedClause.rawText}
                 </p>

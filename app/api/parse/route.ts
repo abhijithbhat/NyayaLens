@@ -3,6 +3,8 @@ import { getGeminiClient } from '@/lib/gemini';
 import { DEFAULT_MODEL_CASCADE } from '@/lib/models';
 import { Type } from '@google/genai';
 import { Clause, ParsedDocument, ParseApiResponse } from '@/lib/types';
+import { checkRateLimit, rateLimitResponse } from '@/lib/rateLimit';
+import { errorResponse } from '@/lib/apiError';
 import crypto from 'crypto';
 
 const ALLOWED_MIME_TYPES = [
@@ -68,43 +70,35 @@ const responseSchema = {
   },
 };
 
-export async function POST(request: NextRequest): Promise<NextResponse<ParseApiResponse>> {
+export async function POST(request: NextRequest): Promise<NextResponse<any>> {
+  const rateLimit = checkRateLimit(request);
+  if (!rateLimit.allowed) {
+    return rateLimitResponse(rateLimit);
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
     if (!file || file.size === 0) {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'EMPTY_DOCUMENT',
-          message: 'No file was uploaded or the uploaded file is empty.',
-        },
-        { status: 400 }
-      );
+      return errorResponse('EMPTY_DOCUMENT', 'No file was uploaded or the uploaded file is empty.', 400);
     }
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'FILE_TOO_LARGE',
-          message: `File size exceeds the 10MB limit. Current size: ${(file.size / (1024 * 1024)).toFixed(2)} MB.`,
-        },
-        { status: 400 }
+      return errorResponse(
+        'FILE_TOO_LARGE',
+        `File size exceeds the 10MB limit. Current size: ${(file.size / (1024 * 1024)).toFixed(2)} MB.`,
+        400
       );
     }
 
     // MIME type check
     const mimeType = file.type || '';
     if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'INVALID_FILE_TYPE',
-          message: `Unsupported file type "${mimeType || 'unknown'}". Please upload a PDF or image (PNG, JPEG, WebP).`,
-        },
-        { status: 400 }
+      return errorResponse(
+        'INVALID_FILE_TYPE',
+        `Unsupported file type "${mimeType || 'unknown'}". Please upload a PDF or image (PNG, JPEG, WebP).`,
+        400
       );
     }
 
@@ -114,13 +108,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
     if (mimeType === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
       const header = Buffer.from(bytes.slice(0, 5)).toString('utf-8');
       if (!header.startsWith('%PDF-')) {
-        return NextResponse.json(
-          {
-            status: 'error',
-            code: 'CORRUPTED_FILE',
-            message: 'The uploaded file is corrupted or not a valid PDF document (missing PDF header).',
-          },
-          { status: 400 }
+        return errorResponse(
+          'CORRUPTED_FILE',
+          'The uploaded file is corrupted or not a valid PDF document (missing PDF header).',
+          400
         );
       }
     }
@@ -170,24 +161,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
     try {
       parsedClauses = JSON.parse(rawOutput);
     } catch {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'SCHEMA_MISMATCH',
-          message: 'Gemini response could not be parsed as valid JSON.',
-        },
-        { status: 422 }
-      );
+      return errorResponse('SCHEMA_MISMATCH', 'Gemini response could not be parsed as valid JSON.', 422);
     }
 
     if (!Array.isArray(parsedClauses) || parsedClauses.length === 0) {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'INSUFFICIENT_CONTENT',
-          message: 'Not enough legal content to analyze. The document contains no recognizable contractual terms or clauses.',
-        },
-        { status: 422 }
+      return errorResponse(
+        'INSUFFICIENT_CONTENT',
+        'Not enough legal content to analyze. The document contains no recognizable contractual terms or clauses.',
+        422
       );
     }
 
@@ -201,13 +182,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
     })).filter((c) => c.rawText.trim().length > 0);
 
     if (validClauses.length === 0) {
-      return NextResponse.json(
-        {
-          status: 'error',
-          code: 'INSUFFICIENT_CONTENT',
-          message: 'Not enough legal content to analyze. No readable text clauses could be extracted from the document.',
-        },
-        { status: 422 }
+      return errorResponse(
+        'INSUFFICIENT_CONTENT',
+        'Not enough legal content to analyze. No readable text clauses could be extracted from the document.',
+        422
       );
     }
 
@@ -236,13 +214,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<ParseApiR
       ? 'AI services are temporarily unavailable. Please try again in a few moments.'
       : `Ingestion failed: ${rawMsg}`;
 
-    return NextResponse.json(
-      {
-        status: 'error',
-        code: isServiceDown ? 'SERVICE_UNAVAILABLE' : 'API_ERROR',
-        message: userMessage,
-      },
-      { status: isServiceDown ? 503 : 500 }
+    return errorResponse(
+      isServiceDown ? 'SERVICE_UNAVAILABLE' : 'API_ERROR',
+      userMessage,
+      isServiceDown ? 503 : 500
     );
   }
 }

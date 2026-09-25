@@ -233,15 +233,17 @@ export default function ChecklistView({
                   {/* Interactive Checkbox */}
                   <button
                     type="button"
+                    role="checkbox"
+                    aria-checked={!!item.completed}
                     onClick={() => onToggleItem && onToggleItem(item.id)}
                     className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center border transition-all cursor-pointer ${
                       item.completed
                         ? 'bg-[var(--accent-bright)] border-[var(--accent-bright)] text-black font-bold'
                         : 'border-[var(--text-muted)]/50 bg-[var(--bg-surface)] hover:border-[var(--accent-primary)]'
                     }`}
-                    aria-label={`Mark ${item.clauseHeading} completed`}
+                    aria-label={`Mark ${item.clauseHeading || 'clause'} as ${item.completed ? 'pending' : 'completed'}`}
                   >
-                    {item.completed && <span className="text-xs font-bold leading-none">✓</span>}
+                    {item.completed && <span className="text-xs font-bold leading-none" aria-hidden="true">✓</span>}
                   </button>
 
                   <div className="flex-1 space-y-2">

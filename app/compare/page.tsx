@@ -302,12 +302,13 @@ export default function ComparePage() {
             )}
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-[var(--text-muted)]">
-                Select PDF or Document Image
+              <label htmlFor="doc-a-file-input" className="block text-xs font-medium text-[var(--text-muted)]">
+                Select PDF or Document Image (Document A)
               </label>
               <input
                 type="file"
                 id="doc-a-file-input"
+                aria-label="Upload Document A file"
                 accept=".pdf,.png,.jpg,.jpeg,.webp"
                 onChange={(e) => handleFileSelect(e, 'A')}
                 className="block w-full text-xs text-[var(--text-muted)] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[var(--accent-primary)] file:text-white hover:file:bg-[var(--accent-bright)] cursor-pointer border border-[var(--bg-surface-raised)] rounded-xl bg-[var(--bg-base)]/60 p-1"
@@ -325,11 +326,12 @@ export default function ComparePage() {
               id="parse-doc-a-btn"
               onClick={() => handleParseDoc('A')}
               disabled={!fileA || parsingA || Boolean(docA)}
+              aria-label={parsingA ? "Parsing Document A..." : docA ? "Document A Ready" : "Parse Document A"}
               className="w-full py-2.5 px-4 rounded-xl text-xs font-medium bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--text-primary)] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {parsingA ? (
                 <>
-                  <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-3.5 w-3.5 text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
@@ -360,12 +362,13 @@ export default function ComparePage() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-[var(--text-muted)]">
-                Select PDF or Document Image
+              <label htmlFor="doc-b-file-input" className="block text-xs font-medium text-[var(--text-muted)]">
+                Select PDF or Document Image (Document B)
               </label>
               <input
                 type="file"
                 id="doc-b-file-input"
+                aria-label="Upload Document B file"
                 accept=".pdf,.png,.jpg,.jpeg,.webp"
                 onChange={(e) => handleFileSelect(e, 'B')}
                 className="block w-full text-xs text-[var(--text-muted)] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[var(--accent-primary)] file:text-white hover:file:bg-[var(--accent-bright)] cursor-pointer border border-[var(--bg-surface-raised)] rounded-xl bg-[var(--bg-base)]/60 p-1"
@@ -383,11 +386,12 @@ export default function ComparePage() {
               id="parse-doc-b-btn"
               onClick={() => handleParseDoc('B')}
               disabled={!fileB || parsingB || Boolean(docB)}
+              aria-label={parsingB ? "Parsing Document B..." : docB ? "Document B Ready" : "Parse Document B"}
               className="w-full py-2.5 px-4 rounded-xl text-xs font-medium bg-[var(--bg-surface-raised)] hover:bg-[var(--bg-base)] border border-[var(--bg-surface-raised)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--text-primary)] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {parsingB ? (
                 <>
-                  <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-3.5 w-3.5 text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
@@ -416,11 +420,12 @@ export default function ComparePage() {
             id="compare-action-btn"
             onClick={handleRunComparison}
             disabled={!docA || !docB || comparing}
+            aria-label={comparing ? "Comparing and verifying documents..." : "Compare Legal Documents"}
             className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-xs bg-[var(--accent-primary)] hover:bg-[var(--accent-bright)] active:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white shadow-lg shadow-[var(--accent-primary)]/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             {comparing ? (
               <>
-                <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-4 w-4 text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
@@ -431,6 +436,7 @@ export default function ComparePage() {
             )}
           </button>
         </div>
+
 
         {/* Comparison Results */}
         {comparisonResult && (

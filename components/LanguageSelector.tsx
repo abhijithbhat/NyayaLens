@@ -16,14 +16,22 @@ export default function LanguageSelector({ value, onChange, disabled }: Language
   ];
 
   return (
-    <div className="flex items-center gap-1 bg-[var(--bg-base)]/90 p-1 rounded-xl border border-[var(--bg-surface-raised)] shadow-sm">
-      <span className="text-[11px] text-[var(--text-muted)] font-medium px-2 hidden sm:inline select-none">Language:</span>
+    <div
+      role="group"
+      aria-label="Language selection"
+      className="flex items-center gap-1 bg-[var(--bg-base)]/90 p-1 rounded-xl border border-[var(--bg-surface-raised)] shadow-sm"
+    >
+      <span id="language-selector-label" className="text-[11px] text-[var(--text-muted)] font-medium px-2 hidden sm:inline select-none">
+        Language:
+      </span>
       {languages.map((lang) => (
         <button
           key={lang.code}
           type="button"
           disabled={disabled}
           onClick={() => onChange(lang.code)}
+          aria-pressed={value === lang.code}
+          aria-label={`Select ${lang.label} language (${lang.native})`}
           className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
             value === lang.code
               ? 'bg-[var(--accent-primary)] text-white shadow'
