@@ -60,6 +60,22 @@ export default function AnalyzePage() {
     needsReviewCount: number;
     highRiskCount: number;
   } | null>(null);
+  const [analysisCache, setAnalysisCache] = useState<
+    Partial<
+      Record<
+        Language,
+        {
+          analyzedClauses: AnalyzedClause[];
+          summary: {
+            totalClauses: number;
+            verifiedCount: number;
+            needsReviewCount: number;
+            highRiskCount: number;
+          };
+        }
+      >
+    >
+  >({});
 
   // Restore active document if user navigates back to /analyze
   useEffect(() => {
@@ -169,6 +185,7 @@ export default function AnalyzePage() {
     setError(null);
     setAnalyzedClauses(null);
     setSummaryMetrics(null);
+    setAnalysisCache({});
     try {
       const sample = await import('@/samples/parsed_docA.json');
       const doc = sample.default as ParsedDocument;
@@ -178,6 +195,32 @@ export default function AnalyzePage() {
         sessionStorage.setItem('nyayalens_active_doc_id', doc.id);
       } catch {
         // ignore quota errors
+      }
+
+      // Pre-load bundled verified analysis for the currently selected language
+      try {
+        let sampleData: any = null;
+        if (selectedLanguage === 'hi') {
+          sampleData = (await import('@/samples/simplified_docA_hi.json')).default;
+        } else if (selectedLanguage === 'kn') {
+          sampleData = (await import('@/samples/simplified_docA_kn.json')).default;
+        } else {
+          sampleData = (await import('@/samples/simplified_docA_en.json')).default;
+        }
+
+        if (sampleData && Array.isArray(sampleData.analyzedClauses)) {
+          setAnalyzedClauses(sampleData.analyzedClauses);
+          setSummaryMetrics(sampleData.summary);
+          setAnalysisCache({
+            [selectedLanguage]: {
+              analyzedClauses: sampleData.analyzedClauses,
+              summary: sampleData.summary,
+            },
+          });
+          handleGenerateChecklist(sampleData.analyzedClauses, selectedLanguage);
+        }
+      } catch (e) {
+        console.warn('Could not preload sample analysis:', e);
       }
     } catch {
       setError('Could not load sample rental agreement.');
@@ -190,9 +233,55 @@ export default function AnalyzePage() {
     if (!documentData) return;
 
     const lang: Language = typeof overrideLang === 'string' ? overrideLang : selectedLanguage;
+
+    // 1. Instant switch if in cache
+    if (analysisCache[lang]) {
+      const cached = analysisCache[lang]!;
+      setAnalyzedClauses(cached.analyzedClauses);
+      setSummaryMetrics(cached.summary);
+      handleGenerateChecklist(cached.analyzedClauses, lang);
+      return;
+    }
+
     setSimplifying(true);
     setError(null);
 
+    // 2. Instant switch if this is the sample document
+    const isSampleA =
+      documentData.id === 'doc-rental-agreement-a' ||
+      documentData.filename === 'sample_rental_agreement.pdf';
+
+    if (isSampleA) {
+      try {
+        let sampleData: any = null;
+        if (lang === 'hi') {
+          sampleData = (await import('@/samples/simplified_docA_hi.json')).default;
+        } else if (lang === 'kn') {
+          sampleData = (await import('@/samples/simplified_docA_kn.json')).default;
+        } else {
+          sampleData = (await import('@/samples/simplified_docA_en.json')).default;
+        }
+
+        if (sampleData && Array.isArray(sampleData.analyzedClauses)) {
+          setAnalyzedClauses(sampleData.analyzedClauses);
+          setSummaryMetrics(sampleData.summary);
+          setAnalysisCache((prev) => ({
+            ...prev,
+            [lang]: {
+              analyzedClauses: sampleData.analyzedClauses,
+              summary: sampleData.summary,
+            },
+          }));
+          handleGenerateChecklist(sampleData.analyzedClauses, lang);
+          setSimplifying(false);
+          return;
+        }
+      } catch (bundleErr) {
+        console.warn('Could not load bundled sample translation, falling back to API:', bundleErr);
+      }
+    }
+
+    // 3. Dynamic call to Gemini for uploaded documents
     try {
       const res = await fetch('/api/simplify', {
         method: 'POST',
@@ -205,10 +294,22 @@ export default function AnalyzePage() {
       if (!res.ok || json.status === 'error' || !json.data) {
         setError(json.message || `Simplification failed with status ${res.status}`);
       } else {
-        setAnalyzedClauses(json.data.analyzedClauses);
-        setSummaryMetrics(json.data.summary);
-        // Automatically generate pre-signing checklist with the verified analysis
-        handleGenerateChecklist(json.data.analyzedClauses, lang);
+        const resultData = json.data;
+        setAnalyzedClauses(resultData.analyzedClauses);
+        setSummaryMetrics(resultData.summary);
+        setAnalysisCache((prev) => ({
+          ...prev,
+          [lang]: {
+            analyzedClauses: resultData.analyzedClauses,
+            summary: {
+              totalClauses: resultData.summary.totalClauses,
+              verifiedCount: resultData.summary.verifiedCount,
+              needsReviewCount: resultData.summary.needsReviewCount,
+              highRiskCount: resultData.summary.highRiskCount,
+            },
+          },
+        }));
+        handleGenerateChecklist(resultData.analyzedClauses, lang);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Network error occurred during simplification.');
@@ -256,7 +357,8 @@ export default function AnalyzePage() {
 
   function handleLanguageChange(newLang: Language) {
     setSelectedLanguage(newLang);
-    if (analyzedClauses && analyzedClauses.length > 0) {
+    // If document is loaded, immediately run simplification in the new language!
+    if (documentData) {
       handleRunSimplification(newLang);
     }
   }
@@ -456,7 +558,10 @@ export default function AnalyzePage() {
                         <svg className="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Run AI Simplification & Dual-Gate Verification</span>
+                        <span>
+                          Run AI Simplification &amp; Dual-Gate Verification{' '}
+                          {selectedLanguage === 'hi' ? '(हिंदी)' : selectedLanguage === 'kn' ? '(ಕನ್ನಡ)' : '(English)'}
+                        </span>
                       </>
                     )}
                   </button>
@@ -562,6 +667,23 @@ export default function AnalyzePage() {
               </div>
 
               <div className="space-y-4" id="clauses-list">
+                {simplifying && (
+                  <div className="rounded-2xl bg-[var(--accent-primary)]/15 border border-[var(--accent-primary)]/30 p-4 text-[var(--text-primary)] flex items-center gap-3 shadow-lg animate-pulse">
+                    <svg className="animate-spin h-5 w-5 text-[var(--accent-bright)] shrink-0" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <div className="space-y-0.5">
+                      <p className="text-sm font-semibold text-[var(--accent-bright)]">
+                        Generating {selectedLanguage === 'hi' ? 'Hindi (हिंदी)' : selectedLanguage === 'kn' ? 'Kannada (ಕನ್ನಡ)' : 'English'} Explanation &amp; Running Dual-Gate Verification...
+                      </p>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        Gemini is translating clauses and verifying lexical fidelity and legal accuracy.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {displayedClauses.map((clauseItem, idx) => {
                   const hasAnalysis = 'analysis' in clauseItem && clauseItem.analysis !== undefined;
                   const analysis = hasAnalysis ? (clauseItem as AnalyzedClause).analysis : null;
@@ -585,7 +707,11 @@ export default function AnalyzePage() {
 
                         <div className="flex items-center gap-2">
                           {/* Dual-Gate Status Badge */}
-                          {hasAnalysis && (
+                          {simplifying ? (
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[var(--accent-primary)]/20 text-[var(--accent-bright)] animate-pulse">
+                              Verifying...
+                            </span>
+                          ) : hasAnalysis && (
                             <>
                               <VerificationBadge
                                 status={analysis?.verification.status || 'needs_review'}
@@ -613,8 +739,17 @@ export default function AnalyzePage() {
                         </div>
                       </div>
 
-                      {/* Simplification & Risk Card (when analyzed) */}
-                      {hasAnalysis && (
+                      {/* Simplification & Risk Card (when analyzed or simplifying) */}
+                      {simplifying ? (
+                        <div className="bg-[var(--accent-primary)]/5 border border-[var(--accent-primary)]/20 rounded-xl p-4 space-y-2 animate-pulse">
+                          <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-bright)]">
+                            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-bright)] animate-ping"></span>
+                            <span>Generating {selectedLanguage === 'hi' ? 'Hindi (हिंदी)' : selectedLanguage === 'kn' ? 'Kannada (ಕನ್ನಡ)' : 'English'} explanation &amp; verifying...</span>
+                          </div>
+                          <div className="h-3 bg-[var(--accent-primary)]/20 rounded w-3/4"></div>
+                          <div className="h-3 bg-[var(--bg-surface-raised)] rounded w-1/2"></div>
+                        </div>
+                      ) : hasAnalysis && (
                         <>
                           {isVerified ? (
                             <div className="explanation-container bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/25 rounded-xl p-4 space-y-2.5">

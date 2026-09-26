@@ -1,0 +1,232 @@
+{
+  "documentId": "doc-rental-agreement-a",
+  "analyzedClauses": [
+    {
+      "id": "clause-1",
+      "sectionNumber": "Clause 1",
+      "heading": "Term and Duration",
+      "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension of the tenancy shall be solely subject to mutual written consent of both parties executed at least 30 days prior to the expiration of this Agreement.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-1",
+        "explanation": "यह किरायेदारी 1 अगस्त 2026 से 30 जून 2027 तक 11 महीने की निश्चित अवधि के लिए है। किसी भी विस्तार के लिए समझौते के खत्म होने से 30 दिन पहले दोनों पक्षों की लिखित सहमति आवश्यक है।",
+        "risk": {
+          "severity": "low",
+          "reason": "यह एक मानक किराये की अवधि का क्लॉज है जिसमें विस्तार के लिए आपसी सहमति की शर्त रखी गई है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately translates the tenancy term and the requirement for mutual written consent 30 days prior to expiration.. Risk: The claim correctly identifies the clause as a standard provision regarding tenancy duration and renewal terms."
+        }
+      }
+    },
+    {
+      "id": "clause-2",
+      "sectionNumber": "Clause 2",
+      "heading": "Monthly Rent and Maintenance",
+      "rawText": "The Lessee agrees to pay a monthly rent of Rs. 38,000/- (Rupees Thirty-Eight Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 500/- per week of delay.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-2",
+        "explanation": "मासिक किराया ₹38,000/- है (सोसाइटी रखरखाव शुल्क अलग से देना होगा)। किराया हर महीने की 5 तारीख तक बैंक खाते में जमा करना है, देरी होने पर प्रति सप्ताह ₹500/- का जुर्माना लगेगा।",
+        "risk": {
+          "severity": "low",
+          "reason": "किराया भुगतान की समय सीमा और देरी पर जुर्माना एक सामान्य व्यावसायिक शर्त है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately reflects the rent amount, payment deadline, exclusion of maintenance, and late penalty structure.. Risk: The claim correctly characterizes the payment timeline and late fees as standard business terms."
+        }
+      }
+    },
+    {
+      "id": "clause-3",
+      "sectionNumber": "Clause 3",
+      "heading": "Security Deposit",
+      "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 1,50,000/- (Rupees One Lakh Fifty Thousand only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 7 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent, utility dues, and property damages.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-3",
+        "explanation": "किरायेदार ने ₹1,50,000/- की सुरक्षा जमा राशि जमा की है। घर खाली करने के 7 व्यावसायिक दिनों के भीतर, बकाया किराया और नुकसान की कटौती के बाद यह राशि वापस कर दी जाएगी।",
+        "risk": {
+          "severity": "low",
+          "reason": "सुरक्षा जमा राशि को वापस करने की स्पष्ट शर्त दी गई है, जो किरायेदार के हितों की रक्षा करती है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately summarizes the deposit amount, refund conditions, and the 7-day timeline for return.. Risk: The claim correctly notes that the clause provides defined conditions for deposit refund which protects tenant interests."
+        }
+      }
+    },
+    {
+      "id": "clause-4",
+      "sectionNumber": "Clause 4",
+      "heading": "Painting and Maintenance Deductions",
+      "rawText": "At the time of vacating the premises, a mandatory non-negotiable deduction of Rs. 15,000/- (Rupees Fifteen Thousand only) or one month's rent (whichever is lower) shall be retained from the Security Deposit towards professional deep cleaning and repainting of the interior walls.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-4",
+        "explanation": "घर खाली करते समय सफाई और पुताई के लिए ₹15,000/- या एक महीने का किराया (जो भी कम हो) सुरक्षा जमा राशि से काट लिया जाएगा। यह कटौती अनिवार्य है।",
+        "risk": {
+          "severity": "medium",
+          "reason": "सुरक्षा जमा से होने वाली यह कटौती अनिवार्य है और इस पर बातचीत नहीं की जा सकती।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately states the non-negotiable cleaning/painting deduction terms and the mandatory nature of the clause.. Risk: The claim accurately highlights the mandatory and non-negotiable nature of the security deposit deduction."
+        }
+      }
+    },
+    {
+      "id": "clause-5",
+      "sectionNumber": "Clause 5",
+      "heading": "Lock-in Period and Notice for Termination",
+      "rawText": "Both parties agree to a mandatory Lock-in Period of 6 (six) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 2 (two) months' prior written notice or by paying 2 months' rent in lieu thereof. If the Lessee vacates during the lock-in period, the Security Deposit shall stand forfeited up to the extent of the remaining lock-in rent.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-5",
+        "explanation": "6 महीने का अनिवार्य लॉक-इन पीरियड है, जिसके दौरान आप घर नहीं छोड़ सकते। उसके बाद 2 महीने का नोटिस या 2 महीने का किराया देकर समझौता खत्म किया जा सकता है।",
+        "risk": {
+          "severity": "medium",
+          "reason": "लॉक-इन अवधि के दौरान घर छोड़ने पर सुरक्षा जमा राशि जब्त होने का प्रावधान एक बड़ा वित्तीय जोखिम है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim correctly summarizes the 6-month lock-in period and the 2-month notice or payment requirement thereafter.. Risk: The claim correctly identifies the risk of deposit forfeiture during the lock-in period as a significant financial risk."
+        }
+      }
+    },
+    {
+      "id": "clause-6",
+      "sectionNumber": "Clause 6",
+      "heading": "Utility and Consumption Charges",
+      "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-6",
+        "explanation": "किरायेदार को बिजली (BESCOM), गैस और इंटरनेट का बिल वास्तविक खपत के आधार पर सीधे स्वयं भुगतान करना होगा।",
+        "risk": {
+          "severity": "low",
+          "reason": "उपयोगिताओं का भुगतान किरायेदार द्वारा करना एक मानक और उचित जिम्मेदारी है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately identifies the tenant's responsibility to pay for utilities based on actual consumption.. Risk: The claim correctly categorizes the payment of utility bills as a standard responsibility for a tenant."
+        }
+      }
+    },
+    {
+      "id": "clause-7",
+      "sectionNumber": "Clause 7",
+      "heading": "Repairs, Damages, and Indemnity",
+      "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. The Lessee shall be liable to compensate the Lessor for any structural damage, glass breakage, or fixture defacement caused by negligence. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+      "category": "Liability",
+      "analysis": {
+        "clauseId": "clause-7",
+        "explanation": "किरायेदार को आंतरिक फिक्स्चर और उपकरणों का रखरखाव करना होगा। ₹1,000/- तक के मामूली मरम्मत खर्च किरायेदार उठाएंगे, जबकि बड़ी संरचनात्मक मरम्मत मकान मालिक की जिम्मेदारी होगी।",
+        "risk": {
+          "severity": "low",
+          "reason": "मरम्मत की जिम्मेदारी को स्पष्ट रूप से साझा किया गया है, जो एक संतुलित व्यवस्था है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately describes the maintenance duties and the division of repair costs between the tenant and landlord.. Risk: The claim correctly interprets the shared maintenance and repair clause as a balanced arrangement."
+        }
+      }
+    },
+    {
+      "id": "clause-8",
+      "sectionNumber": "Clause 8",
+      "heading": "Prohibited Activities and Subletting",
+      "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises or any portion thereof to third parties or PG guests is strictly prohibited and shall constitute an incurable material breach.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-8",
+        "explanation": "घर का उपयोग केवल रहने के लिए किया जा सकता है। उप-किरायेदारी (subletting) या पीजी मेहमान रखना सख्त वर्जित है और इसे गंभीर उल्लंघन माना जाएगा।",
+        "risk": {
+          "severity": "medium",
+          "reason": "उप-किरायेदारी पर पूरी तरह रोक है और इसके उल्लंघन को गंभीर माना गया है, जिसके परिणाम स्वरूप समझौता रद्द हो सकता है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately reflects the residential use restriction and the prohibition against subletting or hosting PG guests.. Risk: The claim correctly identifies that the prohibition on subletting is strictly enforced as a material breach."
+        }
+      }
+    },
+    {
+      "id": "clause-9",
+      "sectionNumber": "Clause 9",
+      "heading": "Immediate Termination and Eviction",
+      "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal, unlawful, or nuisance activities affecting neighbors, the Lessor reserves the absolute right to terminate this agreement forthwith and re-enter and take possession of the premises without notice.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-9",
+        "explanation": "यदि किरायेदार लगातार 2 महीने तक किराया नहीं देता है या अवैध गतिविधियां करता है, तो मकान मालिक बिना नोटिस दिए घर खाली करा सकता है और कब्जा ले सकता है।",
+        "risk": {
+          "severity": "high",
+          "reason": "बिना नोटिस दिए तुरंत बेदखली का अधिकार किरायेदार के लिए एक बहुत गंभीर और जोखिम भरा प्रावधान है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately states the conditions for termination and repossession due to rent default or illegal activities.. Risk: The claim correctly recognizes the potential for immediate eviction without notice as a significant risk to the tenant."
+        }
+      }
+    },
+    {
+      "id": "clause-10",
+      "sectionNumber": "Clause 10",
+      "heading": "Governing Law and Jurisdiction",
+      "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes arising under this agreement shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-10",
+        "explanation": "यह समझौता भारतीय कानूनों और कर्नाटक रेंट एक्ट के तहत संचालित होगा। विवाद होने पर मामला केवल बेंगलुरु की अदालतों में सुलझाया जाएगा।",
+        "risk": {
+          "severity": "none",
+          "reason": "यह केवल क्षेत्राधिकार और कानूनी आधार स्पष्ट करने वाला एक मानक क्लॉज है।"
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately identifies the governing laws and the exclusive jurisdiction of Bengaluru courts.. Risk: The claim correctly characterizes the clause as a standard provision regarding legal jurisdiction and governing law."
+        }
+      }
+    }
+  ],
+  "summary": {
+    "totalClauses": 10,
+    "verifiedCount": 10,
+    "needsReviewCount": 0,
+    "highRiskCount": 1,
+    "apiCallsCount": 2
+  }
+}

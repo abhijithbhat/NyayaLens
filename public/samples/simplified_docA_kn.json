@@ -1,0 +1,232 @@
+{
+  "documentId": "doc-rental-agreement-a",
+  "analyzedClauses": [
+    {
+      "id": "clause-1",
+      "sectionNumber": "Clause 1",
+      "heading": "Term and Duration",
+      "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension of the tenancy shall be solely subject to mutual written consent of both parties executed at least 30 days prior to the expiration of this Agreement.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-1",
+        "explanation": "ಈ ಬಾಡಿಗೆ ಒಪ್ಪಂದವು 1st August 2026 ರಿಂದ 30th June 2027 ರವರೆಗೆ ಒಟ್ಟು 11 ತಿಂಗಳ ಅವಧಿಗೆ ಮಾನ್ಯವಾಗಿರುತ್ತದೆ. ಅವಧಿಯನ್ನು ವಿಸ್ತರಿಸಬೇಕಾದರೆ, ಒಪ್ಪಂದ ಮುಗಿಯುವ 30 ದಿನಗಳ ಮುಂಚಿತವಾಗಿ ಎರಡೂ ಪಕ್ಷಗಳು ಲಿಖಿತ ರೂಪದಲ್ಲಿ ಒಪ್ಪಿಗೆ ನೀಡಬೇಕು.",
+        "risk": {
+          "severity": "low",
+          "reason": "ಇದು ಬಾಡಿಗೆಯ ನಿಗದಿತ ಅವಧಿ ಮತ್ತು ನವೀಕರಣದ ನಿಯಮಗಳನ್ನು ತಿಳಿಸುವ ಸಾಮಾನ್ಯ ಷರತ್ತಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim accurately summarizes the tenancy duration, start/end dates, and the mutual written consent requirement for extension.. Risk: The claim correctly identifies the clause as a standard provision governing the duration and renewal of the tenancy."
+        }
+      }
+    },
+    {
+      "id": "clause-2",
+      "sectionNumber": "Clause 2",
+      "heading": "Monthly Rent and Maintenance",
+      "rawText": "The Lessee agrees to pay a monthly rent of Rs. 38,000/- (Rupees Thirty-Eight Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 500/- per week of delay.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-2",
+        "explanation": "ಪ್ರತಿ ತಿಂಗಳ ಬಾಡಿಗೆ ₹38,000 ಆಗಿದ್ದು, ಇದನ್ನು ಪ್ರತಿ ತಿಂಗಳ 5ನೇ ತಾರೀಖಿನೊಳಗೆ ಮಾಲೀಕರ ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ಪಾವತಿಸಬೇಕು. ಬಾಡಿಗೆ ಪಾವತಿಯಲ್ಲಿ ವಿಳಂಬವಾದರೆ ಪ್ರತಿ ವಾರಕ್ಕೆ ₹500 ದಂಡವನ್ನು ವಿಧಿಸಲಾಗುತ್ತದೆ.",
+        "risk": {
+          "severity": "low",
+          "reason": "ಬಾಡಿಗೆ ಪಾವತಿ ಮತ್ತು ವಿಳಂಬದ ದಂಡದ ಕುರಿತಾದ ಪ್ರಮಾಣಿತ ಷರತ್ತಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim correctly states the rent amount, payment deadline, and the specific late fee penalty mentioned in the clause.. Risk: The claim accurately characterizes the clause as a standard provision regarding rent payment and penalties for delays."
+        }
+      }
+    },
+    {
+      "id": "clause-3",
+      "sectionNumber": "Clause 3",
+      "heading": "Security Deposit",
+      "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 1,50,000/- (Rupees One Lakh Fifty Thousand only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 7 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent, utility dues, and property damages.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-3",
+        "explanation": "₹1,50,000 ಮೌಲ್ಯದ ಭದ್ರತಾ ಠೇವಣಿಯನ್ನು ನೀವು ಮಾಲೀಕರಿಗೆ ಪಾವತಿಸಿದ್ದೀರಿ. ನೀವು ಮನೆ ಖಾಲಿ ಮಾಡಿದ 7 ವ್ಯವಹಾರ ದಿನಗಳೊಳಗೆ, ಬಾಕಿ ಉಳಿದಿರುವ ಬಾಡಿಗೆ ಮತ್ತು ಹಾನಿಯ ವೆಚ್ಚವನ್ನು ಕಡಿತಗೊಳಿಸಿ ಉಳಿದ ಹಣವನ್ನು ಮರಳಿಸಲಾಗುತ್ತದೆ.",
+        "risk": {
+          "severity": "low",
+          "reason": "ಠೇವಣಿಯ ಮರುಪಾವತಿಯು ಸಾಮಾನ್ಯ ಷರತ್ತುಗಳಿಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim correctly conveys the deposit amount, refund timeline, and conditions regarding deductions as stated in the source.. Risk: The claim accurately states that the refund of the deposit is subject to the conditions set forth in the clause."
+        }
+      }
+    },
+    {
+      "id": "clause-4",
+      "sectionNumber": "Clause 4",
+      "heading": "Painting and Maintenance Deductions",
+      "rawText": "At the time of vacating the premises, a mandatory non-negotiable deduction of Rs. 15,000/- (Rupees Fifteen Thousand only) or one month's rent (whichever is lower) shall be retained from the Security Deposit towards professional deep cleaning and repainting of the interior walls.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-4",
+        "explanation": "ಮನೆ ಖಾಲಿ ಮಾಡುವಾಗ, ಗೋಡೆಗಳ ಬಣ್ಣ ಮತ್ತು ಸ್ವಚ್ಛಗೊಳಿಸುವಿಕೆಗಾಗಿ ನಿಮ್ಮ ಭದ್ರತಾ ಠೇವಣಿಯಿಂದ ₹15,000 ಅಥವಾ ಒಂದು ತಿಂಗಳ ಬಾಡಿಗೆ, ಇದರಲ್ಲಿ ಯಾವುದು ಕಡಿಮೆಯೋ ಅಷ್ಟನ್ನು ಕಡಿತಗೊಳಿಸಲಾಗುತ್ತದೆ.",
+        "risk": {
+          "severity": "medium",
+          "reason": "ಮನೆ ಸ್ಥಿತಿಯ ಆಧಾರದ ಮೇಲೆ ನೀಡಲಾದ ಕಡ್ಡಾಯ ಮತ್ತು ಮಾತುಕತೆಗೆ ಅವಕಾಶವಿಲ್ಲದ ಕಡಿತವಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim accurately reflects the specific deduction amount or rent proportion designated for cleaning and repainting upon vacating.. Risk: The claim correctly describes the deduction as mandatory and non-negotiable based on the source text."
+        }
+      }
+    },
+    {
+      "id": "clause-5",
+      "sectionNumber": "Clause 5",
+      "heading": "Lock-in Period and Notice for Termination",
+      "rawText": "Both parties agree to a mandatory Lock-in Period of 6 (six) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 2 (two) months' prior written notice or by paying 2 months' rent in lieu thereof. If the Lessee vacates during the lock-in period, the Security Deposit shall stand forfeited up to the extent of the remaining lock-in rent.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-5",
+        "explanation": "6 ತಿಂಗಳ ಲಾಕ್-ಇನ್ ಅವಧಿಯಲ್ಲಿ ಒಪ್ಪಂದವನ್ನು ರದ್ದುಗೊಳಿಸಲು ಅವಕಾಶವಿಲ್ಲ. ಆ ನಂತರ, 2 ತಿಂಗಳ ಮುನ್ಸೂಚನೆ ನೀಡಿ ಅಥವಾ 2 ತಿಂಗಳ ಬಾಡಿಗೆಯನ್ನು ಪಾವತಿಸಿ ಒಪ್ಪಂದವನ್ನು ಕೊನೆಗೊಳಿಸಬಹುದು. ಲಾಕ್-ಇನ್ ಅವಧಿಯಲ್ಲಿ ಖಾಲಿ ಮಾಡಿದರೆ ಭದ್ರತಾ ಠೇವಣಿಯನ್ನು ಜಪ್ತಿ ಮಾಡಲಾಗುತ್ತದೆ.",
+        "risk": {
+          "severity": "high",
+          "reason": "ಲಾಕ್-ಇನ್ ಅವಧಿಯಲ್ಲಿ ಒಪ್ಪಂದ ರದ್ದುಪಡಿಸಿದರೆ ಭದ್ರತಾ ಠೇವಣಿ ಜಪ್ತಿಯಾಗುವ ಅಪಾಯವಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim accurately summarizes the lock-in period restrictions, termination notice requirements, and the consequences of early vacation.. Risk: The claim correctly identifies the risk of security deposit forfeiture if the agreement is terminated during the lock-in period."
+        }
+      }
+    },
+    {
+      "id": "clause-6",
+      "sectionNumber": "Clause 6",
+      "heading": "Utility and Consumption Charges",
+      "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-6",
+        "explanation": "ಬಳಸಿದ ವಿದ್ಯುತ್, ಅಡುಗೆ ಅನಿಲ ಮತ್ತು ಇಂಟರ್ನೆಟ್ ಶುಲ್ಕಗಳನ್ನು ನೀವು ನೇರವಾಗಿ ಪಾವತಿಸಬೇಕು.",
+        "risk": {
+          "severity": "low",
+          "reason": "ಬಳಕೆಯ ಆಧಾರದ ಮೇಲೆ ಪಾವತಿಸಬೇಕಾದ ಸಾಮಾನ್ಯ ಯುಟಿಲಿಟಿ ಶುಲ್ಕಗಳಾಗಿವೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim correctly lists the utilities the lessee is responsible for paying directly based on consumption.. Risk: The claim correctly identifies the provisions as standard obligations for utility payments based on actual usage."
+        }
+      }
+    },
+    {
+      "id": "clause-7",
+      "sectionNumber": "Clause 7",
+      "heading": "Repairs, Damages, and Indemnity",
+      "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. The Lessee shall be liable to compensate the Lessor for any structural damage, glass breakage, or fixture defacement caused by negligence. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+      "category": "Liability",
+      "analysis": {
+        "clauseId": "clause-7",
+        "explanation": "ಮನೆಯ ಒಳಾಂಗಣ ಫಿಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನೀವು ಸರಿಯಾದ ಸ್ಥಿತಿಯಲ್ಲಿ ಇರಿಸಬೇಕು. ₹1,000 ವರೆಗಿನ ಸಣ್ಣಪುಟ್ಟ ರಿಪೇರಿ ವೆಚ್ಚವನ್ನು ನೀವೇ ಭರಿಸಬೇಕು, ಆದರೆ ದೊಡ್ಡ ರಚನಾತ್ಮಕ ದುರಸ್ತಿಗಳು ಮಾಲೀಕರ ಜವಾಬ್ದಾರಿಯಾಗಿರುತ್ತವೆ.",
+        "risk": {
+          "severity": "low",
+          "reason": "ನಿರ್ವಹಣೆ ಮತ್ತು ರಿಪೇರಿ ಜವಾಬ್ದಾರಿಗಳ ಕುರಿತಾದ ಸಾಮಾನ್ಯ ಒಪ್ಪಂದವಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim accurately reflects the maintenance responsibilities, the threshold for minor repairs, and the lessor's duty regarding structural repairs.. Risk: The claim correctly describes the clause as outlining the respective responsibilities for maintenance and repairs."
+        }
+      }
+    },
+    {
+      "id": "clause-8",
+      "sectionNumber": "Clause 8",
+      "heading": "Prohibited Activities and Subletting",
+      "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises or any portion thereof to third parties or PG guests is strictly prohibited and shall constitute an incurable material breach.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-8",
+        "explanation": "ಮನೆಯನ್ನು ಕೇವಲ ವಸತಿ ಉದ್ದೇಶಕ್ಕೆ ಮಾತ್ರ ಬಳಸಬೇಕು. ಮನೆಯನ್ನು ಬಾಡಿಗೆಗೆ ನೀಡುವುದು (Subletting) ಅಥವಾ ಬೇರೆಯವರಿಗೆ ಒಪ್ಪಿಸುವುದು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+        "risk": {
+          "severity": "medium",
+          "reason": "ಉಪ-ಬಾಡಿಗೆಗೆ ನೀಡುವುದರ ಮೇಲೆ ನಿರ್ಬಂಧವಿದ್ದು, ಇದನ್ನು ಉಲ್ಲಂಘಿಸುವುದು ಗಂಭೀರ breach ಆಗಿ ಪರಿಗಣಿಸಲ್ಪಡುತ್ತದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim correctly states the residential-only use restriction and the prohibition on subletting.. Risk: The claim accurately notes that breaching the subletting restriction is considered a serious material breach."
+        }
+      }
+    },
+    {
+      "id": "clause-9",
+      "sectionNumber": "Clause 9",
+      "heading": "Immediate Termination and Eviction",
+      "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal, unlawful, or nuisance activities affecting neighbors, the Lessor reserves the absolute right to terminate this agreement forthwith and re-enter and take possession of the premises without notice.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-9",
+        "explanation": "ಸತತ 2 ತಿಂಗಳು ಬಾಡಿಗೆ ಪಾವತಿಸದಿದ್ದರೆ ಅಥವಾ ಅನೈತಿಕ/ಉಪದ್ರವಕಾರಿ ಕೆಲಸಗಳಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡರೆ, ಮಾಲೀಕರು ಯಾವುದೇ ಮುನ್ಸೂಚನೆ ನೀಡದೆ ಒಪ್ಪಂದವನ್ನು ತಕ್ಷಣ ರದ್ದುಗೊಳಿಸಿ ಮನೆಯನ್ನು ತೆರವುಗೊಳಿಸುವ ಹಕ್ಕನ್ನು ಹೊಂದಿರುತ್ತಾರೆ.",
+        "risk": {
+          "severity": "high",
+          "reason": "ಮುನ್ಸೂಚನೆ ಇಲ್ಲದೆ ತಕ್ಷಣದ ಹೊರಹಾಕುವಿಕೆ ಮತ್ತು ಒಪ್ಪಂದ ರದ್ದುಪಡಿಸುವ ಹಕ್ಕನ್ನು ಮಾಲೀಕರಿಗೆ ನೀಡಲಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim accurately summarizes the conditions under which the landlord can terminate the agreement and take possession without notice.. Risk: The claim correctly highlights the risk of immediate eviction and contract termination as stipulated in the clause."
+        }
+      }
+    },
+    {
+      "id": "clause-10",
+      "sectionNumber": "Clause 10",
+      "heading": "Governing Law and Jurisdiction",
+      "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes arising under this agreement shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-10",
+        "explanation": "ಈ ಒಪ್ಪಂದವು ಭಾರತದ ಕಾನೂನುಗಳು ಮತ್ತು ಕರ್ನಾಟಕ ಬಾಡಿಗೆ ಕಾಯ್ದೆಯ ಅಡಿಯಲ್ಲಿ ಬರುತ್ತದೆ. ಯಾವುದೇ ವಿವಾದಗಳು ಬೆಂಗಳೂರಿನ ನಾಗರಿಕ ನ್ಯಾಯಾಲಯಗಳಲ್ಲಿ ಮಾತ್ರ ಇತ್ಯರ್ಥವಾಗಬೇಕು.",
+        "risk": {
+          "severity": "none",
+          "reason": "ಇದು ಒಪ್ಪಂದಕ್ಕೆ ಅನ್ವಯವಾಗುವ ಕಾನೂನು ವ್ಯಾಪ್ತಿಯನ್ನು ವಿವರಿಸುವ ಸಾಮಾನ್ಯ ಷರತ್ತಾಗಿದೆ."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The Kannada claim correctly identifies the governing law and the exclusive jurisdiction of Bengaluru courts for disputes.. Risk: The claim correctly describes the clause as defining the legal jurisdiction applicable to the agreement."
+        }
+      }
+    }
+  ],
+  "summary": {
+    "totalClauses": 10,
+    "verifiedCount": 10,
+    "needsReviewCount": 0,
+    "highRiskCount": 2,
+    "apiCallsCount": 2
+  }
+}

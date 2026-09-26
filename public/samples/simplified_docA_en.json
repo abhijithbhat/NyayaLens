@@ -1,0 +1,232 @@
+{
+  "documentId": "doc-rental-agreement-a",
+  "analyzedClauses": [
+    {
+      "id": "clause-1",
+      "sectionNumber": "Clause 1",
+      "heading": "Term and Duration",
+      "rawText": "The tenancy shall be for a fixed term of 11 (Eleven) continuous months commencing from 1st August 2026 and expiring on 30th June 2027. Any extension of the tenancy shall be solely subject to mutual written consent of both parties executed at least 30 days prior to the expiration of this Agreement.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-1",
+        "explanation": "This is a fixed 11-month rental agreement running from August 1, 2026, to June 30, 2027, and any extension requires written mutual consent at least 30 days before expiration.",
+        "risk": {
+          "severity": "low",
+          "reason": "This is a standard fixed-term lease clause with common requirements for mutual written extension."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately reflects the tenancy term, dates, and the specific requirement for written mutual consent to extend the lease.. Risk: The claim correctly identifies the lease as a standard fixed-term agreement with common extension requirements."
+        }
+      }
+    },
+    {
+      "id": "clause-2",
+      "sectionNumber": "Clause 2",
+      "heading": "Monthly Rent and Maintenance",
+      "rawText": "The Lessee agrees to pay a monthly rent of Rs. 38,000/- (Rupees Thirty-Eight Thousand only) exclusive of society maintenance charges. The rent shall be paid on or before the 5th day of every English calendar month into the Lessor's designated bank account. Any delay beyond the 5th day of the month shall attract a late penalty charge of Rs. 500/- per week of delay.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-2",
+        "explanation": "",
+        "risk": {
+          "severity": "unknown",
+          "reason": "Unverified claim: explanation or risk assessment could not be strictly grounded in the clause text. Manual reading required."
+        },
+        "verification": {
+          "status": "needs_review",
+          "lexicalPassed": false,
+          "llmJudgePassed": false,
+          "confidence": 0,
+          "details": "Risk reason failed Gate 1 (lexical/number check)"
+        }
+      }
+    },
+    {
+      "id": "clause-3",
+      "sectionNumber": "Clause 3",
+      "heading": "Security Deposit",
+      "rawText": "The Lessee has paid an interest-free refundable security deposit of Rs. 1,50,000/- (Rupees One Lakh Fifty Thousand only) to the Lessor via RTGS transfer upon signing this Agreement. This deposit shall be refunded to the Lessee within 7 business days of peacefully vacating the Scheduled Premises, subject to deductions for unpaid rent, utility dues, and property damages.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-3",
+        "explanation": "You have paid an interest-free security deposit of Rs. 1,50,000, which will be returned within 7 business days after you move out, minus any unpaid rent, utilities, or damages.",
+        "risk": {
+          "severity": "low",
+          "reason": "The refund terms are clearly defined and the security deposit amount is standard."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately summarizes the security deposit amount and the terms for its refund and potential deductions.. Risk: The claim correctly characterizes the security deposit terms as clearly defined and standard."
+        }
+      }
+    },
+    {
+      "id": "clause-4",
+      "sectionNumber": "Clause 4",
+      "heading": "Painting and Maintenance Deductions",
+      "rawText": "At the time of vacating the premises, a mandatory non-negotiable deduction of Rs. 15,000/- (Rupees Fifteen Thousand only) or one month's rent (whichever is lower) shall be retained from the Security Deposit towards professional deep cleaning and repainting of the interior walls.",
+      "category": "Deposit",
+      "analysis": {
+        "clauseId": "clause-4",
+        "explanation": "Regardless of the property's condition, Rs. 15,000 or one month's rent (whichever is lower) will be automatically deducted from your deposit for cleaning and painting when you move out.",
+        "risk": {
+          "severity": "medium",
+          "reason": "This is a mandatory, non-negotiable financial deduction from the deposit regardless of actual wear and tear."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately describes the mandatory non-negotiable deduction for cleaning and painting upon vacating.. Risk: The claim accurately identifies that the deduction is mandatory and non-negotiable regardless of the actual condition of the property."
+        }
+      }
+    },
+    {
+      "id": "clause-5",
+      "sectionNumber": "Clause 5",
+      "heading": "Lock-in Period and Notice for Termination",
+      "rawText": "Both parties agree to a mandatory Lock-in Period of 6 (six) months, during which neither party can terminate this Agreement. After completion of the lock-in period, either party may terminate the tenancy by serving 2 (two) months' prior written notice or by paying 2 months' rent in lieu thereof. If the Lessee vacates during the lock-in period, the Security Deposit shall stand forfeited up to the extent of the remaining lock-in rent.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-5",
+        "explanation": "You cannot terminate the lease for the first 6 months. After that, you must provide 2 months' notice or pay 2 months' rent to leave, and leaving during the lock-in period forfeits your deposit up to the remaining rent.",
+        "risk": {
+          "severity": "high",
+          "reason": "The lock-in period and forfeiture of the security deposit pose a significant financial risk if you need to vacate early."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately summarizes the lock-in period, notice requirements, and the consequences of early termination.. Risk: The claim correctly identifies that the lock-in and forfeiture clauses present a financial risk for early termination."
+        }
+      }
+    },
+    {
+      "id": "clause-6",
+      "sectionNumber": "Clause 6",
+      "heading": "Utility and Consumption Charges",
+      "rawText": "The Lessee shall directly bear and promptly pay the monthly electricity consumption charges as billed by BESCOM, piped cooking gas charges, and internet subscription fees as per actual consumption throughout the tenure.",
+      "category": "Payment",
+      "analysis": {
+        "clauseId": "clause-6",
+        "explanation": "",
+        "risk": {
+          "severity": "unknown",
+          "reason": "Unverified claim: explanation or risk assessment could not be strictly grounded in the clause text. Manual reading required."
+        },
+        "verification": {
+          "status": "needs_review",
+          "lexicalPassed": false,
+          "llmJudgePassed": false,
+          "confidence": 0,
+          "details": "Risk reason failed Gate 1 (lexical/number check)"
+        }
+      }
+    },
+    {
+      "id": "clause-7",
+      "sectionNumber": "Clause 7",
+      "heading": "Repairs, Damages, and Indemnity",
+      "rawText": "The Lessee shall maintain the interior fixtures, sanitary fittings, and electrical appliances in tenantable condition. The Lessee shall be liable to compensate the Lessor for any structural damage, glass breakage, or fixture defacement caused by negligence. Minor routine repairs up to Rs. 1,000/- shall be borne by the Lessee, while major structural repairs shall be the Lessor's responsibility.",
+      "category": "Liability",
+      "analysis": {
+        "clauseId": "clause-7",
+        "explanation": "",
+        "risk": {
+          "severity": "unknown",
+          "reason": "Unverified claim: explanation or risk assessment could not be strictly grounded in the clause text. Manual reading required."
+        },
+        "verification": {
+          "status": "needs_review",
+          "lexicalPassed": false,
+          "llmJudgePassed": false,
+          "confidence": 0,
+          "details": "Risk reason failed Gate 1 (lexical/number check)"
+        }
+      }
+    },
+    {
+      "id": "clause-8",
+      "sectionNumber": "Clause 8",
+      "heading": "Prohibited Activities and Subletting",
+      "rawText": "The Lessee covenants that the premises shall be used exclusively for residential purposes only. Subletting, re-letting, assigning, or parting with possession of the premises or any portion thereof to third parties or PG guests is strictly prohibited and shall constitute an incurable material breach.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-8",
+        "explanation": "The property is for residential use only, and you are strictly forbidden from subletting or assigning the property to anyone else.",
+        "risk": {
+          "severity": "medium",
+          "reason": "Strict prohibition of subletting limits your flexibility and labels any breach as incurable."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim correctly states the residential usage restriction and the prohibition on subletting or assigning the property.. Risk: The claim accurately describes the impact of the strict subletting prohibition as limiting flexibility and defining breaches as incurable."
+        }
+      }
+    },
+    {
+      "id": "clause-9",
+      "sectionNumber": "Clause 9",
+      "heading": "Immediate Termination and Eviction",
+      "rawText": "If the Lessee fails to pay the monthly rent for 2 (two) consecutive months, or engages in illegal, unlawful, or nuisance activities affecting neighbors, the Lessor reserves the absolute right to terminate this agreement forthwith and re-enter and take possession of the premises without notice.",
+      "category": "Termination",
+      "analysis": {
+        "clauseId": "clause-9",
+        "explanation": "",
+        "risk": {
+          "severity": "unknown",
+          "reason": "Unverified claim: explanation or risk assessment could not be strictly grounded in the clause text. Manual reading required."
+        },
+        "verification": {
+          "status": "needs_review",
+          "lexicalPassed": false,
+          "llmJudgePassed": false,
+          "confidence": 0,
+          "details": "Risk reason failed Gate 1 (lexical/number check)"
+        }
+      }
+    },
+    {
+      "id": "clause-10",
+      "sectionNumber": "Clause 10",
+      "heading": "Governing Law and Jurisdiction",
+      "rawText": "This Agreement shall be governed by and construed in accordance with the Laws of India and the provisions of the Karnataka Rent Act. Any legal disputes arising under this agreement shall be subject exclusively to the civil courts of competent jurisdiction in Bengaluru.",
+      "category": "Other",
+      "analysis": {
+        "clauseId": "clause-10",
+        "explanation": "This agreement follows Indian law and the Karnataka Rent Act, with all legal disputes to be settled in Bengaluru civil courts.",
+        "risk": {
+          "severity": "none",
+          "reason": "This is a standard governing law and jurisdiction clause."
+        },
+        "verification": {
+          "status": "verified",
+          "lexicalPassed": true,
+          "llmJudgePassed": true,
+          "confidence": 1,
+          "details": "Explanation: The claim accurately identifies the governing laws and the designated jurisdiction for legal disputes.. Risk: The claim correctly characterizes the clause as a standard governing law and jurisdiction provision."
+        }
+      }
+    }
+  ],
+  "summary": {
+    "totalClauses": 10,
+    "verifiedCount": 6,
+    "needsReviewCount": 4,
+    "highRiskCount": 1,
+    "apiCallsCount": 2
+  }
+}
